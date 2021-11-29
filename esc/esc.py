@@ -4,47 +4,89 @@
 """
 from math import radians, cos, sin, asin, atan2, sqrt, pi
 from time import time
+from random import random, randrange
 
 
 class ESCEmulator:
     """Define esc class for sec simulation"""
-    earth_radius = 6371  # Mean radius of earth in kilometers
-    position_tolerance = 1  # tolerance for calculating current position (gps)
+    EARTH_RADIUS = 6371  # Mean radius of earth in kilometers
+    POSITION_TOLERANCE = 1  # tolerance for calculating current position (gps)
 
-    def __init__(self, _id, battery_capacity, battery_level,
-                 current_position, destination, allowed_area, max_speed=30, locked=True **kwargs):
-        self._id = _id
-        self.battery_capacity = battery_capacity  # in seconds
-        self.battery_level = battery_level  # battery level in seconds
-        self.current_position = current_position  # gps coordinates of the current position
-        self.destination = destination  # gps coordinates of the destination (finish) position
-        self.allowed_area = allowed_area
-        self.path = []
-        self.max_speed = max_speed  # max speed in km/h
-        self.speed = 0  # current speed in km/h
-        self.total_time = 0
-        self.total_distance = 0  # accumulated distance
-        self.locked = locked
-        self.start_ts = time()
+    def __init__(self, esc_properties, esc_state, system_properties):
+        """ esc_properties: id,
+                            battery_capacity,
+                            max_speed=30
+            esc_state:  battery_level,
+                        current_position,
+                        locked
+            system_properties:  destination,
+                                sleep_time,
+                                travel_points=5,
+                                allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]
+        """
+        self.esc_properties = dict(
+            id=esc_properties['id'],
+            battery_capacity=esc_properties['battery_capacity'],  # in seconds
+            max_speed=esc_properties['max_speed']  # max speed in km/h
+        )
+        self.esc_state = dict(
+            speed=0,  # current speed in km/h
+            total_time=0.,
+            rent_time=0.,  # total rent time
+            start_timestamp=time(),
+            battery_level=esc_state['battery_level'],  # battery level in seconds
+            current_position=esc_state['current_position'],  # gps coordinates of the current position
+            locked=esc_state['locked']  # Boolean
+        )
+        self.system_properties = dict(
+            destination=system_properties['destination'],  # gps coordinates of the destination (finish) position
+            sleep_time=system_properties['sleep_time'],  # in seconds
+            travel_points=system_properties['travel_points'],  # number of travel gps-coordinates along the path
+            allowed_area=system_properties['allowed_area'],  # Boolean
+            path=self.generate_random_path(
+                esc_state['current_position'],
+                system_properties['destination'],
+                system_properties['travel_points']
+            )
+        )
 
     @classmethod
-    def distance(cls, lat1, lat2, lon1, lon2):
+    def distance(cls, start, end):
         # The math module contains a function named
         # radians which converts from degrees to radians.
-        lon1 = radians(lon1)
-        lon2 = radians(lon2)
+        lat1 = start[0]
+        long1 = start[1]
+        lat2 = end[0]
+        long2 = end[1]
+
+        long1 = radians(long1)
+        long2 = radians(long2)
         lat1 = radians(lat1)
         lat2 = radians(lat2)
 
         # Haversine formula
-        dist_lon = lon2 - lon1
+        dist_long = long2 - long1
         dist_lat = lat2 - lat1
-        a = sin(dist_lat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dist_lon / 2) ** 2
+        a = sin(dist_lat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dist_long / 2) ** 2
 
         c = 2 * asin(sqrt(a))
 
         # calculate the result distance
-        return c * cls.earth_radius
+        return c * cls.EARTH_RADIUS
+
+    @staticmethod
+    def generate_random_path(start, end, travel_points):
+        # Generate nr_points gps-coordinates between start and end
+        path = []
+        next_lat = start[0]
+        end_lat = end[0]
+        next_long = start[0]
+        end_long = end[0]
+        for i in range(travel_points):
+            next_lat = next_lat + (end_lat - next_lat) * random()
+            next_long = next_long + (end_long - next_long) * random()
+            path.append([next_lat, next_long])
+        return path
 
     @staticmethod
     def to_radians(v):
@@ -54,19 +96,32 @@ class ESCEmulator:
     def to_degrees(v):
         return v * 180 / pi
 
+    @staticmethod
+    def bearing(start, end):
+        # calculate bearing between two gps-coordinates
+        # see https://www.lifewire.com/what-is-bearing-in-gps-1683320
+        delta_long = abs(end[1] - start[1])
+        x = cos(end[0]) * sin(delta_long)
+        y = cos(start[0]) * sin(end[0]) - sin(start[0]) * cos(end[0]) * cos(delta_long)
+        return atan2(x, y)
+
     @classmethod
-    def destination_coordinates(cls, lat, long, speed, time, bearing):
+    def destination_coordinates(cls, start, speed, travel_time, bearing):
         """
             Returns the destination point from a given point,
             having travelled the given distance on the given initial bearing.
+            see http://www.movable-type.co.uk/scripts/latlong.html
         """
-        distance = speed * time
+        lat = start[0]
+        long = start[1]
+
+        distance = speed * travel_time
 
         # sinφ2 = sinφ1·cosδ + cosφ1·sinδ·cosθ
         # tanΔλ = sinθ·sinδ·cosφ1 / cosδ−sinφ1·sinφ2
         # see http://mathforum.org/library/drmath/view/52049.html for derivation
 
-        delta = distance / cls.earth_radius
+        delta = distance / cls.EARTH_RADIUS
         theta = cls.to_radians(bearing)
 
         phi1 = cls.to_radians(lat)
@@ -93,5 +148,27 @@ class ESCEmulator:
 
         return [new_lat, new_long]
 
-    def random_path_generator(self, nr_of_positions=15):
-        """Generate random path withing allowed city area"""
+    def report_log(self):
+        """ Send log"""
+
+    def ride_bike(self):
+        """ move bike to next position
+        """
+        time_left = self.system_properties['sleep_time']
+        while time_left > 0:
+            speed = randrange(1, self.esc_properties['max_speed'])
+            destination = self.system_properties['destination']
+            if self.system_properties['path']:
+                destination = self.system_properties['path'].pop(0)
+            traveled_distance = self.distance(self.esc_state['current_position'], destination)
+            traveled_time = traveled_distance / speed / 3600  # in seconds
+            self.esc_state['current_position'] = self.destination_coordinates(
+                self.esc_state['current_position'],
+                speed,
+                traveled_time,
+                self.bearing(self.esc_state['current_position'], destination)
+            )
+            if traveled_time <= self.system_properties['sleep_time']:
+                self.esc_state['current_position'] = destination
+                self.esc_state['rent_time'] = self.esc_state['rent_time'] + traveled_time
+        self.report_log()
