@@ -50,6 +50,8 @@ class ESCEmulator:
             )
         )
 
+        self.sim_properties['path'].append(system_properties['destination'])
+
     @classmethod
     def distance(cls, start, end):
         # The math module contains a function named
@@ -75,7 +77,7 @@ class ESCEmulator:
         return c * cls.EARTH_RADIUS
 
     @staticmethod
-    def generate_random_path(start, end, travel_points):
+    def generate_random_path(self, start, end, travel_points):
         # Generate nr_points gps-coordinates between start and end
         path = []
         next_lat = start[0]
@@ -157,9 +159,9 @@ class ESCEmulator:
         time_left = self.system_properties['sleep_time']
         while time_left > 0:
             speed = randrange(1, self.esc_properties['max_speed'])
-            destination = self.system_properties['destination']
-            if self.system_properties['path']:
-                destination = self.system_properties['path'].pop(0)
+            # destination = self.system_properties['destination']
+            # if self.system_properties['path']:
+            destination = self.system_properties['path'].pop(0)
             traveled_distance = self.distance(self.esc_state['current_position'], destination)
             traveled_time = traveled_distance / speed / 3600  # in seconds
             self.esc_state['current_position'] = self.destination_coordinates(
@@ -171,4 +173,6 @@ class ESCEmulator:
             if traveled_time <= self.system_properties['sleep_time']:
                 self.esc_state['current_position'] = destination
                 self.esc_state['rent_time'] = self.esc_state['rent_time'] + traveled_time
+                self.system_properties['sleep_time'].insert(0, destination)
+            time_left = time_left - traveled_time
         self.report_log()
