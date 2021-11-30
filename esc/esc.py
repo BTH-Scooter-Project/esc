@@ -181,9 +181,10 @@ class ESCEmulator:
         destination_reached = False
         remaining_distance = max_distance
         for ix, path_distance in enumerate(self.esc_properties['path_distances']):
-            remaining_distance = remaining_distance - path_distance
-            if remaining_distance < 0:
+            if remaining_distance < path_distance:
                 break
+            remaining_distance = remaining_distance - path_distance
+
             destination = self.system_properties['path'].pop(0)
             traveled_distance = self.calc_distance(self.esc_state['current_position'], destination)
             traveled_time = traveled_distance / speed / 3600  # in seconds
