@@ -47,13 +47,26 @@ class ESCEmulator:
                 esc_state['current_position'],
                 system_properties['destination'],
                 system_properties['travel_points']
-            )
+            ),
+            path_distances=self.calc_path_distances(self.system_properties['path'])
         )
 
         self.sim_properties['path'].append(system_properties['destination'])
 
+    @staticmethod
+    def calc_path_distances(path):
+        if path.length < 2:
+            raise IndexError("path needs to have at least 2 coordinates!")
+        path_distances = []
+        start_point = path[0]
+        for gps in path[1:]:
+            distance = ESCEmulator.calc_distance(start_point, gps)
+            path_distances.append(distance)
+            start_point = gps
+        return path_distances
+
     @classmethod
-    def distance(cls, start, end):
+    def calc_distance(cls, start, end):
         # The math module contains a function named
         # radians which converts from degrees to radians.
         lat1 = start[0]
@@ -77,7 +90,7 @@ class ESCEmulator:
         return c * cls.EARTH_RADIUS
 
     @staticmethod
-    def generate_random_path(self, start, end, travel_points):
+    def generate_random_path(start, end, travel_points):
         # Generate nr_points gps-coordinates between start and end
         path = []
         next_lat = start[0]
@@ -157,12 +170,22 @@ class ESCEmulator:
         """ move bike to next position
         """
         time_left = self.system_properties['sleep_time']
-        while time_left > 0:
-            speed = randrange(1, self.esc_properties['max_speed'])
-            # destination = self.system_properties['destination']
-            # if self.system_properties['path']:
+        speed = randrange(5, self.esc_properties['max_speed'])
+        # traveled max distance in [m] for a time period and for battery level
+        time_limited_max_distance = speed * time_left * 1000. / 3600
+        battery_limited_max_distance = speed * self.esc_state['battery_level'] * 1000. / 3600
+        max_distance = min(time_limited_max_distance, battery_limited_max_distance)
+        battery_left = True
+        if time_limited_max_distance >= battery_limited_max_distance:
+            battery_left = False
+        destination_reached = False
+        remaining_distance = max_distance
+        for ix, path_distance in enumerate(self.esc_properties['path_distances']):
+            remaining_distance = remaining_distance - path_distance
+            if remaining_distance < 0:
+                break
             destination = self.system_properties['path'].pop(0)
-            traveled_distance = self.distance(self.esc_state['current_position'], destination)
+            traveled_distance = self.calc_distance(self.esc_state['current_position'], destination)
             traveled_time = traveled_distance / speed / 3600  # in seconds
             self.esc_state['current_position'] = self.destination_coordinates(
                 self.esc_state['current_position'],
