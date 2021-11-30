@@ -167,7 +167,7 @@ class ESCEmulator:
         """ Send log"""
 
     def ride_bike(self):
-        """ move bike to next position
+        """ move bike to the next position (gps coordinate)
         """
         time_left = self.system_properties['sleep_time']
         speed = randrange(5, self.esc_properties['max_speed'])
