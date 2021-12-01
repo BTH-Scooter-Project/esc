@@ -198,6 +198,7 @@ class ESCEmulator:
         # discount the rent_time too
         self.esc_state['rent_time'] = self.esc_state['rent_time'] + used_time
 
+        # print(f'Speed: {speed}; Dists: {time_limited_max_distance}, {battery_limited_max_distance} : {max_distance}')
         remaining_distance = max_distance
         current_position = self.esc_state['current_position']
         for path_distance in list(self.system_properties['path_distances']):
@@ -207,6 +208,10 @@ class ESCEmulator:
             remaining_distance = remaining_distance - path_distance
             current_position = self.system_properties['path'].pop(0)
 
+        print('Mitt:')
+        print(f"Remaining distance: {remaining_distance}")
+        print(self.system_properties['path_distances'])
+        print(self.system_properties['path'])
         next_path_position = self.system_properties['path'].pop(0)
         remaining_travel_time = remaining_distance / speed  # in seconds
         self.esc_state['current_position'] = self.destination_coordinates(
@@ -217,12 +222,15 @@ class ESCEmulator:
         )
         
         # remove the current path_distance from the path distances array
-        self.system_properties['path_distances'].pop(0)
+        removed_path_distance = self.system_properties['path_distances'].pop(0)
         if remaining_distance > 0:
             # ... and replace it with the remaining distance
-            self.system_properties['path_distances'].insert(0, remaining_distance)
+            self.system_properties['path_distances'].insert(0, removed_path_distance - remaining_distance)
             self.system_properties['path'].insert(0, next_path_position)  # put back last path position
 
+        print('\nEnd:')
+        print(self.system_properties['path_distances'])
+        print(self.system_properties['path'])
         destination_reached = False
         if not self.system_properties['path']:
             # if path list is empty we've reached the destination
