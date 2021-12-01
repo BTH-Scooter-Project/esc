@@ -50,8 +50,8 @@ class ESCEmulator:
             )
         )
 
-        self.system_properties['path_distances'] = self.calc_path_distances()
         self.system_properties['path'].append(system_properties['destination'])
+        self.system_properties['path_distances'] = self.calc_path_distances()
         print(self.calc_distance(esc_state['current_position'], system_properties['destination']))
 
         print(self.esc_state['current_position'], self.system_properties['path'])

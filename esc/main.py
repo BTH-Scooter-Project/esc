@@ -23,11 +23,11 @@ def main():
     """
     esc_properties = dict(
             id="id",
-            battery_capacity=1000,  # in seconds
+            battery_capacity=10000,  # in seconds
             max_speed=40  # max speed in km/h
         )
     esc_state = dict(
-        battery_level=500,  # battery level in seconds
+        battery_level=1000,  # battery level in seconds
         current_position=[59.347561, 18.025832],  # gps coordinates of the current position
         locked=False  # Boolean
     )
