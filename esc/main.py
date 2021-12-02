@@ -39,10 +39,12 @@ def main():
     )
     bike = ESCEmulator(esc_properties, esc_state, system_properties)
     finished = False
+    print(f"Start position: {esc_state['current_position']}")
+    print(f"Destination   : {system_properties['destination']}")
     while not finished:
         sleep(interval)
         finished = bike.ride_bike()
-    print('Quitting esc simulator!')
+    print('Quitting esc simulator (destination reached)!')
 
 
 # Press the green button in the gutter to run the script.

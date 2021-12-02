@@ -54,8 +54,8 @@ class ESCEmulator:
         self.system_properties['path_distances'] = self.calc_path_distances()
         print(self.calc_distance(esc_state['current_position'], system_properties['destination']))
 
-        print(self.esc_state['current_position'], self.system_properties['path'])
-        print(self.system_properties['path_distances'])
+        # print(self.esc_state['current_position'], self.system_properties['path'])
+        # print(self.system_properties['path_distances'])
 
     def calc_path_distances(self):
         if not self.system_properties['path']:
@@ -173,8 +173,8 @@ class ESCEmulator:
 
     def report_log(self, destination_reached):
         """ Send log to the backend/API """
-        print('Current position: {}, rent time: {}, battery_level: {}'
-              .format(self.esc_state['current_position'], self.esc_state['rent_time'], self.esc_state['battery_level']))
+        print('Current position: {}, battery_level: {}'
+              .format(self.esc_state['current_position'], self.esc_state['battery_level']))
         if destination_reached:
             print("The ride is finished!")
 
@@ -192,13 +192,10 @@ class ESCEmulator:
         # calculate total used time (could be shorter then time_left due to low battery level)
         used_time = max_distance / speed
 
-        # discharge the battery for the whole traveled distance to be
-        self.esc_state['battery_level'] = self.esc_state['battery_level'] - used_time
+        """
+        print(f'Speed: {speed}; Dists: {time_limited_max_distance}, {battery_limited_max_distance} : {max_distance}\n')
+        """
 
-        # discount the rent_time too
-        self.esc_state['rent_time'] = self.esc_state['rent_time'] + used_time
-
-        # print(f'Speed: {speed}; Dists: {time_limited_max_distance}, {battery_limited_max_distance} : {max_distance}')
         remaining_distance = max_distance
         current_position = self.esc_state['current_position']
         for path_distance in list(self.system_properties['path_distances']):
@@ -208,11 +205,15 @@ class ESCEmulator:
             remaining_distance = remaining_distance - path_distance
             current_position = self.system_properties['path'].pop(0)
 
-        print('Mitt:')
-        print(f"Remaining distance: {remaining_distance}")
-        print(self.system_properties['path_distances'])
-        print(self.system_properties['path'])
-        next_path_position = self.system_properties['path'].pop(0)
+        # print('Mitt:')
+        # print(f"Remaining distance: {remaining_distance}")
+        # print(self.system_properties['path_distances'])
+        # print(self.system_properties['path'])
+        next_path_position = current_position
+        if self.system_properties['path']:  # if not empty
+            next_path_position = self.system_properties['path'].pop(0)
+            # remove the current path_distance from the path distances array
+            removed_path_distance = self.system_properties['path_distances'].pop(0)
         remaining_travel_time = remaining_distance / speed  # in seconds
         self.esc_state['current_position'] = self.destination_coordinates(
             current_position,
@@ -220,17 +221,24 @@ class ESCEmulator:
             remaining_travel_time,
             self.bearing(current_position, next_path_position)
         )
-        
-        # remove the current path_distance from the path distances array
-        removed_path_distance = self.system_properties['path_distances'].pop(0)
-        if remaining_distance > 0:
+
+        if remaining_distance > 0 and self.system_properties['path']:
             # ... and replace it with the remaining distance
             self.system_properties['path_distances'].insert(0, removed_path_distance - remaining_distance)
             self.system_properties['path'].insert(0, next_path_position)  # put back last path position
 
-        print('\nEnd:')
-        print(self.system_properties['path_distances'])
-        print(self.system_properties['path'])
+        if remaining_distance > 0 and not self.system_properties['path']:
+            used_time = used_time - remaining_distance / speed
+
+        # discharge the battery for the whole traveled distance to be
+        self.esc_state['battery_level'] = self.esc_state['battery_level'] - used_time
+
+        # discount the rent_time too
+        self.esc_state['rent_time'] = self.esc_state['rent_time'] + used_time
+
+        # print('\nEnd:')
+        # print(self.system_properties['path_distances'])
+        # print(self.system_properties['path'])
         destination_reached = False
         if not self.system_properties['path']:
             # if path list is empty we've reached the destination
