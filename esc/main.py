@@ -9,11 +9,6 @@ from esc import ESCEmulator
 interval = 5  # sleep interval
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+8 to toggle the breakpoint.
-
-
 def main():
     """
     Do main loop.
@@ -21,26 +16,9 @@ def main():
     -------
     None.
     """
-    esc_properties = dict(
-            id="id",
-            battery_capacity=10000,  # in seconds
-            max_speed=40  # max speed in km/h
-        )
-    esc_state = dict(
-        battery_level=800,  # battery level in seconds
-        current_position=[59.347561, 18.025832],  # gps coordinates of the current position
-        locked=False  # Boolean
-    )
-    system_properties = dict(
-        destination=[59.324783, 18.073070],  # gps coordinates of the destination (finish) position
-        sleep_time=interval*1,  # in seconds
-        travel_points=1,  # number of travel gps-coordinates along the path
-        allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]  # Boolean
-    )
-    bike = ESCEmulator(esc_properties, esc_state, system_properties)
+    _id = "id"
+    bike = ESCEmulator(_id)
     finished = False
-    print(f"Start position: {esc_state['current_position']}")
-    print(f"Destination   : {system_properties['destination']}")
     while not finished:
         sleep(interval)
         res = bike.ride_bike()

@@ -6,13 +6,15 @@ from math import radians, cos, sin, asin, atan2, sqrt, pi
 from time import time
 from random import random, randrange, uniform
 
+interval = 5  # sleep interval
+
 
 class ESCEmulator:
     """Define esc class for sec simulation"""
     EARTH_RADIUS = 6371000  # Mean radius of earth in kilometers
     POSITION_TOLERANCE = 1  # tolerance for calculating current position (gps)
 
-    def __init__(self, esc_properties, esc_state, system_properties):
+    def __init__(self, _id):
         """ esc_properties: id,
                             battery_capacity,
                             max_speed=30
@@ -24,8 +26,44 @@ class ESCEmulator:
                                 travel_points=5,
                                 allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]
         """
+        self.esc_properties = {}
+        self.esc_state = {}
+        self.system_properties = {}
+        self.fetch_state(id)
+
+        print(self.calc_distance(self.esc_state['current_position'], self.system_properties['destination']))
+        # print(self.esc_state['current_position'], self.system_properties['path'])
+        # print(self.system_properties['path_distances'])
+
+    def fetch_state(self, _id):
+        """ esc_properties: id,
+                            battery_capacity,
+                            max_speed=30
+            esc_state:  battery_level,
+                        current_position,
+                        locked
+            system_properties:  destination,
+                                sleep_time,
+                                travel_points=5,
+                                allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]
+        """
+        esc_properties = dict(
+            battery_capacity=10000,  # in seconds
+            max_speed=40  # max speed in km/h
+        )
+        esc_state = dict(
+            battery_level=800,  # battery level in seconds
+            current_position=[59.347561, 18.025832],  # gps coordinates of the current position
+            locked=False  # Boolean
+        )
+        system_properties = dict(
+            destination=[59.324783, 18.073070],  # gps coordinates of the destination (finish) position
+            sleep_time=interval * 10,  # in seconds
+            travel_points=1,  # number of travel gps-coordinates along the path
+            allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]  # Boolean
+        )
         self.esc_properties = dict(
-            id=esc_properties['id'],
+            id=_id,
             battery_capacity=esc_properties['battery_capacity'],  # in seconds
             max_speed=esc_properties['max_speed']  # max speed in km/h
         )
@@ -52,10 +90,8 @@ class ESCEmulator:
 
         self.system_properties['path'].append(system_properties['destination'])
         self.system_properties['path_distances'] = self.calc_path_distances()
-        print(self.calc_distance(esc_state['current_position'], system_properties['destination']))
-
-        # print(self.esc_state['current_position'], self.system_properties['path'])
-        # print(self.system_properties['path_distances'])
+        print(f"Start position: {esc_state['current_position']}")
+        print(f"Destination   : {system_properties['destination']}")
 
     def calc_path_distances(self):
         if not self.system_properties['path']:
