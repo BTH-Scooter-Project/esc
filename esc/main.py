@@ -33,7 +33,7 @@ def main():
     )
     system_properties = dict(
         destination=[59.324783, 18.073070],  # gps coordinates of the destination (finish) position
-        sleep_time=interval*10,  # in seconds
+        sleep_time=interval*1,  # in seconds
         travel_points=1,  # number of travel gps-coordinates along the path
         allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]  # Boolean
     )
