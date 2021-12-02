@@ -228,10 +228,17 @@ class ESCEmulator:
         # discount the rent_time too
         self.esc_state['rent_time'] = self.esc_state['rent_time'] + used_time
 
+        finished = False
         destination_reached = False
         if not self.system_properties['path']:
             # if path list is empty we've reached the destination
             destination_reached = True
+        if destination_reached or self.esc_state['battery_level'] == 0:
+            finished = True
 
+        ret = dict(
+            finished=finished,
+            destination_reached=destination_reached
+        )
         self.report_log(destination_reached)
-        return destination_reached
+        return ret

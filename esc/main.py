@@ -27,7 +27,7 @@ def main():
             max_speed=40  # max speed in km/h
         )
     esc_state = dict(
-        battery_level=1000,  # battery level in seconds
+        battery_level=500,  # battery level in seconds
         current_position=[59.347561, 18.025832],  # gps coordinates of the current position
         locked=False  # Boolean
     )
@@ -43,8 +43,11 @@ def main():
     print(f"Destination   : {system_properties['destination']}")
     while not finished:
         sleep(interval)
-        finished = bike.ride_bike()
-    print('Quitting esc simulator (destination reached)!')
+        res = bike.ride_bike()
+        finished = res['finished']
+    print('Quitting esc simulator!')
+    if res['destination_reached']:
+        print('... and destination reached :)')
 
 
 # Press the green button in the gutter to run the script.
