@@ -1,7 +1,7 @@
 FROM debian:bullseye-slim
 
 
-RUN apt update && \
+RUN apt update && apt -y upgrade && apt -y dist-upgrade && \
     apt install -y python3-pip python3-dev build-essential
 
 WORKDIR esc
