@@ -66,7 +66,7 @@ docker-compose down
 docker images (alias: docker image ls)
 docker login
 docker ps
-docker run --rm -it debian:stretch-slim
+docker run --rm -it debian:bullseye-slim
 docker stop elegant_dhawan
 docker run f5567032a379
 docker stop f5567032a379
@@ -97,14 +97,15 @@ docker system prune -a
 #################
 
 docker network ls
-docker network create kmom05_net
-docker network inspect kmom05_net
+docker network create pattern_net
+docker network inspect pattern_net
 
 ## remove network
-docker network rm kmom05_net
+docker network rm pattern_net
 
 ### ... with name
-docker run --rm --net kmom05_net --name kmom05_server -p 1337:1337 -it neskoc/vlinux-mazeserver:latest
+docker run --rm --net pattern_net --name esc -p 5000:5000 -it neskoc/esc:frontend
+docker run --rm --net pattern_net --name frontend -p 1337:1337 -it neskoc/pattern:frontend
 
 ## publish on dockerhub
 docker push
