@@ -34,7 +34,7 @@ docker push neskoc/pattern:frontend
 docker pull neskoc/pattern:frontend
 
 ## run on pattern_net
-docker run --rm --net pattern_net -p 1338:1337 -it neskoc/pattern:frontend
+docker run --rm --net pattern_net -p 1337:1337 -it neskoc/pattern:frontend
 
 #################
 # esc

@@ -9,7 +9,7 @@ services:
         image: neskoc/pattern:backend
         container_name: "backend"
         ports:
-            - "127.0.0.1:1338:8000"
+            - "127.0.0.1:1337:1337"
         networks:
             - pattern_net
         volumes:
@@ -20,8 +20,10 @@ services:
     esc:
         image: neskoc/pattern:esc
         container_name: "esc"
+        ports:
+            - "127.0.0.1:5000:5000"
         expose:
-            - "8000"
+            - "5000"
         networks:
             - pattern_net
         links:
@@ -32,6 +34,8 @@ services:
     frontend:
         image: neskoc/pattern:frontend
         container_name: "frontend"
+        ports:
+            - "127.0.0.1:1338:1337"
         networks:
             - pattern_net
         links:
