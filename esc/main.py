@@ -26,6 +26,7 @@ def main():
     print('Quitting esc simulator!')
     if res['destination_reached']:
         print('... and destination reached :)')
+    exit(0)
 
 
 # Press the green button in the gutter to run the script.

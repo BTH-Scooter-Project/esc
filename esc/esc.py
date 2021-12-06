@@ -52,14 +52,14 @@ class ESCEmulator:
             max_speed=40  # max speed in km/h
         )
         esc_state = dict(
-            battery_level=800,  # battery level in seconds
+            battery_level=300,  # battery level in seconds
             current_position=[59.347561, 18.025832],  # gps coordinates of the current position
             locked=False  # Boolean
         )
         system_properties = dict(
             destination=[59.324783, 18.073070],  # gps coordinates of the destination (finish) position
             sleep_time=interval * 10,  # in seconds
-            travel_points=1,  # number of travel gps-coordinates along the path
+            travel_points=5,  # number of travel gps-coordinates along the path
             allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]  # Boolean
         )
         self.esc_properties = dict(
