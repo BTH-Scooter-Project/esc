@@ -10,5 +10,5 @@ COPY esc/*.py esc/requirements.txt /esc/
 
 RUN pip3 install -r requirements.txt
 
-ENTRYPOINT [ "python3" ]
-CMD [ "main.py" ]
+# ENTRYPOINT [ "python3" ]
+# CMD [ "main.py" ]

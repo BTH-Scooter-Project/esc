@@ -4,16 +4,19 @@ networks:
     pattern_net:
         name: pattern_net
 
+# använd: docker build -t neskoc/pattern:backend -f Dockerfile.api . 
 services:
     backend:
         image: neskoc/pattern:backend
         container_name: "backend"
+        expose:
+            - "1337"
         ports:
             - "127.0.0.1:1337:1337"
         networks:
             - pattern_net
-        volumes:
-            - ./data:/data
+        # volumes:
+        #    - ./api:/api
         restart:
             "always"
 
@@ -27,9 +30,9 @@ services:
         networks:
             - pattern_net
         links:
-            - server:backend
+            - backend
         depends_on:
-            - server
+            - backend
 
     frontend:
         image: neskoc/pattern:frontend
@@ -39,6 +42,6 @@ services:
         networks:
             - pattern_net
         links:
-            - backend:backend
+            - backend
         depends_on:
-            - server
+            - backend
