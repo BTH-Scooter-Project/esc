@@ -1,0 +1,40 @@
+version: "3"
+
+networks:
+    pattern_net:
+        name: pattern_net
+
+services:
+    backend:
+        image: neskoc/pattern:backend
+        container_name: "backend"
+        ports:
+            - "127.0.0.1:1338:8000"
+        networks:
+            - pattern_net
+        volumes:
+            - ./data:/data
+        restart:
+            "always"
+
+    esc:
+        image: neskoc/pattern:esc
+        container_name: "esc"
+        expose:
+            - "8000"
+        networks:
+            - pattern_net
+        links:
+            - server:backend
+        depends_on:
+            - server
+
+    frontend:
+        image: neskoc/pattern:frontend
+        container_name: "frontend"
+        networks:
+            - pattern_net
+        links:
+            - backend:backend
+        depends_on:
+            - server

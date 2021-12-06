@@ -1,0 +1,177 @@
+# Docker
+
+docker images (alias: docker image ls)
+docker login
+docker ps
+docker run --rm -it debian:stretch-slim
+docker stop elegant_dhawan
+docker run f5567032a379
+docker stop f5567032a379
+
+# New Docker image
+
+touch Dockerfile
+nvim Dockerfile
+
+#####################
+##    kmom03       ##
+#####################
+
+docker build -t neskoc/vlinux-server:latest .
+docker run --rm -it neskoc/vlinux-server
+docker push neskoc/vlinux-commands:latest
+
+
+#####################
+##    kmom04       ##
+#####################
+
+docker build -t neskoc/vlinux-server:latest .
+docker run --rm -v /home/nesko/Dropbox/Db_dbwebb-kurser/vlinux/me/kmom04/data/:/server/data/ -p 1337:1337 -it neskoc/vlinux-server:latest
+docker push neskoc/vlinux-server:latest
+
+# removing images / containers / cleaning up
+
+## remove all stopped containers
+docker rm  $(docker ps -q -a)
+
+## remove all dangling images
+docker rmi $(docker images -f "dangling=true" -q)
+
+## remove container
+docker rm f5567032a379
+
+## remove image
+docker rmi f5567032a379
+
+docker system prune -a
+
+
+#####################
+##    kmom05       ##
+#####################
+
+#################
+# docker network
+#################
+
+docker network ls
+docker network create kmom05_net
+docker network inspect kmom05_net
+
+## remove network
+docker network rm kmom05_net
+
+#################
+# server
+#################
+
+docker build -t neskoc/vlinux-mazeserver:latest .
+docker run --rm  -p 1337:1337 -it neskoc/vlinux-mazeserver:latest
+
+## run on kmom05_net
+docker run --rm --net kmom05_net -p 1337:1337 -it neskoc/vlinux-mazeserver:latest
+
+### ... with name
+docker run --rm --net kmom05_net --name kmom05_server -p 1337:1337 -it neskoc/vlinux-mazeserver:latest
+
+## publish on dockerhub
+docker push neskoc/vlinux-mazeserver:latest
+
+#################
+# client
+#################
+
+docker build -t neskoc/vlinux-mazeclient:latest .
+docker run --rm  -p 1337:1337 -it neskoc/vlinux-mazeclient:latest
+
+
+## run on kmom05_net
+docker run --rm --net kmom05_net -it neskoc/vlinux-mazeclient:latest
+
+### ... with name
+docker run --rm --net kmom05_net --name kmom05_client -it neskoc/vlinux-mazeclient:latest
+
+#### ... and link to the containter with given name
+docker run --rm --net kmom05_net --name kmom05_client --link kmom05_server:server -it neskoc/vlinux-mazeclient:latest
+
+## publish on dockerhub
+docker push neskoc/vlinux-mazeclient:latest
+
+
+#####################
+##    kmom06       ##
+#####################
+
+#################
+# client
+#################
+
+docker build -t neskoc/vlinux-mazeclient:loop .
+
+## publish on dockerhub
+docker push neskoc/vlinux-mazeclient:loop
+
+#################
+# running
+#################
+
+docker-compose up -d server
+docker-compose run client
+
+# clean up
+docker-compose down
+
+
+##*****************##
+##    kmom10       ##
+##*****************##
+
+#################
+# server
+#################
+
+docker build -t neskoc/vlinux-kmom10:server .
+docker run --rm  -p 1337:1337 -it neskoc/vlinux-kmom10:server
+
+## run on kmom10_net
+docker run --rm --net kmom10_net -p 1337:1337 -it neskoc/vlinux-kmom10:server
+
+### ... with name
+docker run --rm --net kmom10_net --name kmom10_server -p 1337:1337 -it neskoc/vlinux-kmom10:server
+
+## publish on dockerhub
+docker push neskoc/vlinux-kmom10:server
+
+#################
+# webbclient
+#################
+
+docker build -t neskoc/vlinux-kmom10:webbclient .
+
+## publish on dockerhub
+docker push neskoc/vlinux-kmom10:webbclient
+docker pull neskoc/vlinux-kmom10:webbclient
+
+## run on kmom10_net
+docker run --rm --net kmom10_net -p 1337:1337 -it neskoc/vlinux-kmom10:webbclient
+
+#################
+# client
+#################
+
+docker build -t neskoc/vlinux-kmom10:client .
+
+## publish on dockerhub
+docker push neskoc/vlinux-kmom10:client
+
+#################
+# running
+#################
+
+docker-compose up -d server
+docker-compose up webbclient
+docker-compose run client
+
+# clean up
+docker-compose down
