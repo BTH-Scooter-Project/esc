@@ -11,7 +11,7 @@ https://dbwebb.se/guide/docker
 # backend
 #################
 
-docker build -t neskoc/pattern:backend .
+docker build -t neskoc/pattern:backend -f Dockerfile.api .
 docker run --rm  -p 1337:1337 -it neskoc/pattern:backend
 
 ## run on pattern_net
