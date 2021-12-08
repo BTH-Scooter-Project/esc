@@ -1,0 +1,24 @@
+{
+    "Accounts": [
+        {
+            "type": "Account",
+            "balance": 1000.0,
+            "holders": []
+        },
+        {
+            "type": "SavingsAccount",
+            "balance": 1000.0,
+            "holders": ["mar"]
+        }
+    ],
+    "Customers": [
+        {
+            "id": "and",
+            "name": "Andreas"
+        },
+        {
+            "id": "mar",
+            "name": "Martin"
+        }
+    ]
+}
