@@ -58,6 +58,7 @@ function version
 function git-push
 {
 	cd "$1"
+	printf "Pushing $1\\n"
 	git push
 	cd ..
 }
@@ -65,6 +66,7 @@ function git-push
 function git-pull
 {
 	cd "$1"
+	printf "Pulling $1\\n"
 	git pull
 	cd ..
 }
