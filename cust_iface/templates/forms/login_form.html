@@ -1,0 +1,71 @@
+<div class="pm-main-sign-in">
+    <div class="pm-card">
+      <div class="pm-logo"></div>
+
+      <div class="heading">
+        <h4>Sign In</h4>
+        <div class="sign-up-link-container">
+          <div><a id="sign-up-link" href="/signup?auth_challenge=e4659ec67baa308ca942a5ee1094158e5db33ada9a5cd03e0f089016713c90ed&auth_device=app_native&auth_device_version=9.3.1">Create Account</a> instead?</div>
+        </div>
+      </div>
+
+      <div id="notification-div" class="notify-failure notification-container">
+        <span id="notification-message"></span>
+      </div>
+
+      <form role="form" method="POST" id="sign-in-form">
+        <div class="pm-form-group">
+          <label for="username" class="pm-form-label">Email or Username</label>
+          <input type="text" class="pm-form-control" name="username" id="username" autofocus autocomplete="off" autocapitalize="off" spellcheck="true" value="">
+          <span id="input-error-username" class="input-validation-error"></span>
+        </div>
+        <div class="pm-form-group">
+          <label for="password" class="pm-form-label">Password</label>
+          <input type="password" class="pm-form-control" name="password" id="password"  autocapitalize="off" spellcheck="true">
+          <span id="input-error-password" class="input-validation-error"></span>
+        </div>
+        <div class="pm-form-group">
+          <input type="checkbox" id="remember-me-checkbox" checked/>
+          <label for="remember-me-checkbox">Keep me signed in</label>
+          <div class="pm-popover pm-popover--right pm-tooltip">Select to stay signed in for 30 days.</div>
+          <a class="trouble-signing-in-link" href="/trouble-signing-in?auth_challenge=e4659ec67baa308ca942a5ee1094158e5db33ada9a5cd03e0f089016713c90ed&auth_device=app_native&auth_device_version=9.3.1">Forgot Password?</a>
+          <div class="do-not-remember-message" id="do-not-remember-message">
+            <span>You will be logged out after 30 minutes of inactivity.</span>
+          </div>
+        </div>
+        <div class="pm-form-group">
+          <button type="button" class="pm-btn pm-btn-primary" id="sign-in-btn">
+            Sign In
+          </button>
+        </div>
+
+        <input type="hidden" name="csrfToken" value="RmuLeho6cgTKiJb4z/Nj+R4AcE9d+/mOU/JyM=" />
+      </form>
+
+      <div class="pm-awesome-divider-div">
+        <div class="pm-awesome-divider" data-label="or"></div>
+      </div>
+
+      <a href="/google/oauth2" class="pm-btn pm-btn-info google-sign-in">
+        <div class="google-logo">
+          <img src="https://assets.getpostman.com/common-share/google-logo-icon-sign-in.svg" width="16px" height="16px">
+        </div>
+        <div class="google-text">
+          Sign in with Google
+        </div>
+      </a>
+        <div class="client-auth-info">
+          <p>You’re redirected from the Postman desktop app on linux 5.14.18-1-MANJARO to sign in.</p>
+        </div>
+    </div>
+    <div id="terms-and-privacy-links">
+      <a href="https://www.postman.com/legal/eula" target="_blank" title="Terms of use">Terms of use</a>
+      <a href="https://www.postman.com/legal/privacy-policy" target="_blank" title="Privacy Policy">Privacy Policy</a>
+    </div>
+  </div>
+  <footer id="footer">
+    <div id="copyright-text">
+      ©2021 Postman, Inc. All rights reserved.
+    </div>
+  </footer>
+</div>
