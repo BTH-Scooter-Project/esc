@@ -16,9 +16,10 @@ function usage
 		"Usage: $SCRIPT [options] <command> [arguments]"
 		""
 		"Command:"
-		"  push     Push all repository changes to github"
 		"  pull     Pull all repository changes from github"
-		"  <empty>  Run pull and then push."
+		"  push     Push all repository changes to github"
+		"  tags     Push all repository tags updates to github"
+		"  <empty>  Run pull and then push / push --tags."
 		""
 		"Options:"
 		"  -h, --help,     Print help."
@@ -122,7 +123,7 @@ function main
 printf "$@\\n"
 if [[ $# -eq 0 ]]
 then
-	main "push" "pull" "tags"
+	main "pull" "push" "tags"
 	exit 0
 fi
 main "$@"
