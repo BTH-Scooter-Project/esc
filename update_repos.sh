@@ -19,7 +19,7 @@ function usage
 		"  pull     Pull all repository changes from github"
 		"  push     Push all repository changes to github"
 		"  tags     Push all repository tags updates to github"
-		"  <empty>  Run pull and then push / push --tags."
+		"  <empty>  Running push / push --tags and then pull."
 		""
 		"Options:"
 		"  -h, --help,     Print help."
@@ -123,7 +123,7 @@ function main
 printf "$@\\n"
 if [[ $# -eq 0 ]]
 then
-	main "pull" "push" "tags"
+	main "push" "tags" "pull"
 	exit 0
 fi
 main "$@"
