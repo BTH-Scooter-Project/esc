@@ -3,6 +3,7 @@
     Electric scooter (esc) emulator
 """
 from math import radians, cos, sin, asin, atan2, sqrt, pi
+from math import radians, cos, sin, asin, atan2, sqrt, pi
 from time import time
 from random import random, randrange, uniform
 
