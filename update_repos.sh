@@ -55,6 +55,14 @@ function version
     printf "%s\\n" "${txt[@]}"
 }
 
+function git-tags
+{
+	cd "$1"
+	printf "Pushing $1 tags\\n"
+	git push --tags
+	cd ..
+}
+
 function git-push
 {
 	cd "$1"
@@ -92,7 +100,8 @@ function main
 			;;
 
 			"pull" \
-			| "push")
+			"push" \
+			| "tags")
 				command=$1
 				shift
 				for repo in ${repos[@]}
@@ -113,7 +122,7 @@ function main
 printf "$@\\n"
 if [[ $# -eq 0 ]]
 then
-	main "push" "pull"
+	main "push" "pull" "tags"
 	exit 0
 fi
 main "$@"
