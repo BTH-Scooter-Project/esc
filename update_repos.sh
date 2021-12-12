@@ -100,7 +100,7 @@ function main
 			;;
 
 			"pull" \
-			"push" \
+			| "push" \
 			| "tags")
 				command=$1
 				shift
