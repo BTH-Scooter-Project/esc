@@ -2,10 +2,12 @@
     esc.py
     Electric scooter (esc) emulator
 """
+import requests
 from math import radians, cos, sin, asin, atan2, sqrt, pi
 from time import time
 from random import random, randrange, uniform
 from api import Api
+from pprint import pprint
 
 travel_points = 5
 
@@ -27,6 +29,7 @@ class ESCEmulator:
                                 travel_points=5,
                                 allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]
         """
+        self.bike_id = _id
         self.api = None
         self.esc_properties = {}
         self.esc_state = {}
@@ -204,12 +207,29 @@ class ESCEmulator:
     def fetch_properties(self):
         """ Fetch properties from backend/API """
 
-    def report_log(self, destination_reached):
+    def report_log(self, destination_reached, canceled=False):
         """ Send log to the backend/API """
-        print('Current position: {}, battery_level: {}'
-              .format(self.esc_state['current_position'], self.esc_state['battery_level']))
+        log_obj = {
+            'battery_level': self.esc_state['battery_level'],
+            'gps_lat': self.esc_state['current_position'][0],
+            'gps_lon': self.esc_state['current_position'][1],
+            'rent_time': self.esc_state['rent_time'],
+            'canceled': canceled,
+            'destination_reached': destination_reached,
+        }
+        pprint(log_obj)
         if destination_reached:
             print("The ride is finished!")
+        log_url = self.api.config['BASE_URL'] + f'/v1/travel/bike/{self.bike_id}?apiKey=' + self.api.config['API_KEY']
+        headers_obj = {
+            'x-access-token': self.api.token,
+        }
+        req = requests.put(
+            log_url,
+            headers=headers_obj,
+            data=log_obj
+        )
+        pprint(req.json())
 
     def ride_bike(self):
         """ move bike to the next position (gps coordinate)

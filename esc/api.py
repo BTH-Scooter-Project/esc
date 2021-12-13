@@ -1,4 +1,6 @@
-import requests, json, pprint
+import json
+from pprint import pprint
+import requests
 
 
 class Api:
@@ -31,9 +33,10 @@ class Api:
             login_url,
             data=login_obj
         )
-        res_json = req.json()
-        self.token = res_json['data']['token']
-        print("res_json", res_json)
+        login_json = req.json()['data']
+        self.token = login_json['token']
+        print("login msg")
+        pprint(login_json)
 
     def rent_bike(self, bike_id):
         rent_url = self.config['BASE_URL'] + f'/v1/travel/bike/{bike_id}?apiKey=' + self.config['API_KEY']
@@ -44,8 +47,9 @@ class Api:
             rent_url,
             headers=headers_obj
         )
-        res_json = req.json()
-        print(res_json)
+        bike_json = req.json()['data']
+        print("bike state:")
+        pprint(bike_json)
 
     def get_rented_bikes(self):
         rent_url = self.config['BASE_URL'] + '/v1/travel/rented?apiKey=' + self.config['API_KEY']
@@ -57,7 +61,7 @@ class Api:
         state_url = self.config['BASE_URL'] + f'/v1/bike/{bike_id}?apiKey=' + self.config['API_KEY']
         req = requests.get(state_url)
         bike_state = req.json()['data']
-        pprint.pprint(bike_state)
+        pprint(bike_state)
         return bike_state
 
     def get_states_for_all_bikes(self):
