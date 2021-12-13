@@ -3,11 +3,11 @@
     Electric scooter (esc) emulator
 """
 from math import radians, cos, sin, asin, atan2, sqrt, pi
-from math import radians, cos, sin, asin, atan2, sqrt, pi
 from time import time
 from random import random, randrange, uniform
+from api import Api
 
-interval = 5  # sleep interval
+travel_points = 5
 
 
 class ESCEmulator:
@@ -27,10 +27,11 @@ class ESCEmulator:
                                 travel_points=5,
                                 allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]
         """
+        self.api = None
         self.esc_properties = {}
         self.esc_state = {}
         self.system_properties = {}
-        self.fetch_state(id)
+        self.fetch_state(_id)
 
         print(self.calc_distance(self.esc_state['current_position'], self.system_properties['destination']))
         # print(self.esc_state['current_position'], self.system_properties['path'])
@@ -48,51 +49,46 @@ class ESCEmulator:
                                 travel_points=5,
                                 allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]
         """
-        esc_properties = dict(
-            battery_capacity=10000,  # in seconds
-            max_speed=40  # max speed in km/h
-        )
-        esc_state = dict(
-            battery_level=300,  # battery level in seconds
-            current_position=[59.347561, 18.025832],  # gps coordinates of the current position
-            locked=False  # Boolean
-        )
-        system_properties = dict(
-            destination=[59.324783, 18.073070],  # gps coordinates of the destination (finish) position
-            sleep_time=interval * 10,  # in seconds
-            travel_points=5,  # number of travel gps-coordinates along the path
-            allowed_area=[[59.351495, 18.023087], [59.305341, 18.168215]]  # Boolean
-        )
+        self.api = Api(_id)
         self.esc_properties = dict(
             id=_id,
-            battery_capacity=esc_properties['battery_capacity'],  # in seconds
-            max_speed=esc_properties['max_speed']  # max speed in km/h
+            battery_capacity=self.api.bike_state['battery_capacity'],  # in seconds
+            max_speed=self.api.bike_state['max_speed']  # max speed in km/h
         )
         self.esc_state = dict(
             speed=0,  # current speed in km/h
             rent_time=0.,  # total rent time
             start_timestamp=time(),
-            battery_level=esc_state['battery_level'],  # battery level in seconds
-            current_position=esc_state['current_position'],  # gps coordinates of the current position
-            locked=esc_state['locked']  # Boolean
+            battery_level=self.api.bike_state['battery_level'],  # battery level in seconds
+            current_position=[  # gps coordinates of the current position
+                self.api.bike_state['gps_lat'],
+                self.api.bike_state['gps_lon']
+            ],
+            locked=False  # Boolean
         )
-
+        destination = [  # gps coordinates of the destination (finish) position
+            self.api.bike_state['dest_lat'],
+            self.api.bike_state['dest_lon']
+        ]
         self.system_properties = dict(
-            destination=system_properties['destination'],  # gps coordinates of the destination (finish) position
-            sleep_time=system_properties['sleep_time'],  # in seconds
-            travel_points=system_properties['travel_points'],  # number of travel gps-coordinates along the path
-            allowed_area=system_properties['allowed_area'],  # Boolean
+            destination=destination,  # gps coordinates of the destination (finish) position
+            sleep_time=self.api.bike_state['interval'] * 10,  # in seconds
+            travel_points=travel_points,  # number of travel gps-coordinates along the path
+            allowed_area=[
+                [self.api.bike_state['gps_left_lat'], self.api.bike_state['gps_left_lon']],
+                [self.api.bike_state['gps_right_lat'], self.api.bike_state['gps_right_lon']]
+            ],
             path=self.generate_random_path(
-                esc_state['current_position'],
-                system_properties['destination'],
-                system_properties['travel_points']
+                self.esc_state['current_position'],
+                destination,
+                travel_points
             )
         )
 
-        self.system_properties['path'].append(system_properties['destination'])
+        self.system_properties['path'].append(destination)
         self.system_properties['path_distances'] = self.calc_path_distances()
-        print(f"Start position: {esc_state['current_position']}")
-        print(f"Destination   : {system_properties['destination']}")
+        print(f"Start position: {self.esc_state['current_position']}")
+        print(f"Destination   : {destination}")
 
     def calc_path_distances(self):
         if not self.system_properties['path']:

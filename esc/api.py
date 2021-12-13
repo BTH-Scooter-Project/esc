@@ -5,12 +5,16 @@ class Api:
     """Define api class for working with api"""
     CONFIG_FILE = '../config/config.json'
 
-    def __init__(self):
+    def __init__(self, bike_id=-1):
         self.config = self.get_config(self.CONFIG_FILE)
         self.token = None
         self.rented_bike_ids = []
 
         self.login()
+        if bike_id != -1:
+            self.rent_bike(bike_id)
+            self.get_rented_bikes()
+            self.bike_state = self.get_bike_state(bike_id)
 
     @staticmethod
     def get_config(file):
@@ -54,6 +58,7 @@ class Api:
         req = requests.get(state_url)
         bike_state = req.json()['data']
         pprint.pprint(bike_state)
+        return bike_state
 
     def get_states_for_all_bikes(self):
         for bike_id in self.rented_bike_ids:

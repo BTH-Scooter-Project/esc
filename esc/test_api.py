@@ -2,7 +2,7 @@
 """Main file with Handler class."""
 from api import Api
 
-bike_id = 3
+bike_id = 7
 
 
 def main():

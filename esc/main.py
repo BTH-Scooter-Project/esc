@@ -7,6 +7,7 @@ from esc import ESCEmulator
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 interval = 5  # sleep interval
+bike_id = 7
 
 
 def main():
@@ -16,9 +17,9 @@ def main():
     -------
     None.
     """
-    _id = "id"
-    bike = ESCEmulator(_id)
+    bike = ESCEmulator(bike_id)
     finished = False
+    res = None
     while not finished:
         sleep(interval)
         res = bike.ride_bike()
