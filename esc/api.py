@@ -1,5 +1,4 @@
-import requests
-import json
+import requests, json, pprint
 
 
 class Api:
@@ -9,6 +8,7 @@ class Api:
     def __init__(self):
         self.config = self.get_config(self.CONFIG_FILE)
         self.token = None
+        self.rented_bike_ids = []
 
         self.login()
 
@@ -46,9 +46,17 @@ class Api:
     def get_rented_bikes(self):
         rent_url = self.config['BASE_URL'] + '/v1/travel/rented?apiKey=' + self.config['API_KEY']
         req = requests.get(rent_url)
-        res_json = req.json()
-        print(res_json)
+        self.rented_bike_ids = req.json()
+        print(self.rented_bike_ids)
 
+    def get_bike_state(self, bike_id):
+        state_url = self.config['BASE_URL'] + f'/v1/bike/{bike_id}?apiKey=' + self.config['API_KEY']
+        req = requests.get(state_url)
+        bike_state = req.json()['data']
+        pprint.pprint(bike_state)
+
+    def get_states_for_all_bikes(self):
+        for bike_id in self.rented_bike_ids:
+            self.get_bike_state(bike_id)
 
 # print(x.status_code)
-
