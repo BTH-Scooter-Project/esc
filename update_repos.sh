@@ -82,7 +82,7 @@ function git-pull
 
 function main
 {
-	repos=("esc" "api" "databas" "test")
+	repos=("esc" "api" "admin" "test")
 
 	cd ..
 	printf "** Updating repos **\\n\\n"
