@@ -217,6 +217,9 @@ class ESCEmulator:
             'canceled': canceled,
             'destination_reached': destination_reached,
         }
+        if destination_reached or self.esc_state['battery_level'] == 0:
+            log_obj['canceled'] = True
+
         pprint(log_obj)
         if destination_reached:
             print("The ride is finished!")
