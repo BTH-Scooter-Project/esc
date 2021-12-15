@@ -3,7 +3,7 @@
     Electric scooter (esc) emulator
 """
 import requests
-from math import radians, cos, sin, asin, atan2, sqrt, pi
+from math import radians, cos, sin, asin, atan2, sqrt, pi, degrees
 from time import time
 from random import random, randrange, uniform
 from api import Api
@@ -14,7 +14,7 @@ travel_points = 5
 
 class ESCEmulator:
     """Define esc class for sec simulation"""
-    EARTH_RADIUS = 6371000  # Mean radius of earth in kilometers
+    EARTH_RADIUS = 6378100  # Mean radius of earth in kilometers
     POSITION_TOLERANCE = 1  # tolerance for calculating current position (gps)
 
     def __init__(self, _id):
@@ -88,7 +88,7 @@ class ESCEmulator:
             )
         )
 
-        self.system_properties['path'].append(destination)
+        # self.system_properties['path'].append(destination)
         self.system_properties['path_distances'] = self.calc_path_distances()
         print(f"Start position: {self.esc_state['current_position']}")
         print(f"Destination   : {destination}")
@@ -108,20 +108,15 @@ class ESCEmulator:
     def calc_distance(cls, start, end):
         # The math module contains a function named
         # radians which converts from degrees to radians.
-        lat1 = start[0]
-        lat2 = end[0]
-        long1 = start[1]
-        long2 = end[1]
-
-        long1 = radians(long1)
-        long2 = radians(long2)
-        lat1 = radians(lat1)
-        lat2 = radians(lat2)
+        lat1 = radians(start[0])
+        lat2 = radians(end[0])
+        long1 = radians(start[1])
+        long2 = radians(end[1])
 
         # Haversine formula
         dist_long = long2 - long1
         dist_lat = lat2 - lat1
-        a = sin(dist_lat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dist_long / 2) ** 2
+        a = sin(dist_lat / 2)**2 + cos(lat1) * cos(lat2) * sin(dist_long / 2)**2
 
         c = 2 * asin(sqrt(a))
 
@@ -141,25 +136,27 @@ class ESCEmulator:
             next_lat = next_lat + (end_lat - next_lat) * uniform(interval*.7, interval)
             next_long = next_long + (end_long - next_long) * uniform(interval*.7, interval)
             path.append([next_lat, next_long])
-        # path.append(end)
+        path.append(end)
         return path
-
-    @staticmethod
-    def to_radians(v):
-        return v * pi / 180
-
-    @staticmethod
-    def to_degrees(v):
-        return v * 180 / pi
 
     @staticmethod
     def bearing(start, end):
         # calculate bearing between two gps-coordinates
         # see https://www.lifewire.com/what-is-bearing-in-gps-1683320
-        delta_long = abs(end[1] - start[1])
-        x = cos(end[0]) * sin(delta_long)
-        y = cos(start[0]) * sin(end[0]) - sin(start[0]) * cos(end[0]) * cos(delta_long)
-        return atan2(x, y)
+        lat1 = radians(start[0])
+        lat2 = radians(end[0])
+        long1 = radians(start[1])
+        long2 = radians(end[1])
+        delta_long = (long2 - long1)
+
+        y = sin(delta_long) * cos(lat2)
+        x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(delta_long)
+
+        return atan2(y, x)
+        # delta_long = end[1] - start[1]
+        # x = cos(end[0]) * sin(delta_long)
+        # y = cos(start[0]) * sin(end[0]) - sin(start[0]) * cos(end[0]) * cos(delta_long)
+        # return atan2(x, y)
 
     @classmethod
     def destination_coordinates(cls, start, speed, travel_time, bearing):
@@ -168,40 +165,25 @@ class ESCEmulator:
             having travelled the given distance on the given initial bearing.
             see http://www.movable-type.co.uk/scripts/latlong.html
         """
-        lat = start[0]
-        long = start[1]
 
-        distance = speed * travel_time
+        distance = speed * travel_time / cls.EARTH_RADIUS
+        radial_bearing = radians(bearing)
 
-        # sinφ2 = sinφ1·cosδ + cosφ1·sinδ·cosθ
-        # tanΔλ = sinθ·sinδ·cosφ1 / cosδ−sinφ1·sinφ2
-        # see http://mathforum.org/library/drmath/view/52049.html for derivation
-
-        delta = distance / cls.EARTH_RADIUS
-        theta = cls.to_radians(bearing)
-
-        phi1 = cls.to_radians(lat)
-        lambda1 = cls.to_radians(long)
-
-        sin_phi1 = sin(phi1)
-        cos_phi1 = cos(phi1)
-
-        sin_delta = sin(delta)
-        cos_delta = cos(delta)
-
-        sin_theta = sin(theta)
-        cos_theta = cos(theta)
+        lat = radians(start[0])
+        long = radians(start[1])
 
         # sinφ1*cosδ + cosφ1*sinδ*cosθ
-        sin_phi2 = sin_phi1 * cos_delta + cos_phi1 * sin_delta * cos_theta
+        sin_phi2 = sin(lat) * cos(distance) + cos(lat) * sin(distance) * cos(radial_bearing)
         phi2 = asin(sin_phi2)
-        y = sin_theta * sin_delta * cos_phi1
-        x = cos_delta - sin_phi1 * sin_phi2
-        lambda2 = lambda1 + atan2(y, x)
+        y = sin(radial_bearing) * sin(distance) * cos(lat)
+        x = cos(distance) - sin(lat) * sin_phi2
+        lambda2 = long + atan2(y, x)
 
-        new_lat = cls.to_degrees(phi2)
-        new_long = (cls.to_degrees(lambda2) + 540) % 360 - 180   # normalise to −180..+180°
+        new_lat = degrees(phi2)
+        new_long = (degrees(lambda2) + 540) % 360 - 180   # normalise to −180..+180°
 
+        # print(start)
+        # print(new_lat, new_long)
         return [new_lat, new_long]
 
     def fetch_properties(self):
@@ -209,16 +191,16 @@ class ESCEmulator:
 
     def report_log(self, destination_reached, canceled=False):
         """ Send log to the backend/API """
-        log_obj = {
-            'battery_level': self.esc_state['battery_level'],
-            'gps_lat': self.esc_state['current_position'][0],
-            'gps_lon': self.esc_state['current_position'][1],
-            'rent_time': self.esc_state['rent_time'],
-            'canceled': canceled,
-            'destination_reached': destination_reached,
-        }
-        if destination_reached or self.esc_state['battery_level'] == 0:
-            log_obj['canceled'] = True
+        log_obj = dict(
+            battery_level=self.esc_state['battery_level'],
+            gps_lat=self.esc_state['current_position'][0],
+            gps_lon=self.esc_state['current_position'][1],
+            rent_time=self.esc_state['rent_time'],
+            canceled='true' if canceled or destination_reached or self.esc_state['battery_level'] == 0 else 'false',
+            destination_reached='true' if destination_reached else 'false'
+        )
+        # if destination_reached or self.esc_state['battery_level'] == 0:
+        #     log_obj['canceled'] = True
 
         pprint(log_obj)
         if destination_reached:
@@ -248,32 +230,34 @@ class ESCEmulator:
         # calculate total used time (could be shorter then time_left due to low battery level)
         used_time = max_distance / speed
 
+        finished = False
+        destination_reached = False
         remaining_distance = max_distance
         current_position = self.esc_state['current_position']
         for path_distance in list(self.system_properties['path_distances']):
+            # print(f'path_distance: {path_distance}, remaining_distance: {remaining_distance}')
             if remaining_distance <= path_distance:
+                self.esc_state['current_position'] = self.system_properties['destination']
                 break
             self.system_properties['path_distances'].pop(0)  # remove distance from the original path_distance list
             remaining_distance = remaining_distance - path_distance
             current_position = self.system_properties['path'].pop(0)
 
-        next_path_position = current_position
         if self.system_properties['path']:  # if not empty
-            next_path_position = self.system_properties['path'].pop(0)
+            bearing_path_position = self.system_properties['path'].pop(0)
             # remove the current path_distance from the path distances array
-            removed_path_distance = self.system_properties['path_distances'].pop(0)
-        remaining_travel_time = remaining_distance / speed  # in seconds
-        self.esc_state['current_position'] = self.destination_coordinates(
-            current_position,
-            speed,
-            remaining_travel_time,
-            self.bearing(current_position, next_path_position)
-        )
-
-        if remaining_distance > 0 and self.system_properties['path']:
-            # ... and replace it with the remaining distance
-            self.system_properties['path_distances'].insert(0, removed_path_distance - remaining_distance)
-            self.system_properties['path'].insert(0, next_path_position)  # put back last path position
+            path_distance = self.system_properties['path_distances'].pop(0)
+            remaining_travel_time = remaining_distance / speed  # in seconds
+            self.esc_state['current_position'] = self.destination_coordinates(
+                current_position,
+                speed,
+                remaining_travel_time,
+                self.bearing(current_position, bearing_path_position)
+            )
+            if remaining_distance > 0:
+                # ... and replace it with the remaining distance
+                self.system_properties['path_distances'].insert(0, path_distance - remaining_distance)
+                self.system_properties['path'].insert(0, bearing_path_position)  # put back last path position
 
         if remaining_distance > 0 and not self.system_properties['path']:
             used_time = used_time - remaining_distance / speed
@@ -284,13 +268,13 @@ class ESCEmulator:
         # discount the rent_time too
         self.esc_state['rent_time'] = self.esc_state['rent_time'] + used_time
 
-        finished = False
-        destination_reached = False
         if not self.system_properties['path']:
             # if path list is empty we've reached the destination
             destination_reached = True
         if destination_reached or self.esc_state['battery_level'] == 0:
             finished = True
+        if destination_reached:
+            self.esc_state['current_position'] = self.system_properties['destination']
 
         ret = dict(
             finished=finished,

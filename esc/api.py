@@ -47,9 +47,11 @@ class Api:
             rent_url,
             headers=headers_obj
         )
-        bike_json = req.json()['data']
+        req_json = req.json()
+        # bike_json = req.json()['data']
+        # pprint(bike_json)
         print("bike state:")
-        pprint(bike_json)
+        pprint(req_json)
 
     def get_rented_bikes(self):
         rent_url = self.config['BASE_URL'] + '/v1/travel/rented?apiKey=' + self.config['API_KEY']
