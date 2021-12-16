@@ -5,7 +5,7 @@
 import requests
 from math import radians, cos, sin, asin, atan2, sqrt, pi, degrees
 from time import time
-from random import random, randrange, uniform
+from random import randrange, uniform
 from api import Api
 from pprint import pprint
 
@@ -125,7 +125,7 @@ class ESCEmulator:
 
     @staticmethod
     def generate_random_path(start, end, travel_points):
-        # Generate nr_points gps-coordinates between start and end
+        # Generate travel_points gps-coordinates between start and end
         path = []
         next_lat = start[0]
         end_lat = end[0]
