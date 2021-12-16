@@ -113,6 +113,7 @@ def generate_insert_customer_statements(nr_of_customers):
         hashed = hashpw(password.encode('utf8'), bcrypt.gensalt(10)).decode("utf-8")
         for customer in range(nr_of_customers):
             payment = generate_random_choice(my_choices, distribution)
+            balance = 0
             if payment == 'prepaid':
                 balance = randrange(400, 1000, 50)
             values = f"{presiding_comma}({customer_id},'Kund{customer_id}','Lastname{customer_id}'," +\
@@ -124,9 +125,9 @@ def generate_insert_customer_statements(nr_of_customers):
 
 
 def main():
-    # stations = generate_random_stations(allowed_area[0], allowed_area[1], nr_of_stations)
-    # generate_insert_stations_statements(stations)
-    # generate_insert_bikes_statements(allowed_area[0], allowed_area[1], stations, nr_of_bikes)
+    stations = generate_random_stations(allowed_area[0], allowed_area[1], nr_of_stations)
+    generate_insert_stations_statements(stations)
+    generate_insert_bikes_statements(allowed_area[0], allowed_area[1], stations, nr_of_bikes)
     generate_insert_customer_statements(nr_of_customers)
 
 
