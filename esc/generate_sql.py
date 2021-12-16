@@ -63,8 +63,8 @@ def generate_insert_bikes_statements(start, end, stations, nr_of_bikes=1000):
             random_choice = choices(my_choices, distribution)[0]
             (_, dest) = pick_rnd_station(stations) if random_choice else (_, generate_random_gps(start, end))
 
-            values = f"""{presiding_comma}({bike_id},'bike{bike_id}.jpg','bike{bike_id}',30,{bat_cap},'vacant',
-            {bat_level},{gps[0]},{gps[1]},{dest[0]},{dest[1]},{station_id},2)
+            values = f"""{presiding_comma}({bike_id},'bike{bike_id}','bike{bike_id}.jpg','bike{bike_id}',30,{bat_cap},
+            'vacant',{bat_level},{gps[0]},{gps[1]},{dest[0]},{dest[1]},{station_id},2)
 """
             f.write(values)
             presiding_comma = ','
