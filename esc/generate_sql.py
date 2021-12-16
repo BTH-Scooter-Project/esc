@@ -1,12 +1,22 @@
 #!/usr/bin/python3
 """Generate stations within allowed area boundaries"""
-from random import choices, uniform, randint
+from random import choices, uniform, randint, randrange
+import json
 
+import bcrypt as bcrypt
+from bcrypt import hashpw
+
+CONFIG_FILE = '../config/config.json'
 station_capacity = 20
 nr_of_stations = 100
 nr_of_bikes = station_capacity * nr_of_stations
+nr_of_customers = nr_of_bikes
 allowed_area = [[59.351495, 18.023087], [59.305341, 18.168215]]
 
+
+def get_config(file):
+    with open(file, 'r') as file_handle:
+        return json.load(file_handle)
 
 def generate_random_gps(start, end):
     start_lat = start[0]
@@ -31,6 +41,10 @@ def generate_random_stations(start, end, nr_of_stations=100):
 def pick_rnd_station(stations):
     station_index = randint(0, len(stations)-1)
     return station_index, stations[station_index]
+
+
+def generate_random_choice(population, distribution):
+    return choices(population, distribution)[0]
 
 
 def generate_insert_bikes_statements(start, end, stations, nr_of_bikes=1000):
@@ -58,7 +72,7 @@ def generate_insert_bikes_statements(start, end, stations, nr_of_bikes=1000):
         bat_cap = 9000
         bat_level = 9000
         for _ in range(nr_of_bikes):
-            random_choice = choices(my_choices, distribution)[0]
+            random_choice = generate_random_choice(my_choices, distribution)
             (station_id, gps) = pick_rnd_station(stations) if random_choice else (-1, generate_random_gps(start, end))
             random_choice = choices(my_choices, distribution)[0]
             (_, dest) = pick_rnd_station(stations) if random_choice else (_, generate_random_gps(start, end))
@@ -86,10 +100,34 @@ def generate_insert_stations_statements(stations):
         f.write(';')
 
 
+def generate_insert_customer_statements(nr_of_customers):
+    insert_command = 'INSERT INTO "customer" ("userid","firstname","lastname","password","email",' +\
+        '"cityid","payment","balance") VALUES'
+    my_choices = ['card', 'prepaid']  # True is station, False is random gps from the allowed area
+    distribution = (30, 70)
+    with open("customers.sql", 'w', encoding='utf-8') as f:
+        f.write(insert_command)
+        customer_id = 101
+        presiding_comma = '\n'
+        password = get_config(CONFIG_FILE)['password']
+        hashed = hashpw(password.encode('utf8'), bcrypt.gensalt(10)).decode("utf-8")
+        for customer in range(nr_of_customers):
+            payment = generate_random_choice(my_choices, distribution)
+            if payment == 'prepaid':
+                balance = randrange(400, 1000, 50)
+            values = f"{presiding_comma}({customer_id},'Kund{customer_id}','Lastname{customer_id}'," +\
+                f"{hashed},'test{customer_id}@test.com',2,'{payment}',{balance})\n"
+            f.write(values)
+            presiding_comma = ','
+            customer_id = customer_id + 1
+        f.write(';')
+
+
 def main():
-    stations = generate_random_stations(allowed_area[0], allowed_area[1], nr_of_stations)
-    generate_insert_stations_statements(stations)
-    generate_insert_bikes_statements(allowed_area[0], allowed_area[1], stations, nr_of_bikes)
+    # stations = generate_random_stations(allowed_area[0], allowed_area[1], nr_of_stations)
+    # generate_insert_stations_statements(stations)
+    # generate_insert_bikes_statements(allowed_area[0], allowed_area[1], stations, nr_of_bikes)
+    generate_insert_customer_statements(nr_of_customers)
 
 
 if __name__ == '__main__':

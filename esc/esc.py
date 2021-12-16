@@ -75,7 +75,7 @@ class ESCEmulator:
         ]
         self.system_properties = dict(
             destination=destination,  # gps coordinates of the destination (finish) position
-            sleep_time=self.api.bike_state['interval'] * 10,  # in seconds
+            sleep_time=self.api.bike_state['interval'],  # in seconds
             travel_points=travel_points,  # number of travel gps-coordinates along the path
             allowed_area=[
                 [self.api.bike_state['gps_left_lat'], self.api.bike_state['gps_left_lon']],
