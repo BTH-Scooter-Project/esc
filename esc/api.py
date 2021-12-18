@@ -12,9 +12,10 @@ class Api:
         self.token = None
         self.rented_bike_ids = []
 
-        self.login()
+        # self.login()
         if bike_id != -1:
-            self.rent_bike(bike_id)
+            # self.rent_bike(bike_id)
+            self.rent_bike_without_token(bike_id)
             self.get_rented_bikes()
             self.bike_state = self.get_bike_state(bike_id)
 
@@ -46,6 +47,22 @@ class Api:
         req = requests.post(
             rent_url,
             headers=headers_obj
+        )
+        req_json = req.json()
+        # bike_json = req.json()['data']
+        # pprint(bike_json)
+        print("bike state:")
+        pprint(req_json)
+
+    def rent_bike_without_token(self, bike_id):
+        rent_url = self.config['BASE_URL'] + f'/v1/travel/simulation?apiKey=' + self.config['API_KEY']
+        rent_obj = {
+            'customerid': f'{bike_id}',
+            'bikeid': f'{bike_id}',
+        }
+        req = requests.post(
+            rent_url,
+            data=rent_obj
         )
         req_json = req.json()
         # bike_json = req.json()['data']
