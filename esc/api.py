@@ -5,7 +5,7 @@ import requests
 
 class Api:
     """Define api class for working with api"""
-    CONFIG_FILE = '../config/config.json'
+    CONFIG_FILE = 'config/config.json'
 
     def __init__(self, bike_id=-1):
         self.config = self.get_config(self.CONFIG_FILE)

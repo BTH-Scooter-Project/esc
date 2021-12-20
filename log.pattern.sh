@@ -25,6 +25,18 @@ docker run --rm --net pattern_net -p 1337:1337 -it neskoc/pattern:backend
 ### ... with name
 docker run --rm --net pattern_net --name backend -p 1337:1337 -it neskoc/pattern:backend
 
+#################
+# esc
+#################
+
+docker build -t neskoc/pattern:esc .
+
+## publish on dockerhub
+docker push neskoc/pattern:esc
+
+## run on pattern_net
+docker run --rm --net pattern_net -p 5000:5000 -it neskoc/pattern:esc
+
 
 #################
 # frontend
@@ -38,18 +50,6 @@ docker pull neskoc/pattern:frontend
 
 ## run on pattern_net
 docker run --rm --net pattern_net -p 1338:1337 -it neskoc/pattern:frontend
-
-#################
-# esc
-#################
-
-docker build -t neskoc/pattern:esc .
-
-## publish on dockerhub
-docker push neskoc/pattern:esc
-
-## run on pattern_net
-docker run --rm --net pattern_net -p 5000:5000 -it neskoc/pattern:esc
 
 #################
 # running

@@ -1,6 +1,6 @@
 {
   "API_KEY": "90301a26-894c-49eb-826d-ae0c2b22a405",
-  "BASE_URL": "http://localhost:1337",
+  "BASE_URL": "http://backend:1337",
   "email": "test434@test.com",
   "password": "test123"
 }

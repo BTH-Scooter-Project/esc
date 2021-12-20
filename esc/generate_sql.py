@@ -6,7 +6,7 @@ import json
 import bcrypt as bcrypt
 from bcrypt import hashpw
 
-CONFIG_FILE = '../config/config.json'
+CONFIG_FILE = 'config/config.json'
 station_capacity = 20
 nr_of_stations = 100
 nr_of_bikes = station_capacity * nr_of_stations

@@ -11,7 +11,7 @@ from api import Api
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 start_bike_id = 101
-CONFIG_FILE = '../config/config.json'
+CONFIG_FILE = 'config/config.json'
 simulation_acceleration = 10
 
 
@@ -37,7 +37,7 @@ def main():
     """
     data = get_system_mode(CONFIG_FILE)
     api = Api()
-    sleep_interval = data['interval'] / data['nr_of_bikes']
+    sleep_interval = data['interval'] / (data['nr_of_bikes'] + 1)
     if data['simulation']:
         end_bike_id = start_bike_id + data['nr_of_bikes']
         for bike_id in range(start_bike_id, end_bike_id):
@@ -74,7 +74,7 @@ def main():
             print(f'System lagging (main): {lag_time}')
         accumulated_sleep_time = 0
         sleep(sleep_time)
-        sleep_interval = data['interval'] / len(bikes)
+        sleep_interval = data['interval'] / (len(bikes) + 1)
 
 
 # Press the green button in the gutter to run the script.
