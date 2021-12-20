@@ -76,7 +76,7 @@ def generate_insert_bikes_statements(start, end, stations, nr_of_bikes=1000):
             (station_id, gps) = pick_rnd_station(stations) if random_choice else (-1, generate_random_gps(start, end))
             random_choice = choices(my_choices, distribution)[0]
             (_, dest) = pick_rnd_station(stations) if random_choice else (_, generate_random_gps(start, end))
-
+            station_id = (station_id + 101) if station_id >= 0 else station_id
             values = f"""{presiding_comma}({bike_id},'bike{bike_id}','bike{bike_id}.jpg','bike{bike_id}',30,{bat_cap},
             'vacant',{bat_level},{gps[0]},{gps[1]},{dest[0]},{dest[1]},{station_id},2)
 """
