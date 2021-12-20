@@ -15,8 +15,8 @@ class Api:
         # self.login()
         if bike_id != -1:
             # self.rent_bike(bike_id)
-            self.rent_bike_without_token(bike_id)
-            self.get_rented_bikes()
+            # self.rent_bike_without_token(bike_id)
+            # self.get_rented_bikes()
             self.bike_state = self.get_bike_state(bike_id)
 
     @staticmethod
@@ -75,6 +75,7 @@ class Api:
         req = requests.get(rent_url)
         self.rented_bike_ids = req.json()
         print(self.rented_bike_ids)
+        return self.rented_bike_ids
 
     def get_bike_state(self, bike_id):
         state_url = self.config['BASE_URL'] + f'/v1/bike/{bike_id}?apiKey=' + self.config['API_KEY']

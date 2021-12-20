@@ -14,6 +14,9 @@ https://dbwebb.se/guide/docker
 docker build -t neskoc/pattern:backend -f Dockerfile.api .
 # or if Dockerfile exists
 docker build -t neskoc/pattern:backend .
+## publish on dockerhub
+docker push neskoc/pattern:backend
+
 docker run --rm  -p 1337:1337 -it neskoc/pattern:backend
 
 ## run on pattern_net
@@ -22,8 +25,6 @@ docker run --rm --net pattern_net -p 1337:1337 -it neskoc/pattern:backend
 ### ... with name
 docker run --rm --net pattern_net --name backend -p 1337:1337 -it neskoc/pattern:backend
 
-## publish on dockerhub
-docker push neskoc/pattern:backend
 
 #################
 # frontend

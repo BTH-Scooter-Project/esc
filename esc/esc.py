@@ -2,12 +2,15 @@
     esc.py
     Electric scooter (esc) emulator
 """
+import json
+
 import requests
 from math import radians, cos, sin, asin, atan2, sqrt, pi, degrees
 from time import time
 from random import randrange, uniform
 from api import Api
 from pprint import pprint
+from colorama import Fore, Back, Style
 
 travel_points = 5
 
@@ -17,7 +20,7 @@ class ESCEmulator:
     EARTH_RADIUS = 6378100  # Mean radius of earth in kilometers
     POSITION_TOLERANCE = 1  # tolerance for calculating current position (gps)
 
-    def __init__(self, _id):
+    def __init__(self, _id, interval=10):
         """ esc_properties: id,
                             battery_capacity,
                             max_speed=30
@@ -34,13 +37,13 @@ class ESCEmulator:
         self.esc_properties = {}
         self.esc_state = {}
         self.system_properties = {}
-        self.fetch_state(_id)
+        self.fetch_state(_id, interval)
 
         print(self.calc_distance(self.esc_state['current_position'], self.system_properties['destination']))
         # print(self.esc_state['current_position'], self.system_properties['path'])
         # print(self.system_properties['path_distances'])
 
-    def fetch_state(self, _id):
+    def fetch_state(self, _id, interval):
         """ esc_properties: id,
                             battery_capacity,
                             max_speed=30
@@ -75,7 +78,7 @@ class ESCEmulator:
         ]
         self.system_properties = dict(
             destination=destination,  # gps coordinates of the destination (finish) position
-            sleep_time=self.api.bike_state['interval'],  # in seconds
+            sleep_time=interval,  # in seconds
             travel_points=travel_points,  # number of travel gps-coordinates along the path
             allowed_area=[
                 [self.api.bike_state['gps_left_lat'], self.api.bike_state['gps_left_lon']],
@@ -201,10 +204,15 @@ class ESCEmulator:
         )
         # if destination_reached or self.esc_state['battery_level'] == 0:
         #     log_obj['canceled'] = True
-
-        pprint(log_obj)
-        if destination_reached:
-            print("The ride is finished!")
+        battery_percentage = self.esc_state['battery_level'] / self.esc_properties['battery_capacity']
+        text_color_after = Fore.RESET + Back.RESET
+        text_color = Fore.BLACK + Back.GREEN
+        match battery_percentage:
+            case battery_percentage if battery_percentage < 0.7:
+                text_color = Fore.BLACK + Back.YELLOW
+            case battery_percentage if battery_percentage < 0.1:
+                text_color = Fore.BLACK + Back.RED
+        # print(text_color + json.dumps(log_obj) + text_color_after)
         log_url = self.api.config['BASE_URL'] + f'/v1/travel/bike/{self.bike_id}?apiKey=' + self.api.config['API_KEY']
         headers_obj = {
             'x-access-token': self.api.token,
@@ -214,7 +222,14 @@ class ESCEmulator:
             headers=headers_obj,
             data=log_obj
         )
-        pprint(req.json())
+        res_data = req.json()['data']
+        if destination_reached:
+            print("The ride is finished!")
+            print(res_data)
+        if log_obj['canceled'] == 'true' or res_data['canceled'] == 'true':
+            print('Rent canceled by the customer, quiting ...')
+            return True
+        return False
 
     def ride_bike(self):
         """ move bike to the next position (gps coordinate)
@@ -278,7 +293,7 @@ class ESCEmulator:
 
         ret = dict(
             finished=finished,
-            destination_reached=destination_reached
+            destination_reached=destination_reached,
+            canceled=self.report_log(destination_reached)
         )
-        self.report_log(destination_reached)
         return ret
