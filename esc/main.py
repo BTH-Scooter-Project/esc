@@ -11,7 +11,7 @@ from colorama import Fore, Back, Style
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
-start_bike_id = 101
+start_bike_id = 201
 CONFIG_FILE = 'config/config.json'
 simulation_acceleration = 10
 
