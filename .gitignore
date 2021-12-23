@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 # This project
 auth/lib64
 auth/bin/
 auth/include/
 
+=======
+>>>>>>> c3b0578146a107d1f3c8b312107022090f804991
 # production
 /build
 
