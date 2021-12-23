@@ -5,7 +5,7 @@ RUN apt update && apt -y upgrade && apt -y dist-upgrade && \
 
 WORKDIR esc
 
-COPY esc/*.py esc/local_ls.sh esc/requirements.txt /esc/
+COPY esc/*.py esc/requirements.txt /esc/
 COPY esc/config/config.json /esc/config/
 
 RUN pip3 install -r requirements.txt
