@@ -10,62 +10,72 @@
 {%      set payment = "selected" %}
 {% endif %}
 <div class="column is-4 is-offset-4">
-  <h1 class="title">
-    Welcome, {{ current_user.firstname}} {{ current_user.lastname }}!
-  </h1>
+    <h1 class="title">
+        Welcome, {{ current_user.firstname}} {{ current_user.lastname }}!
+    </h1>
 
-  <form method="POST" action="/save-profile">
-
-    <div class="field">
-        <div class="control">
-            <label class="label is-large" for="firstname">First Name</label>
-            <input disabled class="input is-large" type="text" name="firstname" placeholder="First Name"
-              autofocus="" value="{{ current_user.firstname }}">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% if messages[1] %}
+        <div class="notification is-danger">
+        {% else -%}
+        <div class="notification is-success">
+        {% endif %}
+            {{ messages[0] }}
+            <br/>
+            {{ messages[1] }}
         </div>
-    </div>
+    {% endif %}
+    {% endwith %}
+    <form method="POST" action="/profile">
 
-    <div class="field">
-        <div class="control">
-            <label class="label is-large" for="lastname">Last Name</label>
-            <input disabled class="input is-large" type="text" name="lastname" placeholder="Last Name"
-            autofocus="" value="{{ current_user.lastname }}">
+        <div class="field">
+            <div class="control has-icons-right">
+                <input readonly class="input is-large" type="text" name="firstname" placeholder="First Name"
+                    autofocus="" value="{{ current_user.firstname }}">
+            </div>
         </div>
-    </div>
 
-    <div class="field">
-        <div class="control">
-            <label class="label is-large" for="balance">Balance</label>
-            <input class="input is-large" type="text" name="balance" placeholder="Balance"
-              autofocus="" value="{{ current_user.balance }}">
+        <div class="field">
+            <div class="control has-icons-right">
+                <input readonly class="input is-large" type="text" name="lastname" placeholder="Last Name"
+                    autofocus="" value="{{ current_user.lastname }}">
+            </div>
         </div>
-    </div>
 
-    <div class="field">
-        <div class="control">
-            <label class="label is-large" for="balance">Payment type</label>
-            <select class="select is-large" name="payment" id="payment">
-                <option class="option is-large" value="prepaid" {{ prepaid }}>Prepaid</option>
-                <option class="option is-large" value="card" {{ card }}>Credit card</option>
-            </select>
+        <div class="field">
+            <div class="control has-icons-right">
+                <input class="input is-large" type="text" name="balance" placeholder="Balance"
+                    autofocus="" value="{{ current_user.balance }}">
+            </div>
         </div>
-    </div>
 
-    <div class="field">
-        <div class="control">
-            <label class="label is-large" for="email">Email</label>
-            <input class="input is-large" type="email" name="email" placeholder="Email"
-              autofocus="" value="{{ current_user.email }}">
+        <div class="field">
+            <div class="control has-icons-right">
+                <select class="select is-large" name="payment" id="payment">
+                    <option class="option is-large" value="prepaid" {{ prepaid }}>Prepaid</option>
+                    <option class="option is-large" value="card" {{ card }}>Credit card</option>
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div class="field">
-        <div class="control">
-            <label class="label is-large" for="password">Password</label>
-            <input class="input is-large" type="password" name="password" placeholder="Password">
+        <div class="field">
+            <div class="control has-icons-right">
+                <input readonly class="input is-large" type="email" name="email" placeholder="Email"
+                    autofocus="" value="{{ current_user.email }}">
+            </div>
         </div>
-    </div>
 
-    <button class="button is-block is-info is-large is-fullwidth">Save changes</button>
-  </form>
+        <div class="field">
+            <div class="control has-icons-right">
+                <input class="input is-large" type="password" name="password" placeholder="Password">
+            </div>
+        </div>
+
+        <div class="field">
+            <button class="button is-block is-info is-large is-fullwidth">Save changes</button>
+        </div>
+
+    </form>
 </div>
 {% endblock %}

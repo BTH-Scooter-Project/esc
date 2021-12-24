@@ -24,10 +24,11 @@ class Customer(UserMixin):
         self.token = token
         self.email = email
         self.get_customer_info()
-        self.setCustomer(self)
+        self.set_customer(self)
 
     @classmethod
-    def setCustomer(cls, self):
+    def set_customer(cls, self):
+        """Add customer to the class."""
         cls.customers.append(self)
         print('cls.customers.id: ' + cls.customers[0].get_id())
 
@@ -86,6 +87,8 @@ class Customer(UserMixin):
         
         error_obj = req.json()['errors']
         error_obj['status_code'] = req.status_code
+        if not hasattr(error_obj, 'message'):
+            error_obj['message'] = error_obj['title']
         print("login error")
         pprint(error_obj)
 
@@ -180,7 +183,7 @@ class Customer(UserMixin):
         error_obj['status_code'] = req.status_code
         return error_obj
 
-    def update(self, payment, balance, password):
+    def update(self, email, balance, payment, password):
         """Update customer.
 
         Args:
@@ -193,7 +196,7 @@ class Customer(UserMixin):
         config = Customer.get_config(Customer.CONFIG_FILE)
         update_url = config['BASE_URL'] + '/v1/auth/customer?apiKey=' + config['API_KEY']
         body_obj = dict(
-            email= email,
+            email=email,
             password=password,
             balance=balance,
             payment=payment,

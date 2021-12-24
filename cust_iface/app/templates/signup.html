@@ -15,27 +15,45 @@
         {% endwith %}
         <form method="POST" action="/signup">
             <div class="field">
-                <div class="control">
+                <div class="control has-icons-left has-icons-right">
                     <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                      </span>
+                      <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                      </span>
                 </div>
             </div>
 
             <div class="field">
-                <div class="control">
+                <div class="control has-icons-right">
                     <input class="input is-large" type="text" name="firstname" placeholder="First name" autofocus="">
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                    </span>
                 </div>
             </div>
 
             <div class="field">
-                <div class="control">
+                <div class="control has-icons-right">
                     <input class="input is-large" type="text" name="lastname" placeholder="Last name" autofocus="">
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                    </span>
                 </div>
             </div>
 
             <div class="field">
-                <div class="control">
+                <div class="control has-icons-left has-icons-right">
                     <input class="input is-large" type="password" name="password"
                         placeholder="Password" pattern=".{3,}">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                    </span>
                 </div>
             </div>
 

@@ -1,7 +1,8 @@
 # main.py
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, url_for, redirect, flash
 from flask_login import login_required, current_user
+from markupsafe import escape
 
 main = Blueprint('main', __name__)
 
@@ -27,31 +28,28 @@ def profile():
     return render_template('profile.html')
 
 
-@main.route('/profile')
+@main.route('/profile', methods=['POST'])
 @login_required
 def login_post():
-    """/profile route (PUT).
+    """/profile route (POST).
 
     Returns:
         [type]: [description]
     """
 
     response = current_user.update(
+        email=escape(request.form.get('email')),
         balance=escape(request.form.get('balance')),
         payment=escape(request.form.get('payment')),
         password=escape(request.form.get('password'))
         )
 
-    # check if customer actually exists
-    if response['status_code'] != 200:
-        flash(response['message'])
-        flash(response['detail'])
-        return redirect(url_for('main.profile'))
-
     print(response)
-    # if the above check passes, then we know the customer has the right credentials
-    return redirect(url_for('main.profile'))
 
+    flash(response['message'])
+    if response['status_code'] != 200:
+        flash(response['detail'])
+    return redirect(url_for('main.profile'))
 
 
 @main.route('/travels')
