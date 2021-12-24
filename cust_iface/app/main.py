@@ -24,4 +24,16 @@ def profile():
     Returns:
         [type]: [description]
     """
-    return render_template('profile.html', firstname=current_user.firstname)
+    return render_template('profile.html')
+
+
+
+@main.route('/travels')
+@login_required
+def travels():
+    """Route travels.
+
+    Returns:
+        [type]: [description]
+    """
+    return render_template('travels.html')

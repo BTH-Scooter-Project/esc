@@ -23,11 +23,6 @@ class Customer(UserMixin):
         self.id = _id
         self.token = token
         self.email = email
-        self.customer_info = None
-        self.lastname = None
-        self.cityid = 2  # Stockholm
-        self.payment = "prepaid"
-        self.balance = 0
         self.get_customer_info()
         self.setCustomer(self)
 
@@ -113,7 +108,6 @@ class Customer(UserMixin):
                 email=session['email']
                 )
         return None
-        
 
     def get_customer_info(self):
         """Get customer info.
@@ -167,15 +161,52 @@ class Customer(UserMixin):
             firstname=firstname,
             lastname=lastname,
             cityid=city_id,
+            balance=0,
+            payment='card'
         )
         req = requests.post(
             create_customer_url,
             data=body_obj
             )
-        if req.status_code == 200:
+        if req.status_code == 201:
             customer_info = req.json()['data']
             customer_info['email'] = email
             customer_info['password'] = password
+            customer_info['status_code'] = req.status_code
+            pprint(customer_info)
+            return customer_info
+        
+        error_obj = req.json()['errors']
+        error_obj['status_code'] = req.status_code
+        return error_obj
+
+    def update(self, payment, balance, password):
+        """Update customer.
+
+        Args:
+            payment (str): prepaid or card
+            balance (int): Set new balance
+            password (str): Password (if empty = no change)
+        Returns:
+            None
+        """
+        config = Customer.get_config(Customer.CONFIG_FILE)
+        update_url = config['BASE_URL'] + '/v1/auth/customer?apiKey=' + config['API_KEY']
+        body_obj = dict(
+            password=password,
+            balance=balance,
+            payment=payment,
+        )
+        headers = {
+            'x-access-token': self.token,
+        }
+        req = requests.put(
+            update_url,
+            data=body_obj,
+            headers=headers
+            )
+        if req.status_code == 201:
+            customer_info = req.json()['data']
             customer_info['status_code'] = req.status_code
             pprint(customer_info)
             return customer_info
