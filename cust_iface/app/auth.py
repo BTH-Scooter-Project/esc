@@ -1,18 +1,23 @@
 # auth.py
 
-import os
+import json
+import random
+import string
 import requests
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from .models import Customer
 from markupsafe import escape
 from oauthlib.oauth2 import WebApplicationClient
+from pprint import pprint
 
 auth = Blueprint('auth', __name__)
 
 # Configuration
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None)
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
+config = Customer.get_config(Customer.CONFIG_FILE)
+
+GOOGLE_CLIENT_ID = config["GOOGLE_CLIENT_ID"]
+GOOGLE_CLIENT_SECRET = config["GOOGLE_CLIENT_SECRET"]
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
@@ -28,7 +33,19 @@ def login():
     Returns:
         [type]: [description]
     """
-    return render_template('login.html')
+    
+    # Find out what URL to hit for Google login
+    google_provider_cfg = get_google_provider_cfg()
+    authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+
+    # Use library to construct the request for Google login and provide
+    # scopes that let you retrieve user's profile from Google
+    request_uri = client.prepare_request_uri(
+        authorization_endpoint,
+        redirect_uri=request.base_url + "/callback",
+        scope=["openid", "email", "profile"],
+    )
+    return render_template('login.html', request_uri=request_uri)
 
 
 @auth.route('/login', methods=['POST'])
@@ -122,7 +139,6 @@ def callback():
     Returns:
         [type]: [description]
     """
-
     # Get authorization code Google sent back to you
     code = request.args.get("code")
 
@@ -160,27 +176,38 @@ def callback():
     # app, and now we've verified their email through Google!
     if userinfo_response.json().get("email_verified"):
         unique_id = userinfo_response.json()["sub"]
-        users_email = userinfo_response.json()["email"]
-        users_name = userinfo_response.json()["given_name"]
+        email = userinfo_response.json()["email"]
+        firstname = userinfo_response.json()["given_name"]
+        lastname = userinfo_response.json()["family_name"]
     else:
         return "User email not available or not verified by Google.", 400
-
-    # Create a user in our db with the information provided
-    # by Google
-    customer = Customer(
-        id_=unique_id, name=users_name, email=users_email
+    pprint(userinfo_response.json())
+    # Create a user with the information provided by Google
+    password = get_random_string(10)  # generate random password
+    Customer.register(
+        unique_id=unique_id,
+        email=email,
+        password=password,
+        firstname=firstname,
+        lastname=lastname,
+        city_id=2
     )
 
-    # Doesn't exist? Add to database
-    if not Customer.get(unique_id):
-        Customer.create(unique_id, users_name, users_email)
-
+    customer = Customer.login(email=email, unique_id=unique_id)
+    
     # Begin user session by logging the user in
     login_user(customer)
 
     # Send user back to homepage
     return redirect(url_for("main.profile"))
 
-
 def get_google_provider_cfg():
+    """Fetch google provider config."""
     return requests.get(GOOGLE_DISCOVERY_URL).json()
+
+
+def get_random_string(length):
+    """Generate random password of length."""
+    # choose from all lowercase letter
+    letters = string.ascii_lowercase
+    return''.join(random.choice(letters) for i in range(length))

@@ -20,6 +20,7 @@ login_manager.init_app(app)
 def unauthorized():
     return "You must be logged in to access this content.", 403
 
+
 @login_manager.user_loader
 def load_user(user_id):
     """Check whether customer exists.
@@ -29,6 +30,7 @@ def load_user(user_id):
     # since the customer_id is just the primary key of our customer table,
     # use it in the query for the customer
     return Customer.get_customer_by_id(user_id)
+
 
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(main_blueprint)

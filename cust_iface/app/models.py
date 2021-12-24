@@ -2,10 +2,11 @@
 # models.py
 
 import json
-from pprint import pprint
 import requests
+from pprint import pprint
 from flask_login import UserMixin
 from flask import session
+
 
 class Customer(UserMixin):
     """Customer class.
@@ -57,7 +58,7 @@ class Customer(UserMixin):
             return json.load(file_handle)
 
     @staticmethod
-    def login(email, password):
+    def login(email, password=None, unique_id=None):
         """Login request implementation.
 
         Args:
@@ -72,6 +73,7 @@ class Customer(UserMixin):
         login_obj = {
             'email': email,
             'password': password,
+            'unique_id': unique_id
         }
         req = requests.post(
             login_url,
@@ -144,7 +146,7 @@ class Customer(UserMixin):
         return self
 
     @staticmethod
-    def register(email, password, firstname, lastname, city_id):
+    def register(email, password, firstname, lastname, city_id, unique_id=-1):
         """Register new customer.
 
         Args:
@@ -158,15 +160,16 @@ class Customer(UserMixin):
         """
         config = Customer.get_config(Customer.CONFIG_FILE)
         create_customer_url = config['BASE_URL'] + '/v1/auth/customer?apiKey=' + config['API_KEY']
+
         body_obj = dict(
             email=email,
             password=password,
             firstname=firstname,
             lastname=lastname,
-            cityid=city_id,
-            balance=0,
-            payment='card'
+            cityid=city_id
         )
+        if unique_id != -1:
+            body_obj['id'] = unique_id
         req = requests.post(
             create_customer_url,
             data=body_obj

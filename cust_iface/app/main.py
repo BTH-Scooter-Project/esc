@@ -36,7 +36,6 @@ def login_post():
     Returns:
         [type]: [description]
     """
-
     response = current_user.update(
         email=escape(request.form.get('email')),
         balance=escape(request.form.get('balance')),
