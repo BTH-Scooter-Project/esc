@@ -193,6 +193,7 @@ class Customer(UserMixin):
         config = Customer.get_config(Customer.CONFIG_FILE)
         update_url = config['BASE_URL'] + '/v1/auth/customer?apiKey=' + config['API_KEY']
         body_obj = dict(
+            email= email,
             password=password,
             balance=balance,
             payment=payment,
@@ -205,7 +206,9 @@ class Customer(UserMixin):
             data=body_obj,
             headers=headers
             )
-        if req.status_code == 201:
+        if req.status_code == 200:
+            self.balance=balance
+            self.payment=payment
             customer_info = req.json()['data']
             customer_info['status_code'] = req.status_code
             pprint(customer_info)
