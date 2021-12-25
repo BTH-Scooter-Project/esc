@@ -16,7 +16,7 @@ class Customer(UserMixin):
         db ([type]): [description]
     """
 
-    CONFIG_FILE = 'static/config/config.json'
+    CONFIG_FILE = 'app/static/config/config.json'
     customers = []
 
     def __init__(self, _id, token, email):
