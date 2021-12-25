@@ -37,13 +37,13 @@
         </form>
     </div>
     
-    <div class="box is-full">
-        <div class="control has-icons-left">
-            <a class="button is-medium" href="{{ request_uri }}">Sign in with Google</a>
-            <div class="icon is-large is-left">
-                <i class="fab fa-google"></i>
+    <div class="box is-flex is-flex-diretion-column is-justify-content-space-evenly is-align-items-center">
+            <div class="icon" style="font-size: xx-large">
+                <i class="fab fa-google has-text-danger"></i>
             </div>
-        </div>
+            <div class="control">
+                <a class="button is-medium" href="{{ request_uri }}">Sign in with Google</a>
+            </div>
     </div>
 </div>
 {% endblock %}

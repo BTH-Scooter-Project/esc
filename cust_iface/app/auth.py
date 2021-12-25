@@ -201,6 +201,7 @@ def callback():
     # Send user back to homepage
     return redirect(url_for("main.profile"))
 
+
 def get_google_provider_cfg():
     """Fetch google provider config."""
     return requests.get(GOOGLE_DISCOVERY_URL).json()
