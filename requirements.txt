@@ -1,4 +1,12 @@
-Flask
-Requests
-Bcrypt
-Colorama
+bcrypt
+colorama
+flask
+flask-login
+gunicorn
+markupsafe
+oauthlib
+pyopenssl
+pytest
+pytest-pylint
+pytest-flake8
+requests

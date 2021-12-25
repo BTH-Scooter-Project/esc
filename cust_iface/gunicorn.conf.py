@@ -5,7 +5,6 @@ It's a pre-fork worker model.
 The Gunicorn server is broadly compatible with various web frameworks, simply implemented,
 light on server resources, and fairly speedy.
 """
-import multiprocessing
 
 
 bind = "127.0.0.1:8000"

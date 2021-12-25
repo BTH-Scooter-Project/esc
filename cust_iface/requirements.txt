@@ -1,7 +1,12 @@
+bcrypt
+colorama
 flask
 flask-login
-pyopenssl
-requests
+gunicorn
 markupsafe
 oauthlib
-gunicorn
+pyopenssl
+pytest
+pytest-pylint
+pytest-flake8
+requests
