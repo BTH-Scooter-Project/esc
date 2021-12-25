@@ -2,7 +2,7 @@
 
 import traceback
 from flask import Flask
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from .models import Customer
 from .auth import auth as auth_blueprint  # blueprint for auth routes in our app
 from .main import main as main_blueprint  # blueprint for non-auth parts of app
@@ -19,6 +19,7 @@ login_manager.init_app(app)
 
 @login_manager.unauthorized_handler
 def unauthorized():
+    """Prevent unauthorized access."""
     return "You must be logged in to access this content.", 403
 
 

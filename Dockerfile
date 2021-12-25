@@ -1,7 +1,7 @@
 FROM python:3.10-slim-bullseye
 
 RUN apt update && apt -y upgrade && apt -y dist-upgrade && \
-    apt install -y python3-pip python3-dev build-essential
+    apt install -y python3-pip python3-dev python3-distutils build-essential
 
 WORKDIR esc
 

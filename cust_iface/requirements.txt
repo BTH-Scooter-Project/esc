@@ -4,3 +4,4 @@ pyopenssl
 requests
 markupsafe
 oauthlib
+gunicorn
