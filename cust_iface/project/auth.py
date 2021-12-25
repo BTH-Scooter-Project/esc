@@ -14,7 +14,17 @@ from pprint import pprint
 auth = Blueprint('auth', __name__)
 
 # Configuration
-config = Customer.get_config(Customer.CONFIG_FILE)
+try:
+    config = Customer.get_config(Customer.CONFIG_FILE)
+except FileNotFoundError:
+    config = {
+        "API_KEY": "90301a26-894c-49eb-826d-ae0c2b22a405",
+        "BASE_URL": "http://backend:1337",
+        "email": "test434@test.com",
+        "password": "test123",
+        "GOOGLE_CLIENT_ID": "XXXXXXXXXXXXXXXXXXXXXX",
+        "GOOGLE_CLIENT_SECRET": "YYYYYYYYYYYYYYYYYYYYYYYYYy"
+    }
 
 GOOGLE_CLIENT_ID = config["GOOGLE_CLIENT_ID"]
 GOOGLE_CLIENT_SECRET = config["GOOGLE_CLIENT_SECRET"]
