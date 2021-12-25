@@ -4,4 +4,52 @@
 
 {% block content %}
 <h1 class="title">My travels</h1>
+<div class="box">
+    <table class="table table is-striped table is-hoverable table is-fullwidth">
+        <thead>
+            <tr>
+                <th><abbr title="Travel Id">Id</abbr></th>
+                <th>Start timestamp</th>
+                <th><abbr title="Travel time">Period</abbr></th>
+                <th><abbr title="Travel cost">Cost</abbr></th>
+                <th><abbr title="Bike id">B_id</abbr></th>
+                <th><abbr title="User id">U_id</abbr></th>
+                <th><abbr title="Start GPS latitude">Start lat</abbr></th>
+                <th><abbr title="Start GPS longitude">Start long</abbr></th>
+                <th><abbr title="Destination GPS latitude">End lat</abbr></th>
+                <th><abbr title="Destionation GPS longitude">End long</abbr></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th><abbr title="Travel Id">Id</abbr></th>
+                <th>Start timestamp</th>
+                <th><abbr title="Travel time">Period</abbr></th>
+                <th><abbr title="Travel cost">Cost</abbr></th>
+                <th><abbr title="Bike id">B_id</abbr></th>
+                <th><abbr title="User id">U_id</abbr></th>
+                <th><abbr title="Start GPS latitude">Start lat</abbr></th>
+                <th><abbr title="Start GPS longitude">Start long</abbr></th>
+                <th><abbr title="Destination GPS latitude">End lat</abbr></th>
+                <th><abbr title="Destionation GPS longitude">End long</abbr></th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for travel in travels %}
+                <tr>
+                    <th>{{ travel['travelid'] }}</th>
+                    <td>{{ travel['date_start'] }}</td>
+                    <td>{{ travel['travel_time'] }}</td>
+                    <td>{{ travel['price'] }}</td>
+                    <td>{{ travel['bikeid'] }}</td>
+                    <td>{{ travel['userid'] }}</td>
+                    <td>{{ travel['gps_lat_start'] }}</td>
+                    <td>{{ travel['gps_lon_start'] }}</td>
+                    <td>{{ travel['gps_lat_end'] }}</td>
+                    <td>{{ travel['gps_lon_end'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

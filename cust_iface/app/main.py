@@ -59,4 +59,5 @@ def travels():
     Returns:
         [type]: [description]
     """
-    return render_template('travels.html')
+    travel_info = current_user.get_travel_info()
+    return render_template('travels.html', travels=travel_info)

@@ -213,8 +213,8 @@ class Customer(UserMixin):
             headers=headers
             )
         if req.status_code == 200:
-            self.balance=balance
-            self.payment=payment
+            self.balance = balance
+            self.payment = payment
             customer_info = req.json()['data']
             customer_info['status_code'] = req.status_code
             pprint(customer_info)
@@ -223,3 +223,27 @@ class Customer(UserMixin):
         error_obj = req.json()['errors']
         error_obj['status_code'] = req.status_code
         return error_obj
+
+    def get_travel_info(self):
+        """Get customers travelinfo.
+
+        Args:
+            None
+        Returns:
+            list(dict): travel_info
+        """
+        config = self.get_config(self.CONFIG_FILE)
+        travel_info_url = config['BASE_URL'] + f'/v1/travel/customer/{self.id}?apiKey=' + config['API_KEY']
+        headers = {
+            'x-access-token': self.token,
+        }
+        req = requests.get(
+            travel_info_url,
+            headers=headers
+            )
+        
+        response = req.json()
+        print(response)
+        travel_info = response['data']
+
+        return travel_info
