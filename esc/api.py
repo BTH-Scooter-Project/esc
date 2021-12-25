@@ -55,7 +55,7 @@ class Api:
         pprint(req_json)
 
     def rent_bike_without_token(self, bike_id):
-        rent_url = self.config['BASE_URL'] + f'/v1/travel/simulation?apiKey=' + self.config['API_KEY']
+        rent_url = self.config['BASE_URL'] + '/v1/travel/simulation?apiKey=' + self.config['API_KEY']
         rent_obj = {
             'customerid': f'{bike_id}',
             'bikeid': f'{bike_id}',

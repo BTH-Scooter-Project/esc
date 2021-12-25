@@ -1,8 +1,7 @@
 # init.py
 
-import traceback
 from flask import Flask
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager
 from .models import Customer
 from .auth import auth as auth_blueprint  # blueprint for auth routes in our app
 from .main import main as main_blueprint  # blueprint for non-auth parts of app

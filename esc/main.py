@@ -6,7 +6,7 @@ from time import time, sleep
 from esc import ESCEmulator
 from pprint import pprint
 from api import Api
-from colorama import Fore, Back, Style
+from colorama import Fore, Back
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.

@@ -86,7 +86,7 @@ class Customer(UserMixin):
             print(customer.get_id())
             # pprint(login_obj)
             return login_obj
-        
+
         error_obj = req.json()['errors']
         error_obj['status_code'] = req.status_code
         if not hasattr(error_obj, 'message'):
@@ -111,7 +111,7 @@ class Customer(UserMixin):
                 _id=session['id'],
                 token=session['token'],
                 email=session['email']
-                )
+            )
         return None
 
     def get_customer_info(self):
@@ -131,8 +131,8 @@ class Customer(UserMixin):
         req = requests.get(
             customer_info_url,
             headers=headers
-            )
-        
+        )
+
         response = req.json()
         print(response)
         customer_info = response['data']
@@ -173,7 +173,7 @@ class Customer(UserMixin):
         req = requests.post(
             create_customer_url,
             data=body_obj
-            )
+        )
         if req.status_code == 201:
             customer_info = req.json()['data']
             customer_info['email'] = email
@@ -181,7 +181,7 @@ class Customer(UserMixin):
             customer_info['status_code'] = req.status_code
             pprint(customer_info)
             return customer_info
-        
+
         error_obj = req.json()['errors']
         error_obj['status_code'] = req.status_code
         return error_obj
@@ -211,7 +211,7 @@ class Customer(UserMixin):
             update_url,
             data=body_obj,
             headers=headers
-            )
+        )
         if req.status_code == 200:
             self.balance = balance
             self.payment = payment
@@ -219,7 +219,7 @@ class Customer(UserMixin):
             customer_info['status_code'] = req.status_code
             pprint(customer_info)
             return customer_info
-        
+
         error_obj = req.json()['errors']
         error_obj['status_code'] = req.status_code
         return error_obj
@@ -240,8 +240,8 @@ class Customer(UserMixin):
         req = requests.get(
             travel_info_url,
             headers=headers
-            )
-        
+        )
+
         response = req.json()
         print(response)
         travel_info = response['data']

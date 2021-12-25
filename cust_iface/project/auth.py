@@ -5,7 +5,7 @@ import random
 import string
 import requests
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import login_user, logout_user, login_required
 from .models import Customer
 from markupsafe import escape
 from oauthlib.oauth2 import WebApplicationClient
@@ -33,7 +33,7 @@ def login():
     Returns:
         [type]: [description]
     """
-    
+
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
@@ -63,7 +63,7 @@ def login_post():
     response = Customer.login(
         email=credentials['email'],
         password=credentials['password']
-        )
+    )
 
     # check if customer actually exists
     if response['status_code'] != 200:
@@ -108,7 +108,7 @@ def signup_post():
         firstname=escape(request.form.get('firstname')),
         lastname=escape(request.form.get('lastname')),
         city_id=2
-        )
+    )
 
     # if a customer is found, we want to redirect back to signup page so customer can try again
     if response['status_code'] != 201:
@@ -194,7 +194,7 @@ def callback():
     )
 
     customer = Customer.login(email=email, unique_id=unique_id)
-    
+
     # Begin user session by logging the user in
     login_user(customer)
 

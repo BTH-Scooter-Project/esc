@@ -2,15 +2,13 @@
     esc.py
     Electric scooter (esc) emulator
 """
-import json
 
 import requests
-from math import radians, cos, sin, asin, atan2, sqrt, pi, degrees
+from math import radians, cos, sin, asin, atan2, sqrt, degrees
 from time import time
 from random import randrange, uniform
 from api import Api
-from pprint import pprint
-from colorama import Fore, Back, Style
+# from colorama import Fore, Back
 
 travel_points = 5
 
@@ -204,14 +202,16 @@ class ESCEmulator:
         )
         # if destination_reached or self.esc_state['battery_level'] == 0:
         #     log_obj['canceled'] = True
+        """ Uncomment if needed for indicating battery level by colour
         battery_percentage = self.esc_state['battery_level'] / self.esc_properties['battery_capacity']
         text_color_after = Fore.RESET + Back.RESET
-        text_color = Fore.BLACK + Back.GREEN
+         text_color = Fore.BLACK + Back.GREEN
         match battery_percentage:
             case battery_percentage if battery_percentage < 0.7:
                 text_color = Fore.BLACK + Back.YELLOW
             case battery_percentage if battery_percentage < 0.1:
                 text_color = Fore.BLACK + Back.RED
+        """
         # print(text_color + json.dumps(log_obj) + text_color_after)
         log_url = self.api.config['BASE_URL'] + f'/v1/travel/bike/{self.bike_id}?apiKey=' + self.api.config['API_KEY']
         headers_obj = {

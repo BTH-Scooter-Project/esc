@@ -41,7 +41,7 @@ def login_post():
         balance=escape(request.form.get('balance')),
         payment=escape(request.form.get('payment')),
         password=escape(request.form.get('password'))
-        )
+    )
 
     print(response)
 
@@ -65,19 +65,14 @@ def travels():
 
 @main.errorhandler(404)
 def page_not_found(e):
-    """
-    Handler for page not found 404
-    """
-    #pylint: disable=unused-argument
+    """Handler for page not found 404."""
+    # pylint: disable=unused-argument
     return "Flask 404 here, but not the page you requested."
 
 
 @main.errorhandler(500)
 def internal_server_error(e):
-    """
-    Handler for internal server error 500
-    """
-    #pylint: disable=unused-argument,import-outside-toplevel
+    """Handler for internal server error 500."""
+    # pylint: disable=unused-argument,import-outside-toplevel
     import traceback
     return "<p>Flask 500<pre>" + traceback.format_exc()
-
