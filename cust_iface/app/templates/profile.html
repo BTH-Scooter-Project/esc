@@ -10,92 +10,92 @@
 {%      set payment = "selected" %}
 {% endif %}
 <div class="column is-4 is-offset-4">
-    <h1 class="title">
-        Welcome, {{ current_user.firstname}} {{ current_user.lastname }}!
-    </h1>
+    <h1 class="title">Customer profile</h1>
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% if messages[1] %}
-        <div class="notification is-danger">
-        {% else -%}
-        <div class="notification is-success">
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% if messages[1] %}
+            <div class="notification is-danger">
+            {% else -%}
+            <div class="notification is-success">
+            {% endif %}
+                {{ messages[0] }}
+                <br/>
+                {{ messages[1] }}
+            </div>
         {% endif %}
-            {{ messages[0] }}
-            <br/>
-            {{ messages[1] }}
-        </div>
-    {% endif %}
-    {% endwith %}
-    <form method="POST" action="/profile">
+        {% endwith %}
+        <form method="POST" action="/profile">
 
-        <div class="field">
-            <div class="control has-icons-right">
-                <input readonly class="input is-large" type="text" name="firstname" placeholder="First Name"
-                    autofocus="" value="{{ current_user.firstname }}">
-            </div>
-        </div>
-
-        <div class="field">
-            <div class="control has-icons-right">
-                <input readonly class="input is-large" type="text" name="lastname" placeholder="Last Name"
-                    autofocus="" value="{{ current_user.lastname }}">
-            </div>
-        </div>
-
-        <div class="field is-horizontal">
-            <div class="field-label is-large">
-                <label class="label">Balance</label>
-            </div>
-            <div class="field-body">
-                <div class="field">
-                    <p class="control">
-                        <input class="input is-large" type="text" name="balance" placeholder="Balance"
-                            autofocus="" value="{{ current_user.balance }}">
-                    </p>
+            <div class="field">
+                <div class="control has-icons-right">
+                    <input readonly class="input is-large is-hovered" type="text" placeholder="First Name"
+                        value="{{ current_user.firstname }}" disabled>
                 </div>
             </div>
-        </div>
 
-        <div class="field is-horizontal">
-            <div class="field-label is-large">
-                <label class="label">Payment</label>
-            </div>
-            <div class="field-body">
-                <div class="field">
-                    <p class="control" style="text-align: left">
-                        <select class="select is-large" name="payment" id="payment">
-                            <option class="option is-large" value="prepaid" {{ prepaid }}>Prepaid</option>
-                            <option class="option is-large" value="card" {{ card }}>Credit card</option>
-                        </select>
-                    </p>
+            <div class="field">
+                <div class="control has-icons-right">
+                    <input readonly class="input is-large is-hovered" type="text" placeholder="Last Name"
+                        value="{{ current_user.lastname }}" disabled>
                 </div>
             </div>
-        </div>
 
-        <div class="field">
-            <div class="control has-icons-left has-icons-right">
-                <input readonly class="input is-large" type="email" name="email" placeholder="Email"
-                    autofocus="" value="{{ current_user.email }}">
-                <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                </span>
+            <div class="field is-horizontal">
+                <div class="field-label is-large">
+                    <label class="label">Balance</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control">
+                            <input class="input is-large" type="text" name="balance" placeholder="Balance"
+                                autofocus="" value="{{ current_user.balance }}">
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="field">
-            <div class="control has-icons-left has-icons-right">
-                <input class="input is-large" type="password" name="password" placeholder="Password">
-                <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                </span>
+            <div class="field is-horizontal">
+                <div class="field-label is-large">
+                    <label class="label">Payment</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control" style="text-align: left">
+                            <select class="select is-large" name="payment" id="payment">
+                                <option class="option is-large" value="prepaid" {{ prepaid }}>Prepaid</option>
+                                <option class="option is-large" value="card" {{ card }}>Credit card</option>
+                            </select>
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="field">
-            <button class="button is-block is-info is-large is-fullwidth">Save changes</button>
-        </div>
+            <div class="field">
+                <div class="control has-icons-left has-icons-right">
+                    <input readonly class="input is-large" type="email"
+                        value="{{ current_user.email }}" disabled>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </div>
+            </div>
 
-    </form>
+            <div class="field">
+                <div class="control has-icons-left has-icons-right">
+                    <input class="input is-large" type="password" name="password" placeholder="Password">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <button class="button is-block is-info is-large is-fullwidth">Save changes</button>
+            </div>
+
+        </form>
+    </div>
 </div>
 {% endblock %}
