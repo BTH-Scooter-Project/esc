@@ -86,22 +86,6 @@ def main():
         generation_time = max(generation_time, time() - start_generation_time)
         sleep_interval = data['interval'] / (len(bikes) + 1)
         (bikes_to_be_removed, accum_processing_time) = simulate_bike_rides(bikes, accum_processing_time, sleep_interval)
-        """ for bike in bikes:
-            start_time = time()
-            res = bike.ride_bike()
-            passed_time = time() - start_time
-            if res['finished'] or res['canceled']:
-                print('Quitting esc program!')
-                if res['destination_reached']:
-                    print('... and destination reached')
-                bikes_to_be_removed.append(bike)
-            sleep_time = (sleep_interval - passed_time) if passed_time < sleep_interval else 0
-            accum_processing_time = accum_processing_time + max(passed_time, sleep_interval)
-            lag_time = 0
-            if passed_time > sleep_interval:
-                lag_time = passed_time - sleep_interval
-                print(text_color + f'(ESC program) System lagging: {lag_time}' + text_color_after)
-            sleep(sleep_time) """
         for bike in bikes_to_be_removed:
             bikes.remove(bike)
         bikes_to_be_removed = []
