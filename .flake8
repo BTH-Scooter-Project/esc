@@ -2,5 +2,5 @@
 ignore = E226,E302,E41
 exclude = tests/*, .git, __pycache__, docs/source/conf.py, venv, old, build, dist, cust_iface/auth/*
 max-line-length = 120
-max-complexity = 12
+# max-complexity = 12
 docstring-convention = numpy

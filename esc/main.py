@@ -2,12 +2,12 @@
 """Main file with Handler class."""
 
 import json
-import requests
 from time import time, sleep
-from esc import ESCEmulator
 from pprint import pprint
-from api import Api
+import requests
 from colorama import Fore, Back
+from api import Api
+from esc import ESCEmulator
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
@@ -15,6 +15,10 @@ from colorama import Fore, Back
 start_bike_id = 201
 CONFIG_FILE = 'config/config.json'
 simulation_acceleration = 10
+text_color_after = Fore.RESET + Back.RESET
+text_green = Fore.BLACK + Back.GREEN
+text_color = Fore.BLACK + Back.YELLOW
+main_text_color = Fore.BLACK + Back.RED
 
 
 def get_config(file):
@@ -31,6 +35,27 @@ def get_system_mode(config_file):
     pprint(res_data)
     return res_data
 
+def simulate_bike_rides(bikes, accum_processing_time, sleep_interval):
+    """Simulate bike rides."""
+    bikes_to_be_removed = []
+
+    for bike in bikes:
+        start_time = time()
+        res = bike.ride_bike()
+        passed_time = time() - start_time
+        if res['finished'] or res['canceled']:
+            print('Quitting esc program!')
+            if res['destination_reached']:
+                print('... and destination reached')
+            bikes_to_be_removed.append(bike)
+        sleep_time = (sleep_interval - passed_time) if passed_time < sleep_interval else 0
+        accum_processing_time = accum_processing_time + max(passed_time, sleep_interval)
+        lag_time = 0
+        if passed_time > sleep_interval:
+            lag_time = passed_time - sleep_interval
+            print(text_color + f'(ESC program) System lagging: {lag_time}' + text_color_after)
+        sleep(sleep_time)
+        return (bikes_to_be_removed, accum_processing_time)
 
 def main():
     """Do main loop.
@@ -51,13 +76,7 @@ def main():
     accum_processing_time = 0
     total_lag = 0
     generation_time = 0
-    res = None
     bikes = []
-    bikes_to_be_removed = []
-    text_color_after = Fore.RESET + Back.RESET
-    text_color = Fore.BLACK + Back.YELLOW
-    text_green = Fore.BLACK + Back.GREEN
-    main_text_color = Fore.BLACK + Back.RED
     show_stat = True
     while True:
         rented_bike_ids = api.get_rented_bikes()
@@ -66,7 +85,7 @@ def main():
             bikes.append(ESCEmulator(bike_id, data['interval'] * simulation_acceleration))
         generation_time = max(generation_time, time() - start_generation_time)
         sleep_interval = data['interval'] / (len(bikes) + 1)
-        for bike in bikes:
+        """ for bike in bikes:
             start_time = time()
             res = bike.ride_bike()
             passed_time = time() - start_time
@@ -81,7 +100,8 @@ def main():
             if passed_time > sleep_interval:
                 lag_time = passed_time - sleep_interval
                 print(text_color + f'(ESC program) System lagging: {lag_time}' + text_color_after)
-            sleep(sleep_time)
+            sleep(sleep_time) """
+        (bikes_to_be_removed, accum_processing_time) = simulate_bike_rides(bikes, accum_processing_time, sleep_interval)
         for bike in bikes_to_be_removed:
             bikes.remove(bike)
         bikes_to_be_removed = []
