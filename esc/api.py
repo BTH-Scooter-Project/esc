@@ -1,13 +1,17 @@
+"""Main module for the API communication."""
+
 import json
 from pprint import pprint
 import requests
 
 
 class Api:
-    """Define api class for working with api"""
+    """Define api class for working with api."""
+
     CONFIG_FILE = 'config/config.json'
 
     def __init__(self, bike_id=-1):
+        """Init setting from config-file."""
         self.config = self.get_config(self.CONFIG_FILE)
         self.token = None
         self.rented_bike_ids = []

@@ -1,5 +1,7 @@
 bcrypt
 colorama
+flake8
+flake8-docstrings
 flask
 flask-login
 gunicorn
