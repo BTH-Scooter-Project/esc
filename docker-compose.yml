@@ -27,6 +27,7 @@ services:
             - "127.0.0.1:5000:5000"
         expose:
             - "5000"
+            - "8000"
         networks:
             - pattern_net
         links:

@@ -199,7 +199,7 @@ def callback():
     pprint(userinfo_response.json())
     # Create a user with the information provided by Google
     password = get_random_string(10)  # generate random password
-    Customer.register(
+    res = Customer.register(
         unique_id=unique_id,
         email=email,
         password=password,
@@ -207,6 +207,8 @@ def callback():
         lastname=lastname,
         city_id=2
     )
+
+    print(res)
 
     customer = Customer.login(email=email, unique_id=unique_id)
 

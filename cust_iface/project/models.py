@@ -78,9 +78,11 @@ class Customer(UserMixin):
             '/v1/auth/customer/login?apiKey=' + config['API_KEY']
         login_obj = {
             'email': email,
-            'password': password,
+            # 'password': password,
             'unique_id': unique_id
         }
+        if password is not None and password != '':
+            login_obj['password'] = password
         req = requests.post(
             login_url,
             data=login_obj
