@@ -66,10 +66,10 @@ def login_post():
     -------
         [type]: [description]
     """
-    credentials = dict(
-        email=escape(request.form.get('email')),
-        password=escape(request.form.get('password'))
-    )
+    credentials = {
+        "email": escape(request.form.get('email')),
+        "password": escape(request.form.get('password'))
+    }
 
     response = Customer.login(
         email=credentials['email'],
@@ -110,11 +110,11 @@ def signup_post():
     -------
         [type]: [description]
     """
-    customer = dict(
-        email=request.form.get('email'),
-        firstname=request.form.get('firstname'),
-        lastname=request.form.get('lastname'),
-    )
+    customer = {
+        "email": request.form.get('email'),
+        "firstname": request.form.get('firstname'),
+        "lastname": request.form.get('lastname'),
+    }
 
     # if this returns a customer, then the email already exists in database
     response = Customer.register(

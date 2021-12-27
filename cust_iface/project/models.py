@@ -174,13 +174,13 @@ class Customer(UserMixin):
         config = Customer.get_config(Customer.CONFIG_FILE)
         register_customer_url = config['BASE_URL'] + '/v1/auth/customer?apiKey=' + config['API_KEY']
 
-        body_obj = dict(
-            email=email,
-            password=password,
-            firstname=firstname,
-            lastname=lastname,
-            cityid=city_id
-        )
+        body_obj = {
+            "email": email,
+            "password": password,
+            "firstname": firstname,
+            "lastname": lastname,
+            "cityid": city_id
+        }
         if unique_id != -1:
             body_obj['unique_id'] = unique_id
         req = requests.post(
@@ -222,12 +222,12 @@ class Customer(UserMixin):
         """
         config = Customer.get_config(Customer.CONFIG_FILE)
         update_url = config['BASE_URL'] + '/v1/auth/customer?apiKey=' + config['API_KEY']
-        body_obj = dict(
-            email=email,
-            password=password,
-            balance=balance,
-            payment=payment,
-        )
+        body_obj = {
+            "email": email,
+            "password": password,
+            "balance": balance,
+            "payment": payment,
+        }
         headers = {
             'x-access-token': self.token,
         }

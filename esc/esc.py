@@ -35,40 +35,40 @@ class ESCEmulator:
     def fetch_state(self, _id, interval):
         """Fetch bike state."""
         self.api = Api(_id)
-        self.esc_properties = dict(
-            id=_id,
-            battery_capacity=self.api.bike_state['battery_capacity'],  # in seconds
-            max_speed=self.api.bike_state['max_speed']  # max speed in km/h
-        )
-        self.esc_state = dict(
-            speed=0,  # current speed in km/h
-            rent_time=0.,  # total rent time
-            start_timestamp=time(),
-            battery_level=self.api.bike_state['battery_level'],  # battery level in seconds
-            current_position=[  # gps coordinates of the current position
+        self.esc_properties = {
+            "id": _id,
+            "battery_capacity": self.api.bike_state['battery_capacity'],  # in seconds
+            "max_speed": self.api.bike_state['max_speed']  # max speed in km/h
+        }
+        self.esc_state = {
+            "speed": 0,  # current speed in km/h
+            "rent_time": 0.,  # total rent time
+            "start_timestamp": time(),
+            "battery_level": self.api.bike_state['battery_level'],  # battery level in seconds
+            "current_position": [  # gps coordinates of the current position
                 self.api.bike_state['gps_lat'],
                 self.api.bike_state['gps_lon']
             ],
-            locked=False  # Boolean
-        )
+            "locked": False  # Boolean
+        }
         destination = [  # gps coordinates of the destination (finish) position
             self.api.bike_state['dest_lat'],
             self.api.bike_state['dest_lon']
         ]
-        self.system_properties = dict(
-            destination=destination,  # gps coordinates of the destination (finish) position
-            sleep_time=interval,  # in seconds
-            travel_points=travel_points,  # number of travel gps-coordinates along the path
-            allowed_area=[
+        self.system_properties = {
+            "destination": destination,  # gps coordinates of the destination (finish) position
+            "sleep_time": interval,  # in seconds
+            "travel_points": travel_points,  # number of travel gps-coordinates along the path
+            "allowed_area": [
                 [self.api.bike_state['gps_left_lat'], self.api.bike_state['gps_left_lon']],
                 [self.api.bike_state['gps_right_lat'], self.api.bike_state['gps_right_lon']]
             ],
-            path=self.generate_random_path(
+            "path": self.generate_random_path(
                 self.esc_state['current_position'],
                 destination,
                 travel_points
             )
-        )
+        }
 
         # self.system_properties['path'].append(destination)
         self.system_properties['path_distances'] = self.calc_path_distances()
@@ -173,14 +173,14 @@ class ESCEmulator:
 
     def report_log(self, destination_reached, canceled=False):
         """Send log to the backend/API."""
-        log_obj = dict(
-            battery_level=self.esc_state['battery_level'],
-            gps_lat=self.esc_state['current_position'][0],
-            gps_lon=self.esc_state['current_position'][1],
-            rent_time=self.esc_state['rent_time'],
-            canceled='true' if canceled or destination_reached or self.esc_state['battery_level'] == 0 else 'false',
-            destination_reached='true' if destination_reached else 'false'
-        )
+        log_obj = {
+            "battery_level": self.esc_state['battery_level'],
+            "gps_lat": self.esc_state['current_position'][0],
+            "gps_lon": self.esc_state['current_position'][1],
+            "rent_time": self.esc_state['rent_time'],
+            "canceled": 'true' if canceled or destination_reached or self.esc_state['battery_level'] == 0 else 'false',
+            "destination_reached": 'true' if destination_reached else 'false'
+        }
         # if destination_reached or self.esc_state['battery_level'] == 0:
         #     log_obj['canceled'] = True
         """ Uncomment if needed for indicating battery level by colour
@@ -271,9 +271,9 @@ class ESCEmulator:
         if destination_reached:
             self.esc_state['current_position'] = self.system_properties['destination']
 
-        ret = dict(
-            finished=finished,
-            destination_reached=destination_reached,
-            canceled=self.report_log(destination_reached)
-        )
+        ret = {
+            "finished": finished,
+            "destination_reached": destination_reached,
+            "canceled": self.report_log(destination_reached)
+        }
         return ret
