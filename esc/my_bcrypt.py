@@ -1,3 +1,5 @@
+"""Generate bcrypt hash for password."""
+
 import bcrypt
 import sys
 

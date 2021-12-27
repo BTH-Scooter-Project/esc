@@ -11,7 +11,8 @@ from flask import session
 class Customer(UserMixin):
     """Customer class.
 
-    Args:
+    Args
+    ----
         UserMixin ([type]): [description]
         db ([type]): [description]
     """
@@ -49,9 +50,12 @@ class Customer(UserMixin):
         """Read config file.
 
         This file should be protected (attached at runtime by docker-compose)
-        Args:
+
+        Args
+        ----
             file (string): File path relative to the current position
-        Returns:
+        Returns
+        -------
             dict: Dictionary containing config
         """
         with open(file, mode='r', encoding="utf8") as file_handle:
@@ -61,10 +65,12 @@ class Customer(UserMixin):
     def login(email, password=None, unique_id=None):
         """Login request implementation.
 
-        Args:
+        Args
+        ----
             email (str): email address
             password (str): plain text password
-        Returns:
+        Returns
+        -------
             (int, str): Touple: customerId and JWT token
         """
         config = Customer.get_config(Customer.CONFIG_FILE)
@@ -100,10 +106,12 @@ class Customer(UserMixin):
     def get(customer_id):
         """Get customer by customer id and jwt.
 
-        Args:
+        Args
+        ----
             customer_id (int): Customer id
             jwt (str): JSON Web Token
-        Returns:
+        Returns
+        -------
             Customer: Either customer object or None if not found
         """
         if session['id'] == customer_id:
@@ -115,11 +123,14 @@ class Customer(UserMixin):
         return None
 
     def get_customer_info(self):
-        """Get customer info.
+        """Get info about the customer.
 
-        Args:
+        Args
+        ----
             customer_id (int)
-        Returns:
+
+        Returns
+        -------
             dict: customer_info
         """
         # customer_info = self.get(self.id, self.token)
@@ -149,13 +160,15 @@ class Customer(UserMixin):
     def register(email, password, firstname, lastname, city_id, unique_id=-1):
         """Register new customer.
 
-        Args:
+        Args
+        ----
             email (str): Email address
             password (str): Plaintext password
             firstname (str): Firstname
             lastname (str): Lastname
             city_id (int): City id matching id in the city table
-        Returns:
+        Returns
+        -------
             None
         """
         config = Customer.get_config(Customer.CONFIG_FILE)
@@ -187,13 +200,16 @@ class Customer(UserMixin):
         return error_obj
 
     def update(self, email, balance, payment, password):
-        """Update customer.
+        """Fetch and update customer info.
 
-        Args:
+        Args
+        ----
             payment (str): prepaid or card
             balance (int): Set new balance
             password (str): Password (if empty = no change)
-        Returns:
+
+        Returns
+        -------
             None
         """
         config = Customer.get_config(Customer.CONFIG_FILE)
@@ -227,9 +243,11 @@ class Customer(UserMixin):
     def get_travel_info(self):
         """Get customers travelinfo.
 
-        Args:
+        Args
+        ----
             None
-        Returns:
+        Returns
+        -------
             list(dict): travel_info
         """
         config = self.get_config(self.CONFIG_FILE)

@@ -1,4 +1,4 @@
-# auth.py
+"""auth."""
 
 import json
 import random
@@ -40,10 +40,10 @@ client = WebApplicationClient(GOOGLE_CLIENT_ID)
 def login():
     """Login route.
 
-    Returns:
+    Returns
+    -------
         [type]: [description]
     """
-
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
@@ -62,7 +62,8 @@ def login():
 def login_post():
     """/login route (POST).
 
-    Returns:
+    Returns
+    -------
         [type]: [description]
     """
     credentials = dict(
@@ -92,7 +93,8 @@ def login_post():
 def signup():
     """Route signup (render template).
 
-    Returns:
+    Returns
+    -------
         [type]: [description]
     """
     return render_template('signup.html')
@@ -102,7 +104,8 @@ def signup():
 def signup_post():
     """Route signup (POST).
 
-    Returns:
+    Returns
+    -------
         [type]: [description]
     """
     customer = dict(
@@ -134,7 +137,8 @@ def signup_post():
 def logout():
     """Logout route.
 
-    Returns:
+    Returns
+    -------
         [type]: [description]
     """
     logout_user()
@@ -146,7 +150,8 @@ def logout():
 def callback():
     """Google OAuth2 callback.
 
-    Returns:
+    Returns
+    -------
         [type]: [description]
     """
     # Get authorization code Google sent back to you

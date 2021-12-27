@@ -1,4 +1,4 @@
-# init.py
+"""__init__."""
 
 from flask import Flask
 from flask_login import LoginManager
@@ -25,7 +25,9 @@ def unauthorized():
 @login_manager.user_loader
 def load_user(user_id):
     """Check whether customer exists.
-    Returns:
+
+    Returns
+    -------
         Customer: Customer-object
     """
     # since the customer_id is just the primary key of our customer table,

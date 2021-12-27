@@ -1,4 +1,4 @@
-# main.py
+"""Main routes."""
 
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 from flask_login import login_required, current_user

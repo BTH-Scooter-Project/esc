@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 """Main file with Handler class."""
+
 from api import Api
 
 bike_id = 7
 
 
 def main():
+    """Run program."""
     api = Api()
     api.rent_bike(bike_id)
     api.get_rented_bikes()

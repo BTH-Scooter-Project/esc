@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Generate stations within allowed area boundaries"""
+"""Generate stations within allowed area boundaries."""
+
 from random import choices, uniform, randint, randrange
 import json
 
@@ -15,10 +16,12 @@ allowed_area = [[59.351495, 18.023087], [59.305341, 18.168215]]
 
 
 def get_config(file):
+    """Get config."""
     with open(file, 'r') as file_handle:
         return json.load(file_handle)
 
 def generate_random_gps(start, end):
+    """Generate random gps."""
     start_lat = start[0]
     end_lat = end[0]
     start_long = start[1]
@@ -30,7 +33,7 @@ def generate_random_gps(start, end):
 
 
 def generate_random_stations(start, end, nr_of_stations=100):
-    # Generate nr_of_stations gps-coordinates within an area
+    """Generate nr_of_stations gps-coordinates within an area."""
     stations = []
 
     for i in range(nr_of_stations):
@@ -39,15 +42,18 @@ def generate_random_stations(start, end, nr_of_stations=100):
 
 
 def pick_rnd_station(stations):
+    """Pick random station."""
     station_index = randint(0, len(stations)-1)
     return station_index, stations[station_index]
 
 
 def generate_random_choice(population, distribution):
+    """Generate random choice from given distribution."""
     return choices(population, distribution)[0]
 
 
 def generate_insert_bikes_statements(start, end, stations, nr_of_bikes=1000):
+    """Generate SQL insert bikes statements."""
     insert_command = """INSERT INTO "bike" ("bikeid",
                                             "name",
                                             "image",
@@ -87,6 +93,7 @@ def generate_insert_bikes_statements(start, end, stations, nr_of_bikes=1000):
 
 
 def generate_insert_stations_statements(stations):
+    """Generate SQL insert stations statements."""
     insert_command = 'INSERT INTO "station" ("stationid","type","address","cityid","gps_lat","gps_lon") VALUES'
     with open("stations.sql", 'w', encoding='utf-8') as f:
         f.write(insert_command)
@@ -101,6 +108,7 @@ def generate_insert_stations_statements(stations):
 
 
 def generate_insert_customer_statements(nr_of_customers):
+    """Generate SQL insert customers statements."""
     insert_command = 'INSERT INTO "customer" ("userid","firstname","lastname","password","email",' +\
         '"cityid","payment","balance") VALUES'
     my_choices = ['card', 'prepaid']  # True is station, False is random gps from the allowed area
@@ -125,6 +133,7 @@ def generate_insert_customer_statements(nr_of_customers):
 
 
 def main():
+    """Run program."""
     stations = generate_random_stations(allowed_area[0], allowed_area[1], nr_of_stations)
     generate_insert_stations_statements(stations)
     generate_insert_bikes_statements(allowed_area[0], allowed_area[1], stations, nr_of_bikes)

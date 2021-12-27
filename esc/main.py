@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Main file with Handler class."""
+
 import json
 import requests
 from time import time, sleep
@@ -17,11 +18,13 @@ simulation_acceleration = 10
 
 
 def get_config(file):
+    """Load config settings."""
     with open(file, 'r') as file_handle:
         return json.load(file_handle)
 
 
 def get_system_mode(config_file):
+    """Fetch system mode (simulation or not)."""
     config = get_config(config_file)
     system_mode_url = config['BASE_URL'] + '/v1/bike/mode?apiKey=' + config['API_KEY']
     res_data = requests.get(system_mode_url).json()['data']
@@ -30,11 +33,11 @@ def get_system_mode(config_file):
 
 
 def main():
-    """
-    Do main loop.
+    """Do main loop.
+
     Returns
     -------
-    None.
+        None
     """
     data = get_system_mode(CONFIG_FILE)
     api = Api()

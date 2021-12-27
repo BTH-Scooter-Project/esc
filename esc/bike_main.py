@@ -10,11 +10,11 @@ from esc import ESCEmulator
 
 
 def main():
-    """
-    Do main loop.
+    """Do main loop.
+
     Returns
     -------
-    None.
+        None.
     """
     args = sys.argv[1:]
     print(f'args: {args}')
