@@ -4,8 +4,7 @@
 import json
 import requests
 from pprint import pprint
-from flask_login import UserMixin
-from flask import session
+from flask_login import UserMixin, current_user
 
 
 class Customer(UserMixin):
@@ -31,8 +30,10 @@ class Customer(UserMixin):
     @classmethod
     def set_customer(cls, self):
         """Add customer to the class."""
+        cls.customers = []
         cls.customers.append(self)
-        print('cls.customers.id: ' + cls.customers[0].get_id())
+        print('cls.customers.id(cls.set_customer): ' + cls.customers[0].get_id())
+        print("len(cls.customers)", len(cls.customers))
 
     def get_id(self):
         """Get customer id."""
@@ -41,7 +42,7 @@ class Customer(UserMixin):
     @classmethod
     def get_customer_by_id(cls, user_id):
         """Get customer by id."""
-        if len(cls.customers) > 0 and cls.customers[0].get_id() == user_id:
+        if cls.customers and cls.customers[0].get_id() == user_id:
             return cls.customers[0]
         return None
 
@@ -90,8 +91,8 @@ class Customer(UserMixin):
         if req.status_code == 200:
             login_obj = req.json()['data']
             login_obj['status_code'] = req.status_code
-            customer = Customer(login_obj['id'], login_obj['token'], email)
-            print(customer.get_id())
+            # customer = Customer(login_obj['id'], login_obj['token'], email)
+            print("customer_id(login)", login_obj['id'])
             # pprint(login_obj)
             return login_obj
 
@@ -116,12 +117,9 @@ class Customer(UserMixin):
         -------
             Customer: Either customer object or None if not found
         """
-        if session['id'] == customer_id:
-            return Customer(
-                _id=session['id'],
-                token=session['token'],
-                email=session['email']
-            )
+        # if customer_id is the same and customer object exists (customers list not empty)
+        if current_user.id == customer_id and not Customer.customers:
+            return Customer.customers[0]
         return None
 
     def get_customer_info(self):
@@ -147,7 +145,7 @@ class Customer(UserMixin):
         )
 
         response = req.json()
-        print(response)
+        print("get_customer_info: ", response)
         customer_info = response['data']
 
         self.firstname = customer_info['firstname']
@@ -174,7 +172,7 @@ class Customer(UserMixin):
             None
         """
         config = Customer.get_config(Customer.CONFIG_FILE)
-        create_customer_url = config['BASE_URL'] + '/v1/auth/customer?apiKey=' + config['API_KEY']
+        register_customer_url = config['BASE_URL'] + '/v1/auth/customer?apiKey=' + config['API_KEY']
 
         body_obj = dict(
             email=email,
@@ -184,9 +182,9 @@ class Customer(UserMixin):
             cityid=city_id
         )
         if unique_id != -1:
-            body_obj['id'] = unique_id
+            body_obj['unique_id'] = unique_id
         req = requests.post(
-            create_customer_url,
+            register_customer_url,
             data=body_obj
         )
         if req.status_code == 201:
@@ -197,6 +195,14 @@ class Customer(UserMixin):
             pprint(customer_info)
             return customer_info
 
+        if req.status_code == 200:
+            customer_info = req.json()['data']
+            customer_info['email'] = customer_info['user']
+            customer_info['status_code'] = req.status_code
+            pprint(customer_info)
+            return customer_info
+
+        print(req)
         error_obj = req.json()['errors']
         error_obj['status_code'] = req.status_code
         return error_obj

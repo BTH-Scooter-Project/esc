@@ -10,6 +10,6 @@ light on server resources, and fairly speedy.
 bind = "127.0.0.1:8000"
 certfile = "ssl/cert/esc_cert.pem"
 keyfile = "ssl/cert/esc_key.pem"
-workers = 2
-threads = 4
+workers = 1
+# threads = 4
 wsgi_app = "project:app"

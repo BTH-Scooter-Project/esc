@@ -32,7 +32,7 @@ def profile():
 
 @main.route('/profile', methods=['POST'])
 @login_required
-def login_post():
+def profile_post():
     """/profile route (POST).
 
     Returns

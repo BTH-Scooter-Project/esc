@@ -83,8 +83,10 @@ def login_post():
         return redirect(url_for('auth.login'))
 
     print(response)
-    customer = Customer(response['id'], response['token'], response['user'])
-    login_user(customer)
+    Customer(response['id'], response['token'], response['user'])
+    print("login_user (auth.route:/login")
+    # login_user(customer)
+    login_user(Customer.customers[0])
     # if the above check passes, then we know the customer has the right credentials
     return redirect(url_for('main.profile'))
 
@@ -208,12 +210,16 @@ def callback():
         city_id=2
     )
 
-    print(res)
+    print("res(register): ", res)
 
-    customer = Customer.login(email=email, unique_id=unique_id)
+    login_obj = Customer.login(email=email, unique_id=unique_id)
+
+    Customer(login_obj['id'], login_obj['token'], login_obj['user'])
 
     # Begin user session by logging the user in
-    login_user(customer)
+    print("login_user (auth.route:/login/callback")
+    # login_user(customer)
+    login_user(Customer.customers[0])
 
     # Send user back to homepage
     return redirect(url_for("main.profile"))
