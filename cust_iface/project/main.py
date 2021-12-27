@@ -11,7 +11,8 @@ main = Blueprint('main', __name__)
 def index():
     """Route index.
 
-    Returns:
+    Returns
+    -------
         html-string: rendered template page.
     """
     return render_template('index.html')
@@ -22,7 +23,8 @@ def index():
 def profile():
     """Route profile.
 
-    Returns:
+    Returns
+    -------
         [type]: [description]
     """
     return render_template('profile.html')
@@ -33,7 +35,8 @@ def profile():
 def login_post():
     """/profile route (POST).
 
-    Returns:
+    Returns
+    -------
         [type]: [description]
     """
     response = current_user.update(
@@ -54,9 +57,10 @@ def login_post():
 @main.route('/travels')
 @login_required
 def travels():
-    """Route travels.
+    """Route showing travels.
 
-    Returns:
+    Returns
+    -------
         [type]: [description]
     """
     travel_info = current_user.get_travel_info()
@@ -65,14 +69,14 @@ def travels():
 
 @main.errorhandler(404)
 def page_not_found(e):
-    """Handler for page not found 404."""
+    """Handle page (404) that is not found."""
     # pylint: disable=unused-argument
     return "Flask 404 here, but not the page you requested."
 
 
 @main.errorhandler(500)
 def internal_server_error(e):
-    """Handler for internal server error 500."""
+    """Handle internal server error 500."""
     # pylint: disable=unused-argument,import-outside-toplevel
     import traceback
     return "<p>Flask 500<pre>" + traceback.format_exc()
