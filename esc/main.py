@@ -55,7 +55,7 @@ def simulate_bike_rides(bikes, accum_processing_time, sleep_interval):
             lag_time = passed_time - sleep_interval
             print(text_color + f'(ESC program) System lagging: {lag_time}' + text_color_after)
         sleep(sleep_time)
-        return (bikes_to_be_removed, accum_processing_time)
+    return (bikes_to_be_removed, accum_processing_time)
 
 def main():
     """Do main loop.
@@ -85,6 +85,7 @@ def main():
             bikes.append(ESCEmulator(bike_id, data['interval'] * simulation_acceleration))
         generation_time = max(generation_time, time() - start_generation_time)
         sleep_interval = data['interval'] / (len(bikes) + 1)
+        (bikes_to_be_removed, accum_processing_time) = simulate_bike_rides(bikes, accum_processing_time, sleep_interval)
         """ for bike in bikes:
             start_time = time()
             res = bike.ride_bike()
@@ -101,7 +102,6 @@ def main():
                 lag_time = passed_time - sleep_interval
                 print(text_color + f'(ESC program) System lagging: {lag_time}' + text_color_after)
             sleep(sleep_time) """
-        (bikes_to_be_removed, accum_processing_time) = simulate_bike_rides(bikes, accum_processing_time, sleep_interval)
         for bike in bikes_to_be_removed:
             bikes.remove(bike)
         bikes_to_be_removed = []
@@ -116,6 +116,7 @@ def main():
             print(text_green + f'Rent time: {rent_time}' + text_color_after)
             print(text_green + f'Maximal esc generation time: {generation_time}' + text_color_after)
             print(main_text_color + f'Total system lagging: {total_lag}' + text_color_after)
+            print('Total simulation time:', time() - start_rent_time)
             total_lag = 0
             show_stat = False
 
