@@ -1,7 +1,7 @@
 """Main module for the API communication."""
 
 import json
-from pprint import pprint
+# from pprint import pprint
 import requests
 
 
@@ -42,8 +42,8 @@ class Api:
         )
         login_json = req.json()['data']
         self.token = login_json['token']
-        print("login msg")
-        pprint(login_json)
+        # print("login msg")
+        # pprint(login_json)
 
     def rent_bike(self, bike_id):
         """Rent bike."""
@@ -51,15 +51,16 @@ class Api:
         headers_obj = {
             'x-access-token': self.token,
         }
-        req = requests.post(
+        # req =
+        requests.post(
             rent_url,
             headers=headers_obj
         )
-        req_json = req.json()
+        # req_json = req.json()
         # bike_json = req.json()['data']
         # pprint(bike_json)
-        print("bike state:")
-        pprint(req_json)
+        # print("bike state:")
+        # pprint(req_json)
 
     def rent_bike_without_token(self, bike_id):
         """Rent bike without token (simulator)."""
@@ -68,22 +69,23 @@ class Api:
             'customerid': f'{bike_id}',
             'bikeid': f'{bike_id}',
         }
-        req = requests.post(
+        # req =
+        requests.post(
             rent_url,
             data=rent_obj
         )
-        req_json = req.json()
+        # req_json = req.json()
         # bike_json = req.json()['data']
         # pprint(bike_json)
-        print("bike state:")
-        pprint(req_json)
+        # print("bike state:")
+        # pprint(req_json)
 
     def get_rented_bikes(self):
         """Fetch list with rented bikes."""
         rent_url = self.config['BASE_URL'] + '/v1/travel/rented?apiKey=' + self.config['API_KEY']
         req = requests.get(rent_url)
         self.rented_bike_ids = req.json()
-        print(self.rented_bike_ids)
+        # print(self.rented_bike_ids)
         return self.rented_bike_ids
 
     def get_bike_state(self, bike_id):
@@ -91,7 +93,7 @@ class Api:
         state_url = self.config['BASE_URL'] + f'/v1/bike/{bike_id}?apiKey=' + self.config['API_KEY']
         req = requests.get(state_url)
         bike_state = req.json()['data']
-        pprint(bike_state)
+        # pprint(bike_state)
         return bike_state
 
     def get_states_for_all_bikes(self):

@@ -3,10 +3,10 @@
 Electric scooter (esc) emulator
 """
 
-import requests
 from math import radians, cos, sin, asin, atan2, sqrt, degrees
 from time import time
 from random import randrange, uniform
+import requests
 from api import Api
 # from colorama import Fore, Back
 
