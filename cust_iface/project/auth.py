@@ -93,7 +93,7 @@ def login_post():
 
 @auth.route('/signup')
 def signup():
-    """Route signup (render template).
+    """Signup route (render template).
 
     Returns
     -------

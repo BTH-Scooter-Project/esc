@@ -2,8 +2,8 @@
 # models.py
 
 import json
-import requests
 from pprint import pprint
+import requests
 from flask_login import UserMixin, current_user
 
 

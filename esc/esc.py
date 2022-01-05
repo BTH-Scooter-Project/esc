@@ -10,7 +10,7 @@ import requests
 from api import Api
 # from colorama import Fore, Back
 
-travel_points = 5
+TRAVEL_POINTS = 5
 
 
 class ESCEmulator:
@@ -58,7 +58,7 @@ class ESCEmulator:
         self.system_properties = {
             "destination": destination,  # gps coordinates of the destination (finish) position
             "sleep_time": interval,  # in seconds
-            "travel_points": travel_points,  # number of travel gps-coordinates along the path
+            "travel_points": TRAVEL_POINTS,  # number of travel gps-coordinates along the path
             "allowed_area": [
                 [self.api.bike_state['gps_left_lat'], self.api.bike_state['gps_left_lon']],
                 [self.api.bike_state['gps_right_lat'], self.api.bike_state['gps_right_lon']]
@@ -66,7 +66,7 @@ class ESCEmulator:
             "path": self.generate_random_path(
                 self.esc_state['current_position'],
                 destination,
-                travel_points
+                TRAVEL_POINTS
             )
         }
 
@@ -181,19 +181,19 @@ class ESCEmulator:
             "canceled": 'true' if canceled or destination_reached or self.esc_state['battery_level'] == 0 else 'false',
             "destination_reached": 'true' if destination_reached else 'false'
         }
-        """ if destination_reached or self.esc_state['battery_level'] == 0:
-             log_obj['canceled'] = True
-        """
-        """ Uncomment if needed for indicating battery level by colour
-        battery_percentage = self.esc_state['battery_level'] / self.esc_properties['battery_capacity']
-        text_color_after = Fore.RESET + Back.RESET
-        text_color = Fore.BLACK + Back.GREEN
-        match battery_percentage:
-            case battery_percentage if battery_percentage < 0.7:
-                text_color = Fore.BLACK + Back.YELLOW
-            case battery_percentage if battery_percentage < 0.1:
-                text_color = Fore.BLACK + Back.RED
-        """
+        # if destination_reached or self.esc_state['battery_level'] == 0:
+        #     log_obj['canceled'] = True
+
+        # Uncomment if needed for indicating battery level by colour
+        # battery_percentage = self.esc_state['battery_level'] / self.esc_properties['battery_capacity']
+        # text_color_after = Fore.RESET + Back.RESET
+        # text_color = Fore.BLACK + Back.GREEN
+        # match battery_percentage:
+        #     case battery_percentage if battery_percentage < 0.7:
+        #         text_color = Fore.BLACK + Back.YELLOW
+        #     case battery_percentage if battery_percentage < 0.1:
+        #         text_color = Fore.BLACK + Back.RED
+
         # print(text_color + json.dumps(log_obj) + text_color_after)
         log_url = self.api.config['BASE_URL'] + f'/v1/travel/bike/{self.bike_id}?apiKey=' + self.api.config['API_KEY']
         headers_obj = {
