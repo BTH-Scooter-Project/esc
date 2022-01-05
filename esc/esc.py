@@ -115,10 +115,10 @@ class ESCEmulator:
         end_lat = end[0]
         next_long = start[1]
         end_long = end[1]
-        for i in range(travel_points+1, 0, -1):
+        for i in range(travel_points + 1, 0, -1):
             interval = 1. / i
-            next_lat = next_lat + (end_lat - next_lat) * uniform(interval*.7, interval)
-            next_long = next_long + (end_long - next_long) * uniform(interval*.7, interval)
+            next_lat = next_lat + (end_lat - next_lat) * uniform(interval * .7, interval)
+            next_long = next_long + (end_long - next_long) * uniform(interval * .7, interval)
             path.append([next_lat, next_long])
         path.append(end)
         return path
@@ -181,12 +181,13 @@ class ESCEmulator:
             "canceled": 'true' if canceled or destination_reached or self.esc_state['battery_level'] == 0 else 'false',
             "destination_reached": 'true' if destination_reached else 'false'
         }
-        # if destination_reached or self.esc_state['battery_level'] == 0:
-        #     log_obj['canceled'] = True
+        """ if destination_reached or self.esc_state['battery_level'] == 0:
+             log_obj['canceled'] = True
+        """
         """ Uncomment if needed for indicating battery level by colour
         battery_percentage = self.esc_state['battery_level'] / self.esc_properties['battery_capacity']
         text_color_after = Fore.RESET + Back.RESET
-         text_color = Fore.BLACK + Back.GREEN
+        text_color = Fore.BLACK + Back.GREEN
         match battery_percentage:
             case battery_percentage if battery_percentage < 0.7:
                 text_color = Fore.BLACK + Back.YELLOW

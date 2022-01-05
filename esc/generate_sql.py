@@ -4,7 +4,7 @@
 from random import choices, uniform, randint, randrange
 import json
 
-import bcrypt as bcrypt
+import bcrypt
 from bcrypt import hashpw
 
 CONFIG_FILE = 'config/config.json'
@@ -19,6 +19,7 @@ def get_config(file):
     """Get config."""
     with open(file, 'r') as file_handle:
         return json.load(file_handle)
+
 
 def generate_random_gps(start, end):
     """Generate random gps."""
@@ -43,7 +44,7 @@ def generate_random_stations(start, end, nr_of_stations=100):
 
 def pick_rnd_station(stations):
     """Pick random station."""
-    station_index = randint(0, len(stations)-1)
+    station_index = randint(0, len(stations) - 1)
     return station_index, stations[station_index]
 
 
