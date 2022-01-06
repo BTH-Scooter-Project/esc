@@ -1,0 +1,9 @@
+{
+  "API_KEY": "90301a26-894c-49eb-826d-ae0c2b22a405",
+  "BASE_URL": "http://localhost:11337",
+  "x-access-token": "test-token",
+  "email": "test1@test.com",
+  "password": "test123",
+  "bikeid": 1,
+  "customerid": 1
+}
