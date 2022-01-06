@@ -8,6 +8,260 @@
   "hostname": "127.0.0.1",
   "routes": [
     {
+      "uuid": "371f8265-3fd2-4b7b-91b8-4a00cd79cb89",
+      "documentation": "Get customer info",
+      "method": "get",
+      "endpoint": "v1/auth/customer/1",
+      "responses": [
+        {
+          "uuid": "3516c1a6-a06a-4bcf-9632-2f45e9f1dc83",
+          "body": "{\n  \"data\": {\n        \"userid\": 1,\n        \"firstname\": \"Test\",\n        \"lastname\": \"User\",\n        \"email\": \"test1@test.com\",\n        \"cityid\": \"2\",\n        \"payment\": \"prepaid\",\n        \"balance\": 500\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "x-access-token",
+              "value": "test-token",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "711fdf5f-6c14-4729-8ffb-7f3e1a6e95d5",
+      "documentation": "Get customer info",
+      "method": "put",
+      "endpoint": "v1/auth/customer/1",
+      "responses": [
+        {
+          "uuid": "443add94-0dfc-4ba9-ac69-1e8f9d3f5194",
+          "body": "{\n  \"data\": {\n        \"userid\": 1,\n        \"firstname\": \"Test\",\n        \"lastname\": \"User\",\n        \"email\": \"test1@test.com\",\n        \"cityid\": \"2\",\n        \"payment\": \"prepaid\",\n        \"balance\": 500\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "x-access-token",
+              "value": "test-token",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test1@test.com",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "balance",
+              "value": "1000",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "payment",
+              "value": "prepaid",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        },
+        {
+          "uuid": "f57c14c2-ee40-4ac1-9a59-47d927ebdaf1",
+          "body": "{\n  \"errors\": {\n        \"status\": 401,\n        \"path\": \"v1/auth/customer/1\",\n        \"title\": \"Unauthorized\",\n        \"message\": \"Wrong x-access-token\"\n    }\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "x-access-token",
+              "value": "^((?!test\\-token).)*$",
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "d3b074f3-32eb-4f1b-85f4-a768f6a51612",
+      "documentation": "Login",
+      "method": "post",
+      "endpoint": "v1/auth/customer/login",
+      "responses": [
+        {
+          "uuid": "75c1852c-b0b4-4f2a-ba22-50c671538dfa",
+          "body": "{\n  \"data\":\n  {\n    \"token\": \"test-token\" \n  }\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test1@test.com",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "test123",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "fd9af0bc-a278-496a-95e2-ba3a655c5324",
+      "documentation": "Get bike state",
+      "method": "get",
+      "endpoint": "v1/bike/1",
+      "responses": [
+        {
+          "uuid": "8eeadf10-15b4-4a2b-abf0-b3ef6b8c3f09",
+          "body": "{\n  \"data\":\n  {\n    \"bikeid\":1,\n    \"name\":\"cykel1\",\n    \"image\":\"bike.jpg\",\n    \"description\":\"cykel1_besk\",\n    \"battery_capacity\": 9000, \n    \"battery_level\": 9000, \n    \"dest_lat\": 59.32780388104956, \n    \"dest_lon\": 18.14746288937658, \n    \"gps_lat\": 59.346632950018765, \n    \"gps_left_lat\": 59.351495, \n    \"gps_left_lon\": 18.023087, \n    \"gps_lon\": 18.11215898842416, \n    \"gps_right_lat\": 59.305341, \n    \"gps_right_lon\": 18.168215, \n    \"interval\": 10, \n    \"max_speed\": 30, \n    \"name\": \"Stockholm\", \n    \"stationid\": 61,\n    \"status\": \"rented\"\n    \"max_speed\":\"12\",\n    \"city\":\"1\"\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "08043ec5-cbad-48af-b6d5-2f3d4f06d956",
+      "documentation": "Get system mode",
+      "method": "get",
+      "endpoint": "v1/bike/mode",
+      "responses": [
+        {
+          "uuid": "6387551d-9fbf-49f3-a0f5-7bed37fda635",
+          "body": "{\n  \"data\":\n  {\n    \"interval\": 10,\n    \"simulation\": false,\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
       "uuid": "31c383f2-cd34-440f-ae97-b8a2bf1ecc43",
       "documentation": "Report log",
       "method": "put",
@@ -112,63 +366,14 @@
       "sequentialResponse": false
     },
     {
-      "uuid": "2322b901-7363-4165-a03c-eeae5825cfee",
-      "documentation": "Rent bike without token",
-      "method": "post",
-      "endpoint": "v1/travel/simulation",
-      "responses": [
-        {
-          "uuid": "c42690fc-3592-41b5-b74a-51b6d4ebc8dc",
-          "body": "{}",
-          "latency": 0,
-          "statusCode": 201,
-          "label": "",
-          "headers": [
-            {
-              "key": "",
-              "value": ""
-            }
-          ],
-          "filePath": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "query",
-              "modifier": "apiKey",
-              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "customerid",
-              "value": "1",
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "bikeid",
-              "value": "1",
-              "operator": "equals"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false
-        }
-      ],
-      "enabled": true,
-      "randomResponse": false,
-      "sequentialResponse": false
-    },
-    {
-      "uuid": "371f8265-3fd2-4b7b-91b8-4a00cd79cb89",
-      "documentation": "Get customer info",
+      "uuid": "94f798d1-1b0b-4022-b351-2f5485a2d9f5",
+      "documentation": "Get travel info",
       "method": "get",
-      "endpoint": "v1/auth/customer/1",
+      "endpoint": "v1/travel/customer/1",
       "responses": [
         {
-          "uuid": "3516c1a6-a06a-4bcf-9632-2f45e9f1dc83",
-          "body": "{\n  \"data\": {\n        \"userid\": 1,\n        \"firstname\": \"Test\",\n        \"lastname\": \"User\",\n        \"email\": \"test1@test.com\",\n        \"cityid\": \"2\",\n        \"payment\": \"prepaid\",\n        \"balance\": 500\n    }\n}",
+          "uuid": "949a2a42-2ae2-4a63-b232-a4aa7fee440b",
+          "body": "{}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -241,125 +446,14 @@
       "sequentialResponse": false
     },
     {
-      "uuid": "94f798d1-1b0b-4022-b351-2f5485a2d9f5",
-      "documentation": "Get rented bikes",
-      "method": "get",
-      "endpoint": "v1/travel/customer/1",
-      "responses": [
-        {
-          "uuid": "949a2a42-2ae2-4a63-b232-a4aa7fee440b",
-          "body": "{}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "",
-          "headers": [
-            {
-              "key": "",
-              "value": ""
-            }
-          ],
-          "filePath": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "query",
-              "modifier": "apiKey",
-              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
-              "operator": "equals"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false
-        }
-      ],
-      "enabled": true,
-      "randomResponse": false,
-      "sequentialResponse": false
-    },
-    {
-      "uuid": "fd9af0bc-a278-496a-95e2-ba3a655c5324",
-      "documentation": "Get bike state",
-      "method": "get",
-      "endpoint": "v1/bike/1",
-      "responses": [
-        {
-          "uuid": "8eeadf10-15b4-4a2b-abf0-b3ef6b8c3f09",
-          "body": "{\n  \"data\":\n  {\n    \"bikeid\":1,\n    \"name\":\"cykel1\",\n    \"image\":\"bike.jpg\",\n    \"description\":\"cykel1_besk\",\n    \"battery_capacity\": 9000, \n    \"battery_level\": 9000, \n    \"dest_lat\": 59.32780388104956, \n    \"dest_lon\": 18.14746288937658, \n    \"gps_lat\": 59.346632950018765, \n    \"gps_left_lat\": 59.351495, \n    \"gps_left_lon\": 18.023087, \n    \"gps_lon\": 18.11215898842416, \n    \"gps_right_lat\": 59.305341, \n    \"gps_right_lon\": 18.168215, \n    \"interval\": 10, \n    \"max_speed\": 30, \n    \"name\": \"Stockholm\", \n    \"stationid\": 61,\n    \"status\": \"rented\"\n    \"max_speed\":\"12\",\n    \"city\":\"1\"\n  }\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "",
-          "headers": [
-            {
-              "key": "",
-              "value": ""
-            }
-          ],
-          "filePath": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "query",
-              "modifier": "apiKey",
-              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
-              "operator": "equals"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false
-        }
-      ],
-      "enabled": true,
-      "randomResponse": false,
-      "sequentialResponse": false
-    },
-    {
-      "uuid": "08043ec5-cbad-48af-b6d5-2f3d4f06d956",
-      "documentation": "Get system mode",
-      "method": "get",
-      "endpoint": "v1/bike/mode",
-      "responses": [
-        {
-          "uuid": "6387551d-9fbf-49f3-a0f5-7bed37fda635",
-          "body": "{\n  \"data\":\n  {\n    \"interval\": 10,\n    \"simulation\": false,\n  }\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "",
-          "headers": [
-            {
-              "key": "",
-              "value": ""
-            }
-          ],
-          "filePath": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "query",
-              "modifier": "apiKey",
-              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
-              "operator": "equals"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false
-        }
-      ],
-      "enabled": true,
-      "randomResponse": false,
-      "sequentialResponse": false
-    },
-    {
-      "uuid": "d3b074f3-32eb-4f1b-85f4-a768f6a51612",
-      "documentation": "Login",
+      "uuid": "2322b901-7363-4165-a03c-eeae5825cfee",
+      "documentation": "Rent bike without token",
       "method": "post",
-      "endpoint": "v1/auth/customer/login",
+      "endpoint": "v1/travel/simulation",
       "responses": [
         {
-          "uuid": "75c1852c-b0b4-4f2a-ba22-50c671538dfa",
-          "body": "{\n  \"data\":\n  {\n    \"token\": \"test-token\" \n  }\n}",
+          "uuid": "c42690fc-3592-41b5-b74a-51b6d4ebc8dc",
+          "body": "{}",
           "latency": 0,
           "statusCode": 201,
           "label": "",
@@ -380,14 +474,14 @@
             },
             {
               "target": "body",
-              "modifier": "email",
-              "value": "test1@test.com",
+              "modifier": "customerid",
+              "value": "1",
               "operator": "equals"
             },
             {
               "target": "body",
-              "modifier": "password",
-              "value": "test123",
+              "modifier": "bikeid",
+              "value": "1",
               "operator": "equals"
             }
           ],
