@@ -4,6 +4,11 @@
   "x-access-token": "test-token",
   "email": "test1@test.com",
   "password": "test123",
+  "firstname": "Test",
+  "lastname": "User",
+  "cityid": "2",
+  "payment": "prepaid",
+  "balance": 500,
   "bikeid": 1,
   "customerid": 1
 }

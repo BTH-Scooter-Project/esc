@@ -161,6 +161,49 @@
       "sequentialResponse": false
     },
     {
+      "uuid": "371f8265-3fd2-4b7b-91b8-4a00cd79cb89",
+      "documentation": "Get customer info",
+      "method": "get",
+      "endpoint": "v1/auth/customer/1",
+      "responses": [
+        {
+          "uuid": "3516c1a6-a06a-4bcf-9632-2f45e9f1dc83",
+          "body": "{\n  \"data\": {\n        \"userid\": 1,\n        \"firstname\": \"Test\",\n        \"lastname\": \"User\",\n        \"email\": \"test1@test.com\",\n        \"cityid\": \"2\",\n        \"payment\": \"prepaid\",\n        \"balance\": 500\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "x-access-token",
+              "value": "test-token",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
       "uuid": "aca202ab-fb80-4595-84d3-98a5c5441512",
       "documentation": "Get rented bikes",
       "method": "get",
@@ -168,6 +211,43 @@
       "responses": [
         {
           "uuid": "9cca5bda-93ac-46cc-be31-13819c10b418",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "94f798d1-1b0b-4022-b351-2f5485a2d9f5",
+      "documentation": "Get rented bikes",
+      "method": "get",
+      "endpoint": "v1/travel/customer/1",
+      "responses": [
+        {
+          "uuid": "949a2a42-2ae2-4a63-b232-a4aa7fee440b",
           "body": "{}",
           "latency": 0,
           "statusCode": 200,
@@ -312,31 +392,6 @@
             }
           ],
           "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false
-        }
-      ],
-      "enabled": true,
-      "randomResponse": false,
-      "sequentialResponse": false
-    },
-    {
-      "uuid": "5137bf80-262b-439f-a657-2440f5710983",
-      "documentation": "",
-      "method": "get",
-      "endpoint": "",
-      "responses": [
-        {
-          "uuid": "98ac9533-c073-400f-bb0d-79590a1c0de7",
-          "body": "{}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "",
-          "headers": [],
-          "filePath": "",
-          "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false
         }
