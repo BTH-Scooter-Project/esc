@@ -66,7 +66,7 @@
           "uuid": "da72deb5-8672-4f4f-878d-acc2b25306e8",
           "body": "{}",
           "latency": 0,
-          "statusCode": 200,
+          "statusCode": 201,
           "label": "",
           "headers": [
             {
@@ -121,7 +121,7 @@
           "uuid": "c42690fc-3592-41b5-b74a-51b6d4ebc8dc",
           "body": "{}",
           "latency": 0,
-          "statusCode": 200,
+          "statusCode": 201,
           "label": "",
           "headers": [
             {
@@ -281,7 +281,7 @@
           "uuid": "75c1852c-b0b4-4f2a-ba22-50c671538dfa",
           "body": "{\n  \"data\":\n  {\n    \"token\": \"test-token\" \n  }\n}",
           "latency": 0,
-          "statusCode": 200,
+          "statusCode": 201,
           "label": "",
           "headers": [
             {
