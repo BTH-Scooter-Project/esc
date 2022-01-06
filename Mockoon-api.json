@@ -8,6 +8,388 @@
   "hostname": "127.0.0.1",
   "routes": [
     {
+      "uuid": "711fdf5f-6c14-4729-8ffb-7f3e1a6e95d5",
+      "documentation": "Register customer",
+      "method": "post",
+      "endpoint": "v1/auth/customer",
+      "responses": [
+        {
+          "uuid": "443add94-0dfc-4ba9-ac69-1e8f9d3f5194",
+          "body": "{\n  \"data\": {\n        \"type\": \"success\",\n        \"message\": \"User created\",\n        \"user\": \"test1@test.com\",\n        \"id\": 1\n    }\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test1@test.com",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "test123",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "balance",
+              "value": "1000",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "payment",
+              "value": "prepaid",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "firstname",
+              "value": "Test",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "lastname",
+              "value": "User",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "cityid",
+              "value": "2",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        },
+        {
+          "uuid": "fcaee380-6a62-4a87-9659-617050a8d34b",
+          "body": "{\n  \"data\": {\n        \"type\": \"success\",\n        \"message\": \"User created\",\n        \"user\": \"test1@test.com\",\n        \"id\": 1\n    }\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test1@test.com",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "balance",
+              "value": "1000",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "payment",
+              "value": "prepaid",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "firstname",
+              "value": "Test",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "lastname",
+              "value": "User",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "cityid",
+              "value": "2",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "unique_id",
+              "value": "1234567890",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        },
+        {
+          "uuid": "36401d7b-50d9-4f5e-8c79-55cbd566f1a1",
+          "body": "{\n  \"data\": {\n        \"type\": \"success\",\n        \"message\": \"User already exists\",\n        \"user\": \"test2@test.se\"\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test2@test.com",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "balance",
+              "value": "1000",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "payment",
+              "value": "prepaid",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "firstname",
+              "value": "Test",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "lastname",
+              "value": "User",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "cityid",
+              "value": "2",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "unique_id",
+              "value": "1234567890",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        },
+        {
+          "uuid": "aea534ff-2a10-484c-bfc1-519e695c91d8",
+          "body": "{\n  \"errors\": {\n        \"status\": 400,\n        \"source\": \"/auth/register\",\n        \"message\": \"Missing input\",\n        \"detail\": \"Password not specified\"\n    }\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test1@test.com",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "balance",
+              "value": "1000",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "payment",
+              "value": "prepaid",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "firstname",
+              "value": "Test",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "lastname",
+              "value": "User",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "cityid",
+              "value": "2",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "2d9be7d0-7381-4955-a400-d1a4bece15dd",
+      "documentation": "Update customer",
+      "method": "put",
+      "endpoint": "v1/auth/customer",
+      "responses": [
+        {
+          "uuid": "31ce8233-da58-421f-94b1-6db3e4caf18e",
+          "body": "{\n  \"data\": {\n    \"type\": \"success\",\n    \"message\": \"Customer updated\",\n    \"user\": \"test1@test.com\"\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "x-access-token",
+              "value": "test-token",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "balance",
+              "value": "1000",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "payment",
+              "value": "prepaid",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        },
+        {
+          "uuid": "3fefd793-f7fa-456a-b4cb-66b0a01f113d",
+          "body": "{\n  \"data\": {\n    \"status\": 401,\n    \"source\": \"/v1/auth/customer\",\n    \"title\": \"No token\",\n    \"detail\": \"No token provided in request headers\"\n  }\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Missing x-token",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "balance",
+              "value": "1000",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "payment",
+              "value": "prepaid",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
       "uuid": "371f8265-3fd2-4b7b-91b8-4a00cd79cb89",
       "documentation": "Get customer info",
       "method": "get",
@@ -42,94 +424,6 @@
             }
           ],
           "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false
-        }
-      ],
-      "enabled": true,
-      "randomResponse": false,
-      "sequentialResponse": false
-    },
-    {
-      "uuid": "711fdf5f-6c14-4729-8ffb-7f3e1a6e95d5",
-      "documentation": "Get customer info",
-      "method": "put",
-      "endpoint": "v1/auth/customer/1",
-      "responses": [
-        {
-          "uuid": "443add94-0dfc-4ba9-ac69-1e8f9d3f5194",
-          "body": "{\n  \"data\": {\n        \"userid\": 1,\n        \"firstname\": \"Test\",\n        \"lastname\": \"User\",\n        \"email\": \"test1@test.com\",\n        \"cityid\": \"2\",\n        \"payment\": \"prepaid\",\n        \"balance\": 500\n    }\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "",
-          "headers": [
-            {
-              "key": "",
-              "value": ""
-            }
-          ],
-          "filePath": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "query",
-              "modifier": "apiKey",
-              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
-              "operator": "equals"
-            },
-            {
-              "target": "header",
-              "modifier": "x-access-token",
-              "value": "test-token",
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "email",
-              "value": "test1@test.com",
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "password",
-              "value": "",
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "balance",
-              "value": "1000",
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "payment",
-              "value": "prepaid",
-              "operator": "equals"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false
-        },
-        {
-          "uuid": "f57c14c2-ee40-4ac1-9a59-47d927ebdaf1",
-          "body": "{\n  \"errors\": {\n        \"status\": 401,\n        \"path\": \"v1/auth/customer/1\",\n        \"title\": \"Unauthorized\",\n        \"message\": \"Wrong x-access-token\"\n    }\n}",
-          "latency": 0,
-          "statusCode": 401,
-          "label": "",
-          "headers": [],
-          "filePath": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "header",
-              "modifier": "x-access-token",
-              "value": "^((?!test\\-token).)*$",
-              "operator": "regex"
-            }
-          ],
-          "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false
         }
@@ -175,6 +469,82 @@
               "target": "body",
               "modifier": "password",
               "value": "test123",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        },
+        {
+          "uuid": "da7ba965-ff0c-4be9-9608-cb6907802754",
+          "body": "{\n  \"errors\": {\n        \"status\": 401,\n        \"source\": \"/login\",\n        \"title\": \"Wrong password\",\n        \"detail\": \"Password is incorrect.\"\n  }\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test1@test.com",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "wrong",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        },
+        {
+          "uuid": "f7d14f32-ccd7-47af-b839-2f27e0db913d",
+          "body": "{\n  \"data\": {\n        \"type\": \"success\",\n        \"message\": \"User logged in\",\n        \"user\": \"test1@test.com\",\n        \"id\": 1,\n        \"token\": \"test-token\"\n    }\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "test123",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "unique_id",
+              "value": "1234567890",
               "operator": "equals"
             }
           ],
@@ -367,13 +737,13 @@
     },
     {
       "uuid": "94f798d1-1b0b-4022-b351-2f5485a2d9f5",
-      "documentation": "Get travel info",
+      "documentation": "Get travel info for customer id",
       "method": "get",
       "endpoint": "v1/travel/customer/1",
       "responses": [
         {
           "uuid": "949a2a42-2ae2-4a63-b232-a4aa7fee440b",
-          "body": "{}",
+          "body": "{\n  \"data\": [\n    {\n      \"travelid\": 1,\n      \"date\": \"2021-12-01 10:30:20\",\n      \"bikeid\": 1,\n      \"userid\": 1,\n      \"distance\": 2500,\n      \"price\": 38,\n      \"start_pos_lat\": 123.123,\n      \"start_pos_lon\": 456.456,\n      \"stop_pos_lat\": 123.123,\n      \"stop_pos_lon\": 456.456\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

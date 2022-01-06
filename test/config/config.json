@@ -3,12 +3,15 @@
   "BASE_URL": "http://localhost:11337",
   "x-access-token": "test-token",
   "email": "test1@test.com",
+  "already_registered_email": "test2@test.com",
   "password": "test123",
+  "wrong_password": "wrong",
   "firstname": "Test",
   "lastname": "User",
   "cityid": "2",
   "payment": "prepaid",
   "balance": 500,
   "bikeid": 1,
-  "customerid": 1
+  "customerid": 1,
+  "unique_id": 1234567890
 }
