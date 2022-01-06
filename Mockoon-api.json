@@ -1,0 +1,306 @@
+{
+  "uuid": "d95fc05f-ff6d-4cb8-899b-c7c65c5080de",
+  "lastMigration": 19,
+  "name": "Mockoon api",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 11337,
+  "hostname": "127.0.0.1",
+  "routes": [
+    {
+      "uuid": "31c383f2-cd34-440f-ae97-b8a2bf1ecc43",
+      "documentation": "Report log",
+      "method": "put",
+      "endpoint": "v1/travel/bike/1",
+      "responses": [
+        {
+          "uuid": "29f41840-3106-458c-a00c-6f0ecbf139f7",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "x-access-token",
+              "value": "test-token",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "canceled",
+              "value": "'true'",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "d290973d-edb6-43e9-ba8f-e7e5faf7cc22",
+      "documentation": "Rent bike",
+      "method": "post",
+      "endpoint": "v1/travel/bike/1",
+      "responses": [
+        {
+          "uuid": "da72deb5-8672-4f4f-878d-acc2b25306e8",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "x-access-token",
+              "value": "test-token",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test1@test.com",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "test123",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "2322b901-7363-4165-a03c-eeae5825cfee",
+      "documentation": "Rent bike without token",
+      "method": "post",
+      "endpoint": "v1/travel/simulation",
+      "responses": [
+        {
+          "uuid": "c42690fc-3592-41b5-b74a-51b6d4ebc8dc",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "customerid",
+              "value": "1",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "bikeid",
+              "value": "1",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "aca202ab-fb80-4595-84d3-98a5c5441512",
+      "documentation": "Get rented bikes",
+      "method": "get",
+      "endpoint": "v1/travel/rented",
+      "responses": [
+        {
+          "uuid": "9cca5bda-93ac-46cc-be31-13819c10b418",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "d3b074f3-32eb-4f1b-85f4-a768f6a51612",
+      "documentation": "Login",
+      "method": "post",
+      "endpoint": "v1/auth/customer/login",
+      "responses": [
+        {
+          "uuid": "75c1852c-b0b4-4f2a-ba22-50c671538dfa",
+          "body": "{\n  \"data\":\n  {\n    \"token\": \"test-token\" \n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test1@test.com",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "test123",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "5137bf80-262b-439f-a657-2440f5710983",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "",
+      "responses": [
+        {
+          "uuid": "98ac9533-c073-400f-bb0d-79590a1c0de7",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ]
+}
