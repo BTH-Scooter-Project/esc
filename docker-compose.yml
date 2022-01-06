@@ -2,7 +2,6 @@ version: "3"
 
 networks:
     pattern_net:
-        name: pattern_net
 
 # använd: docker build -t neskoc/pattern:backend -f Dockerfile.api . 
 services:
@@ -34,11 +33,23 @@ services:
         depends_on:
             - backend
 
-    frontend:
-        image: neskoc/pattern:frontend
-        container_name: "frontend"
+    admin:
+        image: neskoc/pattern:admin
+        container_name: "admin"
         ports:
-            - "127.0.0.1:1338:1337"
+            - "127.0.0.1:1337:1338"
+        networks:
+            - pattern_net
+        links:
+            - backend
+        depends_on:
+            - backend
+
+    app:
+        image: neskoc/pattern:app
+        container_name: "app"
+        ports:
+            - "127.0.0.1:1337:1339"
         networks:
             - pattern_net
         links:
