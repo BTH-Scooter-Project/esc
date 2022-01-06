@@ -198,6 +198,80 @@
       "sequentialResponse": false
     },
     {
+      "uuid": "fd9af0bc-a278-496a-95e2-ba3a655c5324",
+      "documentation": "Get bike state",
+      "method": "get",
+      "endpoint": "v1/bike/1",
+      "responses": [
+        {
+          "uuid": "8eeadf10-15b4-4a2b-abf0-b3ef6b8c3f09",
+          "body": "{\n  \"data\":\n  {\n    \"bikeid\":1,\n    \"name\":\"cykel1\",\n    \"image\":\"bike.jpg\",\n    \"description\":\"cykel1_besk\",\n    \"battery_capacity\": 9000, \n    \"battery_level\": 9000, \n    \"dest_lat\": 59.32780388104956, \n    \"dest_lon\": 18.14746288937658, \n    \"gps_lat\": 59.346632950018765, \n    \"gps_left_lat\": 59.351495, \n    \"gps_left_lon\": 18.023087, \n    \"gps_lon\": 18.11215898842416, \n    \"gps_right_lat\": 59.305341, \n    \"gps_right_lon\": 18.168215, \n    \"interval\": 10, \n    \"max_speed\": 30, \n    \"name\": \"Stockholm\", \n    \"stationid\": 61,\n    \"status\": \"rented\"\n    \"max_speed\":\"12\",\n    \"city\":\"1\"\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "08043ec5-cbad-48af-b6d5-2f3d4f06d956",
+      "documentation": "Get system mode",
+      "method": "get",
+      "endpoint": "v1/bike/mode",
+      "responses": [
+        {
+          "uuid": "6387551d-9fbf-49f3-a0f5-7bed37fda635",
+          "body": "{\n  \"data\":\n  {\n    \"interval\": 10,\n    \"simulation\": false,\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
       "uuid": "d3b074f3-32eb-4f1b-85f4-a768f6a51612",
       "documentation": "Login",
       "method": "post",
