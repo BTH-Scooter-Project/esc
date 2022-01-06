@@ -8,8 +8,26 @@ WORKDIR esc
 COPY esc/*.py requirements.txt /esc/
 COPY esc/config/config.json /esc/config/
 
+COPY run_esc.bash /esc/
+RUN chmod +x run_esc.bash
+
 RUN pip3 install -r requirements.txt
 
-ENTRYPOINT [ "python3" ]
-CMD [ "main.py" ]
-# CMD ["./local_ls.sh"]
+WORKDIR cust_iface
+
+COPY cust_iface/*.py /esc/cust_iface/
+COPY cust_iface/project /esc/cust_iface/project
+COPY cust_iface/auth /esc/cust_iface/auth
+COPY cust_iface/ssl /esc/cust_iface/ssl
+
+EXPOSE 8000
+
+RUN ls -al
+
+WORKDIR ../
+RUN ls -al
+
+# ENTRYPOINT [ "python3" ]
+# CMD [ "main.py" ]
+# CMD ["ls", "-al"]
+CMD ["./run_esc.bash"]
