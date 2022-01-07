@@ -9,3 +9,6 @@ omit =
     ./venv/*
     *test
     *__init__.py
+    esc/my_bcrypt.py
+    esc/test_api.py
+    esc/generate_sql.py

@@ -20,7 +20,7 @@ class TestFunc(unittest.TestCase):
 
     def setUp(self):
         """Set up each test."""
-        self.api = Api(relative_path="test/")
+        self.api = Api(1, relative_path="test/")
         self.config = get_config(CONFIG_FILE)
 
     def test_login(self):

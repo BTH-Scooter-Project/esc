@@ -6,6 +6,7 @@ flake8-comprehensions
 flake8-docstrings
 flask
 flask-login
+flask-unittest
 gunicorn
 markupsafe
 oauthlib

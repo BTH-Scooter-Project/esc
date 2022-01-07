@@ -1,0 +1,37 @@
+#!/usr/bin/python3
+"""Main file with Handler class."""
+
+import json
+import flask_unittest
+from cust_iface.project import app
+
+
+CONFIG_FILE = 'test/config/config.json'
+
+
+def get_config(file):
+    """Load config settings."""
+    with open(file, 'r') as file_handle:
+        return json.load(file_handle)
+
+
+class TestFunc(flask_unittest.ClientTestCase):
+    """Main test function."""
+
+    app = app
+    # app.run(debug=True)
+
+    def setUp(self, client):
+        """Set up each test."""
+
+    def test_app_home(self, client):
+        """Test customer interface home."""
+        response = client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Elsparkcykel', response.data.decode("utf-8"))
+
+    def test_app_login(self, client):
+        """Test customer interface login."""
+        response = client.get('/login')
+        self.assertIn(b'Login', response.data)
+        self.assertIn('Sign in with Google', response.data.decode("utf-8"))
