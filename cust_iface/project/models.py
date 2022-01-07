@@ -2,7 +2,7 @@
 # models.py
 
 import json
-from pprint import pprint
+# from pprint import pprint
 from pathlib import Path
 import requests
 from flask_login import UserMixin, current_user
@@ -14,6 +14,7 @@ def set_config_file(dev_config_file, test_config_file='test/config/config.json')
     if Path(dev_config_file).exists():
         config_file = dev_config_file
     return config_file
+
 
 class Customer(UserMixin):
     """Customer class.
