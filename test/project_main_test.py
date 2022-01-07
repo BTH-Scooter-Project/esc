@@ -23,6 +23,7 @@ class TestFunc(flask_unittest.ClientTestCase):
 
     def setUp(self, client):
         """Set up each test."""
+        self.config = get_config(CONFIG_FILE)
 
     def test_app_home(self, client):
         """Test customer interface home."""
@@ -30,8 +31,19 @@ class TestFunc(flask_unittest.ClientTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn('Elsparkcykel', response.data.decode("utf-8"))
 
-    def test_app_login(self, client):
+    def test_app_login_get(self, client):
         """Test customer interface login."""
         response = client.get('/login')
         self.assertIn(b'Login', response.data)
         self.assertIn('Sign in with Google', response.data.decode("utf-8"))
+
+    def test_app_login_post(self, client):
+        """Test customer interface login."""
+        data = {
+            "email": self.config['email'],
+            "password": self.config['password']
+        }
+        response = client.post('/login', data=data)
+        self.assertEqual(response.status_code, 302, "Redirect to /profile")
+        # self.assertIn(b'Login', response.data)
+        # self.assertIn('Sign in with Google', response.data.decode("utf-8"))

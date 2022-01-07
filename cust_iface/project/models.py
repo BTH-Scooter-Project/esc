@@ -3,9 +3,17 @@
 
 import json
 from pprint import pprint
+from pathlib import Path
 import requests
 from flask_login import UserMixin, current_user
 
+
+def set_config_file(dev_config_file, test_config_file='test/config/config.json'):
+    """Choose either dev or test config file."""
+    config_file = test_config_file
+    if Path(dev_config_file).exists():
+        config_file = dev_config_file
+    return config_file
 
 class Customer(UserMixin):
     """Customer class.
@@ -16,7 +24,7 @@ class Customer(UserMixin):
         db ([type]): [description]
     """
 
-    CONFIG_FILE = 'project/static/config/config.json'
+    CONFIG_FILE = set_config_file('project/static/config/config.json')
     customers = []
 
     def __init__(self, _id, token, email):
@@ -32,8 +40,8 @@ class Customer(UserMixin):
         """Add customer to the class."""
         cls.customers = []
         cls.customers.append(self)
-        print('cls.customers.id(cls.set_customer): ' + cls.customers[0].get_id())
-        print("len(cls.customers)", len(cls.customers))
+        # print('cls.customers.id(cls.set_customer): ' + cls.customers[0].get_id())
+        # print("len(cls.customers)", len(cls.customers))
 
     def get_id(self):
         """Get customer id."""
@@ -92,16 +100,16 @@ class Customer(UserMixin):
             login_obj = req.json()['data']
             login_obj['status_code'] = req.status_code
             # customer = Customer(login_obj['id'], login_obj['token'], email)
-            print("customer_id(login)", login_obj['id'])
             # pprint(login_obj)
+            # print("customer_id(login)", login_obj['id'])
             return login_obj
 
         error_obj = req.json()['errors']
         error_obj['status_code'] = req.status_code
         if not hasattr(error_obj, 'message'):
             error_obj['message'] = error_obj['title']
-        print("login error")
-        pprint(error_obj)
+        # print("login error")
+        # pprint(error_obj)
 
         return error_obj
 
@@ -145,7 +153,7 @@ class Customer(UserMixin):
         )
 
         response = req.json()
-        print("get_customer_info: ", response)
+        # print("get_customer_info: ", response)
         customer_info = response['data']
 
         self.firstname = customer_info['firstname']
@@ -192,17 +200,17 @@ class Customer(UserMixin):
             customer_info['email'] = email
             customer_info['password'] = password
             customer_info['status_code'] = req.status_code
-            pprint(customer_info)
+            # pprint(customer_info)
             return customer_info
 
         if req.status_code == 200:
             customer_info = req.json()['data']
             customer_info['email'] = customer_info['user']
             customer_info['status_code'] = req.status_code
-            pprint(customer_info)
+            # pprint(customer_info)
             return customer_info
 
-        print(req)
+        # print(req)
         error_obj = req.json()['errors']
         error_obj['status_code'] = req.status_code
         return error_obj
@@ -241,7 +249,7 @@ class Customer(UserMixin):
             self.payment = payment
             customer_info = req.json()['data']
             customer_info['status_code'] = req.status_code
-            pprint(customer_info)
+            # pprint(customer_info)
             return customer_info
 
         error_obj = req.json()['errors']
@@ -269,7 +277,7 @@ class Customer(UserMixin):
         )
 
         response = req.json()
-        print(response)
+        # print(response)
         travel_info = response['data']
 
         return travel_info

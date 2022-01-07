@@ -440,9 +440,9 @@
       "responses": [
         {
           "uuid": "75c1852c-b0b4-4f2a-ba22-50c671538dfa",
-          "body": "{\n  \"data\":\n  {\n    \"token\": \"test-token\" \n  }\n}",
+          "body": "{\n  \"data\": {\n    \"type\": \"success\",\n    \"message\": \"User logged in\",\n    \"user\": \"test1@test.com\",\n    \"id\": 1,\n    \"token\": \"test-token\"\n  }\n}",
           "latency": 0,
-          "statusCode": 201,
+          "statusCode": 200,
           "label": "",
           "headers": [
             {
@@ -518,7 +518,7 @@
           "uuid": "f7d14f32-ccd7-47af-b839-2f27e0db913d",
           "body": "{\n  \"data\": {\n        \"type\": \"success\",\n        \"message\": \"User logged in\",\n        \"user\": \"test1@test.com\",\n        \"id\": 1,\n        \"token\": \"test-token\"\n    }\n}",
           "latency": 0,
-          "statusCode": 201,
+          "statusCode": 200,
           "label": "",
           "headers": [
             {

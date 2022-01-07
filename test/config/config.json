@@ -13,5 +13,7 @@
   "balance": 500,
   "bikeid": 1,
   "customerid": 1,
-  "unique_id": 1234567890
+  "unique_id": 1234567890,
+  "GOOGLE_CLIENT_ID": "XXXXXXXXXXXXXXXXXXXXXX",
+  "GOOGLE_CLIENT_SECRET": "YYYYYYYYYYYYYYYYYYYYYYYYYy"
 }

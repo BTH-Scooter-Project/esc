@@ -82,9 +82,9 @@ def login_post():
         flash(response['detail'])
         return redirect(url_for('auth.login'))
 
-    print(response)
+    # print(response)
     Customer(response['id'], response['token'], response['user'])
-    print("login_user (auth.route:/login")
+    # print("login_user (auth.route:/login")
     # login_user(customer)
     login_user(Customer.customers[0])
     # if the above check passes, then we know the customer has the right credentials
