@@ -1,5 +1,6 @@
 bcrypt
 colorama
+coverage
 flake8
 flake8-comprehensions
 flake8-docstrings
