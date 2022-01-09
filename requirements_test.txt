@@ -13,4 +13,5 @@ pytest
 pytest-pylint
 pytest-flake8
 requests
+urllib3
 Werkzeug
