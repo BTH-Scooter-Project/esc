@@ -51,11 +51,11 @@ class Api:
         headers_obj = {
             'x-access-token': self.token,
         }
-        # req =
-        requests.post(
+        response = requests.post(
             rent_url,
             headers=headers_obj
         )
+        return response
         # req_json = req.json()
         # bike_json = req.json()['data']
         # pprint(bike_json)
@@ -69,11 +69,11 @@ class Api:
             'customerid': f'{bike_id}',
             'bikeid': f'{bike_id}',
         }
-        # req =
-        requests.post(
+        req = requests.post(
             rent_url,
             data=rent_obj
         )
+        return req
         # req_json = req.json()
         # bike_json = req.json()['data']
         # pprint(bike_json)

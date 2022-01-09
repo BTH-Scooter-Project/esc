@@ -28,6 +28,26 @@ class TestFunc(unittest.TestCase):
         self.api.login()
         self.assertEqual(self.config['x-access-token'], self.api.token)
 
+    def test_rent_bike(self):
+        """Test rentig a bike."""
+        response = self.api.rent_bike(self.config['bikeid'])
+        self.assertEqual(response.status_code, 201)
+        content = response.json()['data']
+        self.assertEqual(content['bikeid'], self.config['bikeid'])
+
+    def test_rent_bike_without_token(self):
+        """Test rentig a bike without token."""
+        response = self.api.rent_bike_without_token(self.config['bikeid'])
+        self.assertEqual(response.status_code, 201)
+        content = response.json()['data']
+        self.assertEqual(content['bikeid'], self.config['bikeid'])
+
+    def test_get_rented_bikes(self):
+        """Test fetching rented bike list."""
+        rented_bikes = self.api.get_rented_bikes()
+        self.api.get_states_for_all_bikes()
+        self.assertEqual(rented_bikes[0], self.config['bikeid'])
+
     def tearDown(self):
         """Tear down test."""
         self.api = None

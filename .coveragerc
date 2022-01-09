@@ -12,3 +12,4 @@ omit =
     esc/my_bcrypt.py
     esc/test_api.py
     esc/generate_sql.py
+    esc/bike_main.py
