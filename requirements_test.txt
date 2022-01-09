@@ -1,7 +1,6 @@
 bcrypt
 colorama
 coverage-lcov
-coverage==6.1.1
 flask
 flask-login
 flask-unittest
@@ -13,5 +12,4 @@ pytest
 pytest-pylint
 pytest-flake8
 requests
-urllib3
 Werkzeug
