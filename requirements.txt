@@ -10,3 +10,4 @@ markupsafe
 oauthlib
 pyopenssl
 requests
+Werkzeug
