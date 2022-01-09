@@ -51,8 +51,7 @@ jobs:
     - name: Unittest
       run: |
         coverage run -m unittest discover -p "*_test.py" -s test
-        mkdir coverage
-        coverage-lcov --output_file_path coverage/lcov.info
+        coverage-lcov
 
     - name: Code Coverage Report
       uses: romeovs/lcov-reporter-action@v0.2.11
