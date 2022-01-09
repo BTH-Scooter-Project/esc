@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt --no-deps coverage-lcov
+        pip install -r requirements.txt
 
     - name: Analysing the code with flake8 (python lint)
       run: |
@@ -45,7 +45,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r requirements_test.txt --no-deps coverage-lcov
 
     - name: Unittest
       run: |
