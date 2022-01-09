@@ -1,6 +1,7 @@
 bcrypt
 colorama
-coverage
+coverage-lcov==0.2.1
+coverage==6.1.1
 flake8
 flake8-comprehensions
 flake8-docstrings
