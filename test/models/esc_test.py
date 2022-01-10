@@ -28,7 +28,7 @@ class ESCTestFunc(unittest.TestCase):
     def test_1_calc_path_distances(self):
         """Test fuction calc_path_distances."""
         res = self.esc_emulator.ride_bike()
-        self.assertEqual(False, res['finished'])
+        self.assertEqual(True, res['finished'])
         # self.assertGreaterEqual(0, self.esc_emulator.calc_path_distances())
 
     def tearDown(self):
