@@ -4,6 +4,7 @@
 import json
 from time import time, sleep
 from pprint import pprint
+from pathlib import Path
 import requests
 from colorama import Fore, Back
 from api import Api
@@ -12,8 +13,11 @@ from esc import ESCEmulator
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
-START_BIKE_ID = 201
 CONFIG_FILE = 'config/config.json'
+start_bike_id = 201
+test = False
+if not Path(CONFIG_FILE).exists():
+    test = True
 SIMULATION_ACCELERATION = 10
 TEXT_COLOR_AFTER = Fore.RESET + Back.RESET
 TEXT_GREEN = Fore.BLACK + Back.GREEN
@@ -23,6 +27,8 @@ MAIN_TEXT_COLOR = Fore.BLACK + Back.RED
 
 def get_config(file):
     """Load config settings."""
+    if test:
+        file = f'test/{file}'
     with open(file, 'r') as file_handle:
         return json.load(file_handle)
 
@@ -32,6 +38,8 @@ def get_system_mode(config_file):
     config = get_config(config_file)
     system_mode_url = config['BASE_URL'] + '/v1/bike/mode?apiKey=' + config['API_KEY']
     res_data = requests.get(system_mode_url).json()['data']
+    if test:
+        res_data['nr_of_bikes'] = 1
     pprint(res_data)
     return res_data
 
@@ -59,7 +67,7 @@ def simulate_bike_rides(bikes, accum_processing_time, sleep_interval):
     return (bikes_to_be_removed, accum_processing_time)
 
 
-def main():
+def esc_main():
     """Do main loop.
 
     Returns
@@ -67,12 +75,17 @@ def main():
         None
     """
     data = get_system_mode(CONFIG_FILE)
-    api = Api()
+    path = ''
+    if test:
+        path = 'test/'
+    api = Api(relative_path=path)
+    if test:
+        api.rent_bike(1)
     # sleep_interval = data['interval'] / (data['nr_of_bikes'] + 1)
     start_rent_time = time()
     if data['simulation']:
-        end_bike_id = START_BIKE_ID + data['nr_of_bikes']
-        for bike_id in range(START_BIKE_ID, end_bike_id):
+        end_bike_id = start_bike_id + data['nr_of_bikes']
+        for bike_id in range(start_bike_id, end_bike_id):
             api.rent_bike_without_token(bike_id)
     rent_time = time() - start_rent_time
     accum_processing_time = 0
@@ -84,7 +97,7 @@ def main():
         rented_bike_ids = api.get_rented_bikes()
         start_generation_time = time()
         for bike_id in rented_bike_ids:
-            bikes.append(ESCEmulator(bike_id, data['interval'] * SIMULATION_ACCELERATION))
+            bikes.append(ESCEmulator(bike_id, data['interval'] * SIMULATION_ACCELERATION, test=test))
         generation_time = max(generation_time, time() - start_generation_time)
         sleep_interval = data['interval'] / (len(bikes) + 1)
         (bikes_to_be_removed, accum_processing_time) = simulate_bike_rides(bikes, accum_processing_time, sleep_interval)
@@ -105,10 +118,11 @@ def main():
             print('Total simulation time:', time() - start_rent_time)
             total_lag = 0
             show_stat = False
-
+            if test:
+                return True
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    main()
+    esc_main()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

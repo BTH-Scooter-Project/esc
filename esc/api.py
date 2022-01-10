@@ -12,7 +12,8 @@ class Api:
 
     def __init__(self, bike_id=-1, relative_path=''):
         """Init setting from config-file."""
-        self.config = self.get_config(relative_path + self.CONFIG_FILE)
+        path = relative_path + self.CONFIG_FILE
+        self.config = self.get_config(path)
         self.token = None
         self.rented_bike_ids = []
 

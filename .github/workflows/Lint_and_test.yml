@@ -50,7 +50,7 @@ jobs:
 
     - name: Unittest
       run: |
-        python3 -m test
+        python -m test
         coverage-lcov
 
     - name: Code Coverage Report
