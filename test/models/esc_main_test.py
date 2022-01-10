@@ -17,5 +17,6 @@ class ESCMainTestFunc(unittest.TestCase):
         res = esc_main()
         self.assertEqual(True, res)
 
+
 if __name__ == '__main__':
     unittest.main(verbosity=3)
