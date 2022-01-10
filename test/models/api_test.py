@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Main file with Handler class."""
+"""Main api test file with Handler class."""
 
 import json
 import unittest
@@ -15,7 +15,7 @@ def get_config(file):
         return json.load(file_handle)
 
 
-class TestFunc(unittest.TestCase):
+class ApiTestFunc(unittest.TestCase):
     """Main test function."""
 
     def setUp(self):

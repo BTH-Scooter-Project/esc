@@ -15,7 +15,7 @@ def get_config(file):
         return json.load(file_handle)
 
 
-class TestFunc(flask_unittest.ClientTestCase):
+class ProjectMainTestCase(flask_unittest.ClientTestCase):
     """Main test function."""
 
     app = app

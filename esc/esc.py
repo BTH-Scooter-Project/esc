@@ -7,8 +7,8 @@ from math import radians, cos, sin, asin, atan2, sqrt, degrees
 from time import time
 from random import randrange, uniform
 import requests
-from api import Api
 # from colorama import Fore, Back
+from api import Api
 
 TRAVEL_POINTS = 5
 
@@ -19,22 +19,25 @@ class ESCEmulator:
     EARTH_RADIUS = 6378100  # Mean radius of earth in kilometers
     POSITION_TOLERANCE = 1  # tolerance for calculating current position (gps)
 
-    def __init__(self, _id, interval=10):
+    def __init__(self, _id, interval=10, test=False):
         """Init."""
         self.bike_id = _id
         self.api = None
         self.esc_properties = {}
         self.esc_state = {}
         self.system_properties = {}
-        self.fetch_state(_id, interval)
+        self.fetch_state(_id, interval, test)
 
         print(self.calc_distance(self.esc_state['current_position'], self.system_properties['destination']))
         # print(self.esc_state['current_position'], self.system_properties['path'])
         # print(self.system_properties['path_distances'])
 
-    def fetch_state(self, _id, interval):
+    def fetch_state(self, _id, interval, test):
         """Fetch bike state."""
-        self.api = Api(_id)
+        path = ''
+        if test:
+            path = 'test/'
+        self.api = Api(_id, relative_path=path)
         self.esc_properties = {
             "id": _id,
             "battery_capacity": self.api.bike_state['battery_capacity'],  # in seconds
@@ -56,9 +59,9 @@ class ESCEmulator:
             self.api.bike_state['dest_lon']
         ]
         self.system_properties = {
-            "destination": destination,  # gps coordinates of the destination (finish) position
-            "sleep_time": interval,  # in seconds
-            "travel_points": TRAVEL_POINTS,  # number of travel gps-coordinates along the path
+            "destination": destination,
+            "sleep_time": interval,
+            "travel_points": TRAVEL_POINTS,
             "allowed_area": [
                 [self.api.bike_state['gps_left_lat'], self.api.bike_state['gps_left_lon']],
                 [self.api.bike_state['gps_right_lat'], self.api.bike_state['gps_right_lon']]
@@ -208,6 +211,8 @@ class ESCEmulator:
         if destination_reached:
             print("The ride is finished!")
             print(res_data)
+        if res_data['message'] == "Bike ride canceled":
+            res_data['canceled'] = 'true'
         if log_obj['canceled'] == 'true' or res_data['canceled'] == 'true':
             print('Rent canceled by the customer, quiting ...')
             return True
