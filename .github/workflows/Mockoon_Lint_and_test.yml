@@ -43,7 +43,7 @@ jobs:
     - name: NPM install, build and test
       run: |
         npm install -g @mockoon/cli
-        mockoon-cli start --data Mockoon-api.json --index 0 --port 1337
+        mockoon-cli start --data Mockoon-api.json --port 1337
 #       npm ci
 #       npm run build
 #       If mockoon-cli is not a devDependency:

@@ -15,7 +15,7 @@ class ESCMainTestFunc(unittest.TestCase):
     def test_esc_main(self):
         """Test esc main fuction."""
         res = esc_main()
-        self.assertEqual(True, res)
+        self.assertEqual(False, res)
 
 
 if __name__ == '__main__':
