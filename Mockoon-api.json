@@ -565,7 +565,7 @@
       "responses": [
         {
           "uuid": "8eeadf10-15b4-4a2b-abf0-b3ef6b8c3f09",
-          "body": "{\n  \"data\":\n  {\n    \"bikeid\":1,\n    \"name\":\"cykel1\",\n    \"image\":\"bike.jpg\",\n    \"description\":\"cykel1_besk\",\n    \"battery_capacity\": 9000,\n    \"battery_level\": 9000,\n    \"dest_lat\": 59.32780388104956,\n    \"dest_lon\": 18.14746288937658,\n    \"gps_lat\": 59.346632950018765,\n    \"gps_left_lat\": 59.351495,\n    \"gps_left_lon\": 18.023087,\n    \"gps_lon\": 18.11215898842416,\n    \"gps_right_lat\": 59.305341,\n    \"gps_right_lon\": 18.168215,\n    \"interval\": 10,\n    \"max_speed\": 30, \n    \"stationid\": 61,\n    \"status\": \"rented\",\n    \"city\": 2\n  }\n}",
+          "body": "{\n  \"data\": {\n    \"bikeid\": 1,\n    \"name\": \"Stockholm\",\n    \"image\": \"redBike.jpg\",\n    \"description\": \"En klassisk röd cykel\",\n    \"max_speed\": 12,\n    \"battery_capacity\": 10000,\n    \"status\": \"vacant\",\n    \"battery_level\": 5000,\n    \"gps_lat\": 59.3101349593344,\n    \"gps_lon\": 18.0325737454808,\n    \"dest_lat\": 59.3101359593344,\n    \"dest_lon\": 18.0325747454808,\n    \"stationid\": 199,\n    \"cityid\": 2,\n    \"gps_left_lat\": 59.351495,\n    \"gps_left_lon\": 18.023087,\n    \"gps_right_lat\": 59.305341,\n    \"gps_right_lon\": 18.168215\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
