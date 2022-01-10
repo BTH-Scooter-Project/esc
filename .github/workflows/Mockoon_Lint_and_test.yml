@@ -42,11 +42,11 @@ jobs:
         node-version: "14.x"
     - name: NPM install, build and test
       run: |
+        npm install -D mockoon-cli
         npx mockoon-cli start --data Mockoon-api.json --index 0 --port 1337
 #       npm ci
 #       npm run build
 #       If mockoon-cli is not a devDependency:
-#       npm install -D mockoon-cli
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
