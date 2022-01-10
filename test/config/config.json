@@ -1,9 +1,7 @@
 {
   "API_KEY": "90301a26-894c-49eb-826d-ae0c2b22a405",
-  "BASE_URL_MOCKOON": "http://localhost:11337",
-  "BASE_URL": "https://835d9764-6261-48e8-bc07-e12ba9f4a80c.mock.pstmn.io",
-  "x-access-token-mockoon": "test-token",
-  "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQHRlc3QuY29tIiwiaWQiOjEsImlhdCI6MTY0MTgxNzU2OSwiZXhwIjoxNjQxOTAzOTY5fQ.1g6yqlhReLEnHaE0y3drXWwBal5Nqh-3iNKS4be7GdE",
+  "BASE_URL": "http://localhost:1337",
+  "x-access-token": "test-token",
   "email": "test1@test.com",
   "already_registered_email": "test2@test.com",
   "password": "test123",

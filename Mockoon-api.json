@@ -4,7 +4,7 @@
   "name": "Mockoon api",
   "endpointPrefix": "",
   "latency": 0,
-  "port": 11337,
+  "port": 1337,
   "hostname": "127.0.0.1",
   "routes": [
     {
@@ -440,7 +440,7 @@
       "responses": [
         {
           "uuid": "75c1852c-b0b4-4f2a-ba22-50c671538dfa",
-          "body": "{\n  \"data\": {\n    \"type\": \"success\",\n    \"message\": \"User logged in\",\n    \"user\": \"test1@test.com\",\n    \"id\": 1,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQHRlc3QuY29tIiwiaWQiOjEsImlhdCI6MTY0MTY0NDY5NCwiZXhwIjoxNjQxNzMxMDk0fQ.9N14NBZIe4w_h4UJevuikkiSJlNU_1mIcGjsPYxyo5w\"\n  }\n}",
+          "body": "{\n  \"data\": {\n    \"type\": \"success\",\n    \"message\": \"User logged in\",\n    \"user\": \"test1@test.com\",\n    \"id\": 1,\n    \"token\": \"test-token\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -602,7 +602,7 @@
       "responses": [
         {
           "uuid": "6387551d-9fbf-49f3-a0f5-7bed37fda635",
-          "body": "{\n  \"data\":\n  {\n    \"interval\": 10,\n    \"simulation\": false,\n  }\n}",
+          "body": "{\n  \"data\": {\n    \"interval\": 10,\n    \"simulation\": true,\n    \"nr_of_bikes\": 1000\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -619,6 +619,12 @@
               "target": "query",
               "modifier": "apiKey",
               "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "x-access-token",
+              "value": "test-token",
               "operator": "equals"
             }
           ],
@@ -639,7 +645,7 @@
       "responses": [
         {
           "uuid": "29f41840-3106-458c-a00c-6f0ecbf139f7",
-          "body": "{}",
+          "body": "{\n    \"data\": {\n        \"type\": \"success\",\n        \"message\": \"Bike updated\",\n        \"bikeid\": 1,\n        \"canceled\": \"false\"\n    }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -667,31 +673,26 @@
             {
               "target": "body",
               "modifier": "canceled",
-              "value": "'true'",
+              "value": "'false'",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "destination_reached",
+              "value": "'false'",
               "operator": "equals"
             }
           ],
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false
-        }
-      ],
-      "enabled": true,
-      "randomResponse": false,
-      "sequentialResponse": false
-    },
-    {
-      "uuid": "d290973d-edb6-43e9-ba8f-e7e5faf7cc22",
-      "documentation": "Rent bike",
-      "method": "post",
-      "endpoint": "v1/travel/bike/1",
-      "responses": [
+        },
         {
-          "uuid": "da72deb5-8672-4f4f-878d-acc2b25306e8",
-          "body": "{}",
+          "uuid": "06b4eac0-2091-4626-a72a-0f0b9355d181",
+          "body": "{\n    \"data\": {\n        \"type\": \"success\",\n        \"message\": \"Bike ride canceled\",\n        \"bikeid\": 1\n    }\n}",
           "latency": 0,
-          "statusCode": 201,
-          "label": "",
+          "statusCode": 200,
+          "label": " (copy)",
           "headers": [
             {
               "key": "",
@@ -715,14 +716,81 @@
             },
             {
               "target": "body",
-              "modifier": "email",
-              "value": "test1@test.com",
+              "modifier": "canceled",
+              "value": "\"true\"",
               "operator": "equals"
             },
             {
               "target": "body",
-              "modifier": "password",
-              "value": "test123",
+              "modifier": "destination_reached",
+              "value": "\"true\"",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "battery_level",
+              "value": "222",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "gps_lat",
+              "value": "59.3276411414092",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "gps_lon",
+              "value": "18.0383598215368",
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "rent_time",
+              "value": "400",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    },
+    {
+      "uuid": "d290973d-edb6-43e9-ba8f-e7e5faf7cc22",
+      "documentation": "Rent bike",
+      "method": "post",
+      "endpoint": "v1/travel/bike/1",
+      "responses": [
+        {
+          "uuid": "da72deb5-8672-4f4f-878d-acc2b25306e8",
+          "body": "{\n    \"data\": {\n        \"type\": \"success\",\n        \"message\": \"Bike rented\",\n        \"bikeid\": 1\n    }\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "apiKey",
+              "value": "90301a26-894c-49eb-826d-ae0c2b22a405",
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "x-access-token",
+              "value": "test-token",
               "operator": "equals"
             }
           ],
@@ -786,7 +854,7 @@
       "responses": [
         {
           "uuid": "9cca5bda-93ac-46cc-be31-13819c10b418",
-          "body": "{}",
+          "body": "[\n    1\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -823,7 +891,7 @@
       "responses": [
         {
           "uuid": "c42690fc-3592-41b5-b74a-51b6d4ebc8dc",
-          "body": "{}",
+          "body": "{\n    \"data\": {\n        \"type\": \"success\",\n        \"message\": \"Bike rented\",\n        \"bikeid\": 1\n    }\n}",
           "latency": 0,
           "statusCode": 201,
           "label": "",
