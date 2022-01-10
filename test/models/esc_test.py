@@ -24,7 +24,7 @@ class ESCTestFunc(unittest.TestCase):
     def setUp(self):
         """Set up each test."""
         self.esc_emulator = ESCEmulator(1, test=True)
-        
+
     def test_1_calc_path_distances(self):
         """Test fuction calc_path_distances."""
         res = self.esc_emulator.ride_bike()

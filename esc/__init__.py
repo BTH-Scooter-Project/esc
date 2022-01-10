@@ -5,4 +5,4 @@ import sys
 
 sys.path.append('esc')
 
-from .api import Api  # noqa: F401
+from .api import Api  # noqa: F401, E402

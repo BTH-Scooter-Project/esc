@@ -1,8 +1,8 @@
 """__main__.py file."""
 
-import sys
 import unittest
 import coverage
+import sys
 
 sys.path.append('../esc')
 sys.path.append('../cust_iface')
