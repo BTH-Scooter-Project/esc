@@ -65,18 +65,3 @@ def travels():
     """
     travel_info = current_user.get_travel_info()
     return render_template('travels.html', travels=travel_info)
-
-
-@main.errorhandler(404)
-def page_not_found(e):
-    """Handle page (404) that is not found."""
-    # pylint: disable=unused-argument
-    return "Flask 404 here, but not the page you requested."
-
-
-@main.errorhandler(500)
-def internal_server_error(e):
-    """Handle internal server error 500."""
-    # pylint: disable=unused-argument,import-outside-toplevel
-    import traceback
-    return "<p>Flask 500<pre>" + traceback.format_exc()
