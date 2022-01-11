@@ -205,7 +205,7 @@ def callback():
         email = config["email"]
         firstname = config["firstname"]
         lastname = config["lastname"]
-  
+
     # Create a user with the information provided by Google
     password = get_random_string(10)  # generate random password
     res = Customer.register(
