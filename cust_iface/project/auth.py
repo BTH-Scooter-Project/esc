@@ -3,13 +3,13 @@
 import json
 import random
 import string
+from pprint import pprint
 import requests
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import login_user, logout_user, login_required
-from .models import Customer
 from markupsafe import escape
+from flask_login import login_user, logout_user, login_required
 from oauthlib.oauth2 import WebApplicationClient, rfc6749
-from pprint import pprint
+from .models import Customer
 
 auth = Blueprint('auth', __name__)
 
@@ -205,7 +205,7 @@ def callback():
         email = config["email"]
         firstname = config["firstname"]
         lastname = config["lastname"]
-        
+  
     # Create a user with the information provided by Google
     password = get_random_string(10)  # generate random password
     res = Customer.register(

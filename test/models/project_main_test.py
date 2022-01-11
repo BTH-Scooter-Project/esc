@@ -80,7 +80,7 @@ class ProjectMainTestCase(flask_unittest.ClientTestCase):
         response = client.post('/login', data=data)
         response = client.get('/travels')
         self.assertEqual(response.status_code, 200)
-        
+
         # self.assertIn(b'Login', response.data)
         # self.assertIn('Sign in with Google', response.data.decode("utf-8"))
 
