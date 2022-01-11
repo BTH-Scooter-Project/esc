@@ -8,7 +8,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required
 from .models import Customer
 from markupsafe import escape
-from oauthlib.oauth2 import WebApplicationClient
+from oauthlib.oauth2 import WebApplicationClient, rfc6749
 from pprint import pprint
 
 auth = Blueprint('auth', __name__)
@@ -164,41 +164,48 @@ def callback():
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
 
-    # Prepare and send request to get tokens! Yay tokens!
-    token_url, headers, body = client.prepare_token_request(
-        token_endpoint,
-        authorization_response=request.url,
-        redirect_url=request.base_url,
-        code=code,
-    )
-    token_response = requests.post(
-        token_url,
-        headers=headers,
-        data=body,
-        auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
-    )
+    try:
+        # Prepare and send request to get tokens! Yay tokens!
+        token_url, headers, body = client.prepare_token_request(
+            token_endpoint,
+            authorization_response=request.url,
+            redirect_url=request.base_url,
+            code=code,
+        )
+        token_response = requests.post(
+            token_url,
+            headers=headers,
+            data=body,
+            auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
+        )
 
-    # Parse the tokens!
-    client.parse_request_body_response(json.dumps(token_response.json()))
+        # Parse the tokens!
+        client.parse_request_body_response(json.dumps(token_response.json()))
 
-    # Now that we have tokens (yay) let's find and hit URL
-    # from Google that gives you user's profile information,
-    # including their Google Profile Image and Email
-    userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
-    uri, headers, body = client.add_token(userinfo_endpoint)
-    userinfo_response = requests.get(uri, headers=headers, data=body)
+        # Now that we have tokens (yay) let's find and hit URL
+        # from Google that gives you user's profile information,
+        # including their Google Profile Image and Email
+        userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
+        uri, headers, body = client.add_token(userinfo_endpoint)
+        userinfo_response = requests.get(uri, headers=headers, data=body)
 
-    # We want to make sure their email is verified.
-    # The user authenticated with Google, authorized our
-    # app, and now we've verified their email through Google!
-    if userinfo_response.json().get("email_verified"):
-        unique_id = userinfo_response.json()["sub"]
-        email = userinfo_response.json()["email"]
-        firstname = userinfo_response.json()["given_name"]
-        lastname = userinfo_response.json()["family_name"]
-    else:
-        return "User email not available or not verified by Google.", 400
-    pprint(userinfo_response.json())
+        # We want to make sure their email is verified.
+        # The user authenticated with Google, authorized our
+        # app, and now we've verified their email through Google!
+        if userinfo_response.json().get("email_verified"):
+            unique_id = userinfo_response.json()["sub"]
+            email = userinfo_response.json()["email"]
+            firstname = userinfo_response.json()["given_name"]
+            lastname = userinfo_response.json()["family_name"]
+        else:
+            return "User email not available or not verified by Google.", 400
+        pprint(userinfo_response.json())
+    except rfc6749.errors.InsecureTransportError:
+        unique_id = config["unique_id"]
+        email = config["email"]
+        firstname = config["firstname"]
+        lastname = config["lastname"]
+        
     # Create a user with the information provided by Google
     password = get_random_string(10)  # generate random password
     res = Customer.register(

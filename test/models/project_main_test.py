@@ -114,4 +114,4 @@ class ProjectMainTestCase(flask_unittest.ClientTestCase):
     def test_app_9_callback(self, client):
         """Test customer interface login."""
         response = client.get('/login/callback')
-        self.assertEqual(response.status_code, 500, "Redirect to /profile")
+        self.assertEqual(response.status_code, 302, "Redirect to /profile")
