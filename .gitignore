@@ -274,3 +274,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Local accesslog (gunicorn)
+accesslog
