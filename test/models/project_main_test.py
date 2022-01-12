@@ -87,16 +87,18 @@ class ProjectMainTestCase(flask_unittest.ClientTestCase):
     def test_app_7_signup_get_and_post(self, client):
         """Test customer interface login."""
         data = {
-            "email": self.config['email'],
+            "email": self.config['already_registered_email'],
             "password": self.config['password'],
-            "balance": self.config['balance'],
-            "payment": self.config['payment'],
             "firstname": self.config['firstname'],
             "lastname": self.config['lastname']
         }
         response = client.get('/signup')
         self.assertEqual(response.status_code, 200)
 
+        response = client.post('/signup', data=data)
+        self.assertEqual(response.status_code, 302, "Redirect to /login")
+
+        data['email'] = self.config['email']
         response = client.post('/signup', data=data)
         self.assertEqual(response.status_code, 302, "Redirect to /login")
 

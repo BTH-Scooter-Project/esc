@@ -11,7 +11,7 @@
   "lastname": "User",
   "cityid": "2",
   "payment": "prepaid",
-  "balance": 500,
+  "balance": 1000,
   "updated_balance": 1000,
   "bikeid": 1,
   "customerid": 1,

@@ -208,6 +208,7 @@ class Customer(UserMixin):
             customer_info = req.json()['data']
             customer_info['email'] = customer_info['user']
             customer_info['status_code'] = req.status_code
+            customer_info['detail'] = ''
             # pprint(customer_info)
             return customer_info
 

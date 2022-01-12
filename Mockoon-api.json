@@ -184,24 +184,6 @@
             },
             {
               "target": "body",
-              "modifier": "password",
-              "value": "",
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "balance",
-              "value": "1000",
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "payment",
-              "value": "prepaid",
-              "operator": "equals"
-            },
-            {
-              "target": "body",
               "modifier": "firstname",
               "value": "Test",
               "operator": "equals"
@@ -216,12 +198,6 @@
               "target": "body",
               "modifier": "cityid",
               "value": "2",
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "unique_id",
-              "value": "1234567890",
               "operator": "equals"
             }
           ],
@@ -253,7 +229,7 @@
             {
               "target": "body",
               "modifier": "email",
-              "value": "test1@test.com",
+              "value": "test2@test.com",
               "operator": "equals"
             },
             {
