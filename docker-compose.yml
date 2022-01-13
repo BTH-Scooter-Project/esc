@@ -32,10 +32,10 @@ services:
             - backend
 
     admin:
-        image: neskoc/pattern:admin
+        image: gusu20/admin-app
         container_name: "admin"
         ports:
-            - "127.0.0.1:1337:1338"
+            - "127.0.0.1:1338:1338"
         networks:
             - pattern_net
         links:
@@ -44,10 +44,10 @@ services:
             - backend
 
     app:
-        image: neskoc/pattern:app
+        image: Orkanen/myapp:latest
         container_name: "app"
         ports:
-            - "127.0.0.1:1337:1339"
+            - "127.0.0.1:1339:1339"
         networks:
             - pattern_net
         links:
