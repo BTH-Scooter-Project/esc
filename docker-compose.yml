@@ -42,9 +42,10 @@ services:
             - backend
         depends_on:
             - backend
+        stdin_open: true
 
     app:
-        image: Orkanen/myapp:latest
+        image: orkanen/myapp
         container_name: "app"
         ports:
             - "127.0.0.1:1339:1339"

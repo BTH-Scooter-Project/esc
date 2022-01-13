@@ -108,6 +108,7 @@ services:
             - backend
         depends_on:
             - backend
+        stdin_open: true
 
     app:
         image: Orkanen/myapp:latest
