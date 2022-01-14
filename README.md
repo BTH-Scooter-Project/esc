@@ -9,6 +9,30 @@
 
 ## Docker
 
+### running
+#################
+
+```bash
+
+# start backend in foreground (port 1337)
+docker-compose up backend
+# start simulator and customer interface (port 8000)
+docker-compose up esc
+# start admin interface (port 1338)
+docker-compose up admin
+# start customer app (port 1339)
+docker-compose up app
+
+
+# other commands
+
+# start backend in the background
+docker-compose up -d backend
+
+# run simulator independently (no ports exposed externally)
+docker-compose run esc
+```
+
 ### Backend/API
 
 ```bash
@@ -51,13 +75,6 @@ docker pull neskoc/pattern:frontend
 ## run on pattern_net
 docker run --rm --net pattern_net -p 1338:1337 -it neskoc/pattern:frontend
 
-#################
-# running
-#################
-
-docker-compose up -d backend
-docker-compose up frontend
-docker-compose run esc
 
 # clean up
 docker-compose down
