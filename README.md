@@ -33,7 +33,7 @@ docker-compose up -d backend
 docker-compose run esc
 ```
 
-### Backend/API
+#### Backend/API
 
 ```bash
 # build and publish
@@ -50,7 +50,7 @@ docker run --rm --net pattern_net -p 1337:1337 -it neskoc/pattern:backend
 docker run --rm --net pattern_net --name backend -p 1337:1337 -it neskoc/pattern:backend
 ```
 
-### esc
+#### esc
 
 ```bash
 
@@ -62,23 +62,23 @@ docker push neskoc/pattern:esc
 docker run --rm --net pattern_net -p 5000:5000 -it neskoc/pattern:esc
 ```
 
-#################
-# frontend
-#################
+### removing images / containers / cleaning up
 
-docker build -t neskoc/pattern:frontend .
+#### clean up
+`docker-compose down`
 
-## publish on dockerhub
-docker push neskoc/pattern:frontend
-docker pull neskoc/pattern:frontend
+- remove all stopped containers
+`docker rm  $(docker ps -q -a)`
+- remove all dangling images
+`docker rmi $(docker images -f "dangling=true" -q)`
+- remove container
+`docker rm <id>`
+- remove image
+`docker rmi <id>`
 
-## run on pattern_net
-docker run --rm --net pattern_net -p 1338:1337 -it neskoc/pattern:frontend
+`docker system prune -a`
 
-
-# clean up
-docker-compose down
-
+### docker-compose.yaml
 
 ```yaml
 version: "3"
